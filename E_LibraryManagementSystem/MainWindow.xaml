@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Logo -->
-        <Image Source="\Images\DigitalLibrary.png" Grid.Row="0" Width="100" Grid.Column="1" Height="190" Margin="0,22,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
+        <Image Source="\Images\DigitalLibrary.png" Grid.Row="0" Width="200" Grid.Column="1" Height="190" Margin="0,22,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
 
         <!-- Loading Icon -->
         <Image gif:ImageBehavior.RepeatBehavior="5x"
@@ -43,8 +43,8 @@
                  />
         </StackPanel>
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="0,5,0,5" HorizontalAlignment="Center">
-            <Button Grid.Column="1" Background="" Width="100" Height="25" Content="Sign In" HorizontalAlignment="Center"   Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
-            <Button Grid.Column="1" Width="100" Height="25" Content="Sign Up" HorizontalAlignment="Center" Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Grid.Column="1" Background="DimGray" Width="100" Height="25" Content="Sign In" HorizontalAlignment="Center"   Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Grid.Column="1" Width="100" Height="25" Content="Sign Up" HorizontalAlignment="Center" Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
         </StackPanel>
 
 
