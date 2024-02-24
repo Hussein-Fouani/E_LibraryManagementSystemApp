@@ -5,8 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:E_LibraryManagementSystem"
         mc:Ignorable="d"
-        Title="SignInForm" Height="450" Width="800">
-    <Grid>
-        
+        WindowStyle="None"
+        Background="DarkGray"
+        WindowStartupLocation="CenterOwner"
+        Title="SignInForm" Height="400" Width="500">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image Source="\Images\Logo.jpg" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Height="100" Margin="0,22,0,0" VerticalAlignment="Top" Width="100" />
+        <Image Source="\Images\loadingbox.png" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" Height="44"  VerticalAlignment="Top" Width="120" />
+        <TextBox Background="DarkGray" Grid.Column="2" FontSize="15" FontFamily="Segeo UI" HorizontalAlignment="Center"  FontWeight="Bold"  BorderThickness="0" TextAlignment="Center" Margin="0,49,0,0" Grid.Row="4" TextWrapping="Wrap" Text="UserName" VerticalAlignment="Top" Width="226" Height="28"/>
+        <TextBox Background="DarkGray" Grid.Column="2"  FontSize="15" FontFamily="Segeo UI" HorizontalAlignment="Center" FontWeight="Bold" BorderThickness="0" TextAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="226" Height="28" Margin="0,117,0,0"/>
+        <Image Source="\Images\usericon.png" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="27" Margin="91,49,0,0" Grid.Row="4" VerticalAlignment="Top" Width="46"/>
+        <Image Source="\Images\passwordicon.png" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="28" Margin="90,117,0,0" Grid.Row="4" VerticalAlignment="Top" Width="46" RenderTransformOrigin="0.522,0.857"/>
+        <Canvas Background="White" Grid.ColumnSpan="3" Grid.Row="4" Margin="137,92,137,134"/>
+        <Canvas Grid.ColumnSpan="3" Background="White" Grid.Row="4" Margin="137,159,137,66"/>
+
+
+
     </Grid>
 </Window>
