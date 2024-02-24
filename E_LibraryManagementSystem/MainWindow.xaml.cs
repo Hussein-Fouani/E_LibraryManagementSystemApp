@@ -20,5 +20,20 @@ namespace E_LibraryManagementSystem
         {
             InitializeComponent();
         }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Sign_UPBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Sign_InBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
