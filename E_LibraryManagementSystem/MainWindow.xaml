@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         WindowStyle="None"
         Background="DarkGray"
+        FontFamily="Segeo UI"
         WindowStartupLocation="CenterOwner"
         Title="SignInForm" Height="500" Width="900">
     <Grid>
@@ -43,9 +44,10 @@
                  />
         </StackPanel>
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="0,5,0,5" HorizontalAlignment="Center">
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Grid.Column="1" Background="DimGray" Width="100" Height="25" Content="Sign In" HorizontalAlignment="Center"   Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Grid.Column="1" Width="100" Height="25" Content="Sign Up" HorizontalAlignment="Center" Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
+            <Button  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" FontWeight="Bold" FontSize="12" FontFamily="Segeo UI" Grid.Column="1" Background="LightSkyBlue" Width="100" Height="25" Content="Sign In" HorizontalAlignment="Center"   Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
+            <Button Background="DarkOrange" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" FontWeight="Bold"  FontSize="12" Grid.Column="1" Width="100" Height="25" Content="Sign Up" HorizontalAlignment="Center" Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
         </StackPanel>
+        <Button Grid.Column="2" Background="DarkRed" FontSize="12" FontWeight="Bold" Padding="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Grid.Row="0" Content="X" HorizontalAlignment="Left" Margin="251,22,0,0" VerticalAlignment="Top"/>
 
 
 
