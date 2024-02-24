@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Logo -->
-        <Image Source="\Images\DigitalLibrary.png" Grid.Row="0" Width="300" Grid.Column="1" Height="190" Margin="0,22,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
+        <Image Source="\Images\DigitalLibrary.png" Grid.Row="0" Width="100" Grid.Column="1" Height="190" Margin="0,22,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
 
         <!-- Loading Icon -->
         <Image gif:ImageBehavior.RepeatBehavior="5x"
