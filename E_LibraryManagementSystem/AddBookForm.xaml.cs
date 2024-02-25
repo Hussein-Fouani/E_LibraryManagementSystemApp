@@ -38,17 +38,24 @@ namespace E_LibraryManagementSystem
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            foreach(var book in BookSubForm.Children)
+            if (MessageBox.Show(GetWindow(this), "Do you want to close this window?", "Close Window", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if(book is TextBox box)
+                foreach (var book in BookSubForm.Children)
                 {
-                    box.Clear();
+                    if (book is TextBox box)
+                    {
+                        box.Clear();
+                    }
+                    if (book is DatePicker picker)
+                    {
+                        picker.SelectedDate = DateTime.Now;
+                    }
+
                 }
-                if(book is DatePicker picker)
-                {
-                    picker.SelectedDate = DateTime.Now;
-                }
+                this.Close();
             }
+           
+            
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
