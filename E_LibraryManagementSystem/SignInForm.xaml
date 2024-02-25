@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:E_LibraryManagementSystem"
         mc:Ignorable="d"
         WindowStyle="None"
-        Background="DarkGray"
+        Background="#232628"
         WindowStartupLocation="CenterOwner"
         Title="SignInForm" Height="400" Width="500">
     <Grid >
