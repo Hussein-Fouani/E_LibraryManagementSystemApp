@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         WindowStyle="None"
-        Background="DarkGray"
+        Background="#232628"
         FontFamily="Segeo UI"
         WindowStartupLocation="CenterScreen"
         Title="SignInForm" Height="500" Width="900">
