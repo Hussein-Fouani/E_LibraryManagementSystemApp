@@ -1,3 +1,6 @@
+using E_LibraryApi.Mapper;
+using E_LibraryApi.Repository;
+using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,9 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(MapperConfig));
+builder.Services.AddScoped<IBookRepository,BookRepository>(); 
 builder.Services.AddDbContext<E_LibDb>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 var app = builder.Build();
 
