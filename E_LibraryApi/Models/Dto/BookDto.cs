@@ -2,7 +2,6 @@
 {
     public class BookDto
     {
-        public Guid Id { get; set; }
         public string BookName { get; set; }
         public string BookAuthor { get; set; }
         public string BookPublication { get; set; }
