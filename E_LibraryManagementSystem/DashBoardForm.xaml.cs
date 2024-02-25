@@ -19,6 +19,11 @@ namespace E_LibraryManagementSystem
     /// </summary>
     public partial class DashBoardForm : Window
     {
+
+        private static bool isAddBookFormOpen = false;
+        private AddBookForm addBookForm;
+
+
         public DashBoardForm()
         {
             InitializeComponent();
@@ -38,6 +43,44 @@ namespace E_LibraryManagementSystem
                 this.Close();
             }
             
+        }
+
+
+
+        private void AddBook_Click(object sender, RoutedEventArgs e)
+        {
+            // Check if the AddBookForm is already open
+            if (isAddBookFormOpen && addBookForm != null)
+            {
+                // If it's open, bring it to the front
+                addBookForm.Activate();
+            }
+            else
+            {
+                // If not open, set the flag to true
+                isAddBookFormOpen = true;
+
+                // Create and show the AddBookForm
+                addBookForm = new AddBookForm();
+                addBookForm.Closed += (s, args) => { isAddBookFormOpen = false; };
+                addBookForm.Show();
+            }
+        }
+
+
+        private void ViewBooks_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddStudent_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ViewStudents_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
