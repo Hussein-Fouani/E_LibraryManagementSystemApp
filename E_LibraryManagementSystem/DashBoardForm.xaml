@@ -9,7 +9,7 @@
         AllowsTransparency="True"
         WindowState="Maximized"
         WindowStyle="None"
-        Title="DashBoardForm" Height="591" Width="725">
+        Title="ELibDashBoard" Height="591" Width="725">
     <Grid Background="#232628" Margin="0,0,-164,-45">
      
         <StackPanel  Width="785" VerticalAlignment="Top" Background="#2e333a" Orientation="Horizontal" >
@@ -19,22 +19,22 @@
                         <VirtualizingStackPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </Menu.ItemsPanel>
-                
-                <MenuItem Header="Books" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
+
+                <MenuItem Header="Books" BorderThickness="0" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
                     <MenuItem.Icon>
                         <Image Stretch="None" Source="\Images\DigitalLibrary.png"/>
                     </MenuItem.Icon>
-                    <MenuItem Header="Add New Book"/>
-                    <MenuItem Header="View Books"/>
+                    <MenuItem BorderThickness="0" Background="#2e333a" Foreground="White" Header="Add New Book"/>
+                    <MenuItem BorderThickness="0" Background="#2e333a" Foreground="White" Header="View Books"/>
                 </MenuItem>
-                <MenuItem Header="Students" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
-                    <MenuItem Header="Add Student"/>
-                    <MenuItem Header="View Student Info"/>
+                <MenuItem BorderThickness="0" Header="Students" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
+                    <MenuItem BorderThickness="0" Background="#2e333a" Foreground="White" Header="Add Student"/>
+                    <MenuItem BorderThickness="0" Background="#2e333a" Foreground="White" Header="View Student Info"/>
                 </MenuItem>
-                <MenuItem Header="Borrow Books" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <MenuItem Header="Borrow Books"  Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 <MenuItem Header="Return Books" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 <MenuItem Header="Books Details" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                <MenuItem Header="Logout" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <MenuItem x:Name="_LogOut" Click="_LogOut_Click" Header="Logout" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
             </Menu>
         </StackPanel>
