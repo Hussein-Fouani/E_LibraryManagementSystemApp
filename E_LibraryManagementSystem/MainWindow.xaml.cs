@@ -35,5 +35,13 @@ namespace E_LibraryManagementSystem
         {
 
         }
+
+        private void UserNameText_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if(UserNameText.Text == "UserName")
+            {
+                UserNameText.Clear();
+            }
+        }
     }
 }
