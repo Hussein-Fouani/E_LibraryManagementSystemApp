@@ -11,8 +11,8 @@
         WindowStyle="None"
         Title="ELibDashBoard" Height="591" Width="725">
     <Grid Background="#232628" Margin="0,0,-164,-45">
-     
-        <StackPanel  Width="785" VerticalAlignment="Top" Background="#2e333a" Orientation="Horizontal" >
+
+        <StackPanel  Width="785" VerticalAlignment="Top" Background="#2e333a" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,52,0" >
             <Menu Background="Transparent" Margin="10,10" Padding="10,10" Height="50" Width="770">
                 <Menu.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -38,7 +38,7 @@
 
             </Menu>
         </StackPanel>
-        
+
 
 
 
