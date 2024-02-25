@@ -27,6 +27,7 @@
     <None Remove="Images\loadingicon.gif" />
     <None Remove="Images\Logo.jpg" />
     <None Remove="Images\passwordicon.png" />
+    <None Remove="Images\readingquote.jpg" />
     <None Remove="Images\usericon.png" />
   </ItemGroup>
 
@@ -69,6 +70,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\passwordicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\readingquote.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\usericon.png">
