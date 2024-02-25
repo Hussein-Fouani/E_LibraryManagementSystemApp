@@ -22,6 +22,7 @@
   <ItemGroup>
     <None Remove="Images\addbookicon.jpg" />
     <None Remove="Images\bookicon.png" />
+    <None Remove="Images\compiled.gif" />
     <None Remove="Images\DigitalLibrary.png" />
     <None Remove="Images\loadingbox.png" />
     <None Remove="Images\loadingicon.gif" />
@@ -55,6 +56,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\bookicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\compiled.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\DigitalLibrary.png">
