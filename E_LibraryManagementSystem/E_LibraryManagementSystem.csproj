@@ -16,12 +16,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="SignInForm.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Images\addbookicon.jpg" />
+    <None Remove="Images\bookicon.png" />
     <None Remove="Images\DigitalLibrary.png" />
     <None Remove="Images\loadingbox.png" />
     <None Remove="Images\loadingicon.gif" />
     <None Remove="Images\Logo.jpg" />
     <None Remove="Images\passwordicon.png" />
     <None Remove="Images\usericon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="SignInForm.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +50,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\addbookicon.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\bookicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\DigitalLibrary.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
