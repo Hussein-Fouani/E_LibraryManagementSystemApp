@@ -1,4 +1,5 @@
-﻿using E_LibraryManagementSystem.Models;
+﻿using E_LibraryApi.Models;
+using E_LibraryManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace E_LibraryManagementSystem.Db
             
         }
         public DbSet<SignInModel> SignIn { get; set; }
+        public DbSet<BookModel> Book { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SignInModel>().HasData(
