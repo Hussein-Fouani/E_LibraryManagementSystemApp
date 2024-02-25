@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using E_LibraryApi.Models.Dto;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -33,6 +35,34 @@ namespace E_LibraryManagementSystem
 
         private void Sign_InBtn_Click(object sender, RoutedEventArgs e)
         {
+            /*if(ModelStateDictionary.IsValid)
+            {
+                var user = new SignInDto
+                {
+                    UserName = UserNameText.Text,
+                    Password = PasswordBox.Password,
+                };
+                var response = await client.PostAsJsonAsync("api/SignIn", user);
+                if(response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<SignInDto>();
+                    if(result != null)
+                    {
+                        MessageBox.Show("Login Successful");
+                        this.Hide();
+                        var dashboard = new DashBoardForm();
+                        dashboard.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid UserName or Password");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid UserName or Password");
+                }*/
+            //}
 
         }
 
@@ -41,6 +71,7 @@ namespace E_LibraryManagementSystem
             if(UserNameText.Text == "UserName")
             {
                 UserNameText.Clear();
+                
             }
         }
     }
