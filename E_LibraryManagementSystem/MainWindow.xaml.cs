@@ -25,7 +25,8 @@ namespace E_LibraryManagementSystem
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            DashBoardForm dashboard = new DashBoardForm();
+            dashboard.Show();
         }
 
         private void Sign_UPBtn_Click(object sender, RoutedEventArgs e)
