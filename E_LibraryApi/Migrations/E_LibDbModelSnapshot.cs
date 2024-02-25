@@ -22,6 +22,41 @@ namespace E_LibraryApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("E_LibraryApi.Models.BookModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BookAuthor")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("BookName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<double>("BookPrice")
+                        .HasColumnType("float");
+
+                    b.Property<string>("BookPublication")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("BookPurhcaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("BookQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Book");
+                });
+
             modelBuilder.Entity("E_LibraryManagementSystem.Models.SignInModel", b =>
                 {
                     b.Property<Guid>("Id")
