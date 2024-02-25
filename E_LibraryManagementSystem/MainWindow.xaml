@@ -34,7 +34,7 @@
         <!-- Username TextBox and Icon -->
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="0,30,0,0" HorizontalAlignment="Center">
             <Image Source="C:\Users\husse\source\repos\E_LibraryManagementSystemApp\E_LibraryManagementSystem\Images\usericon.png" Height="27" Margin="0,0,5,0"/>
-            <TextBox x:Name="UserNameText" BorderBrush="White" Background="DarkGray" FontSize="15" FontFamily="Segoe UI" FontWeight="Bold" BorderThickness="1" TextAlignment="Center" Text="UserName" Width="226" Height="28" MouseEnter="UserNameText_MouseEnter"/>
+            <TextBox x:Name="UserNameText" BorderBrush="White" Background="DarkGray" FontSize="15" FontFamily="Segoe UI" FontWeight="Bold" BorderThickness="1" TextAlignment="Center" Text="UserName" Width="226" Height="28"/>
         </StackPanel>
 
         <!-- Password TextBox and Icon -->
