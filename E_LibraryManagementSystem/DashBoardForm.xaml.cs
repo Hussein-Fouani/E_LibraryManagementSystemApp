@@ -28,5 +28,16 @@ namespace E_LibraryManagementSystem
         {
 
         }
+
+        private void _LogOut_Click(object sender, RoutedEventArgs e)
+        {
+            if(MessageBox.Show("Are you sure to Log Out?", "Log Out", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                MainWindow loginForm = new MainWindow();
+                loginForm.Show();
+                this.Close();
+            }
+            
+        }
     }
 }
