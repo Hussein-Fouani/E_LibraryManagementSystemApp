@@ -1,27 +1,15 @@
 ﻿using E_LibraryApi.Models;
 using E_LibraryManagementSystem.Db;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 using MessageBox = System.Windows.MessageBox;
 using TextBox = System.Windows.Controls.TextBox;
 
 namespace E_LibraryManagementSystem
 {
-    /// <summary>
-    /// Interaction logic for AddBookForm.xaml
-    /// </summary>
+    
     public partial class AddBookForm : Window
     {
         //  private readonly E_LibDb db;
@@ -48,7 +36,7 @@ namespace E_LibraryManagementSystem
                     }
                     if (book is DatePicker picker)
                     {
-                        picker.SelectedDate = DateTime.Now;
+                        picker.SelectedDate= DateTime.Now;
                     }
 
                 }
