@@ -1,0 +1,77 @@
+﻿<Window x:Class="E_LibraryManagementSystem.AddBookForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:E_LibraryManagementSystem"
+        mc:Ignorable="d"
+        Background="#232628"
+        Title="AddBook" Height="537" Width="817">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top StackPanel -->
+        <StackPanel Grid.Row="0" Background="#232630" Height="120" VerticalAlignment="Top" Margin="70,0,71,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image Source="\Images\DigitalLibrary.png" Width="120" Height="120"/>
+                <TextBlock Text="Add Book" Foreground="Black" FontWeight="Bold" FontSize="30" Margin="10,45,0,0"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Bottom StackPanel -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+            <!-- Left Image -->
+            <Image HorizontalAlignment="Left" Height="400" Stretch="Fill" Width="300" Source="\Images\readingquote.jpg"/>
+
+            <!-- Right Book Details StackPanel -->
+            <StackPanel VerticalAlignment="Top" Margin="60,30,60,30" >
+                <!-- Book Details -->
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <!-- Book Name -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Name" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="txtBookName" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Book Author -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Author" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="BookAuthor" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Book Publication -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Publication" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="BookPublication" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Publication Year -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Publication Year" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <DatePicker x:Name="PublicationDate" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Book Price -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Price" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="Book_Price" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Book Quantity -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Quantity" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="BookQuantity" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+
+
+
+
+</Window>
