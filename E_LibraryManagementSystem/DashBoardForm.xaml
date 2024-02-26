@@ -30,7 +30,7 @@
                 <MenuItem Header="Books" BorderThickness="0" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
                    
                     <MenuItem BorderThickness="0" x:Name="AddBook" Click="AddBook_Click" Background="#2e333a" Foreground="White" Header="Add New Book"/>
-                    <MenuItem BorderThickness="0" x:Name="ViewBooks" Click="ViewBooks_Click" Background="#2e333a" Foreground="White" Header="View Books"/>
+                    <MenuItem BorderThickness="0" x:Name="ViewBooks" Click="ViewBooks_Click" Background="#2e333a" Foreground="White"  Header="View Books"/>
                 </MenuItem>
                 <MenuItem BorderThickness="0" Header="Students" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
                     <MenuItem BorderThickness="0" Background="#2e333a" x:Name="AddStudent" Click="AddStudent_Click" Foreground="White" Header="Add Student"/>
