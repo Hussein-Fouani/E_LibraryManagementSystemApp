@@ -1,6 +1,6 @@
 ﻿using E_LibraryApi.Models;
 using E_LibraryManagementSystem.Db;
-
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,17 +12,17 @@ namespace E_LibraryManagementSystem
     
     public partial class AddBookForm : Window
     {
-        //  private readonly E_LibDb db;
+        HttpClient client = new HttpClient();
 
         public AddBookForm()
         {
             InitializeComponent();
+            client.BaseAddress = new Uri("https://localhost:44360/api/Book");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
         }
-        public AddBookForm(E_LibDb db)
-        {
-            
-           //this.db = db;
-        }
+
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -34,21 +34,20 @@ namespace E_LibraryManagementSystem
                     {
                         box.Clear();
                     }
-                    if (book is DatePicker picker)
+                    else if (book is DatePicker picker)
                     {
-                        picker.SelectedDate= DateTime.Now;
+                        picker.SelectedDate = null;
                     }
-
                 }
+                this.UpdateLayout();
                 this.Close();
             }
-           
-            
         }
+
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            double pricebox=0.0;
+            double priceBox=0.0;
             if (AreTextBoxesFilled())
             {
                 try
@@ -56,7 +55,7 @@ namespace E_LibraryManagementSystem
 
                     if (double.TryParse(Book_Price.Text, out double price))
                     { 
-                        pricebox = price;
+                        priceBox = price;
                     }
                     else
                     {
@@ -71,7 +70,7 @@ namespace E_LibraryManagementSystem
                         {
                             BookName = txtBookName.Text,
                             BookAuthor = BookAuthor.Text,
-                            BookPrice = pricebox,
+                            BookPrice = priceBox,
                             BookQuantity = quantity,
                             BookPublication = BookPublication.Text,
                             BookPurhcaseDate = PurchaseDate.SelectedDate.Value
@@ -91,6 +90,8 @@ namespace E_LibraryManagementSystem
             }
 
         }
+
+        
         private bool AreTextBoxesFilled()
         {
             
