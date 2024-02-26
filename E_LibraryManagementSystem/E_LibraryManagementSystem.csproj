@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <None Remove="Images\addbookicon.jpg" />
+    <None Remove="Images\Baamboozle.gif" />
     <None Remove="Images\bookicon.png" />
     <None Remove="Images\compiled.gif" />
     <None Remove="Images\DigitalLibrary.png" />
@@ -29,7 +30,9 @@
     <None Remove="Images\Logo.jpg" />
     <None Remove="Images\passwordicon.png" />
     <None Remove="Images\readingquote.jpg" />
+    <None Remove="Images\studenticon.png" />
     <None Remove="Images\usericon.png" />
+    <None Remove="Images\viewImage.gif" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +58,9 @@
     <Resource Include="Images\addbookicon.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\Baamboozle.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\bookicon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -76,7 +82,13 @@
     <Resource Include="Images\readingquote.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\studenticon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\usericon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\viewImage.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
