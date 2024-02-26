@@ -47,9 +47,9 @@ namespace E_LibraryApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> DeleteBook(Guid id)
+        public async Task<IActionResult> DeleteBook(BookDto bookname)
         {
-            var book = await bookRepository.GetBook(b => b.Id == id);
+            var book = await bookRepository.GetBook(b => b.BookName.ToLowerInvariant().Equals(bookname.BookName.ToLowerInvariant()));
             if (book == null)
             {
                 return NotFound();
@@ -73,6 +73,33 @@ namespace E_LibraryApi.Controllers
             await bookRepository.UpdateBook(mapped);
             return Ok("Updated SuccessFully");
         }
+        [HttpGet(Name ="getallbooks")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAllBooks(string name=null)
+        {
+            if(name != null)
+            {
+                var book = await bookRepository.GetBook(b => b.BookName == name);
+                if (book == null)
+                {
+                    return NotFound();
+                }
+                var mapped = mapper.Map<BookDto>(book);
+                return Ok(mapped);
+            }
+            else
+            {
+                var books = await bookRepository.GetAllBooks();
+                if (books == null)
+                {
+                    return NotFound();
+                }
+                var mapped = mapper.Map<List<BookDto>>(books);
+                return Ok(mapped);
+            }
+        }
+        
 
     }
 }
