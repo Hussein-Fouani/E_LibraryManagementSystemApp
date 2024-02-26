@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:E_LibraryManagementSystem"
         xmlns:gif="http://wpfanimatedgif.codeplex.com" 
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Background="#232628"
-        Title="AddBook" Height="537" Width="817">
+        Title="AddBook" Height="620" Width="817">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -32,7 +33,7 @@ gif:ImageBehavior.AnimatedSource="\Images/loadingicon.gif" Width="120" Height="1
             <!-- Right Book Details StackPanel -->
             <StackPanel x:Name="BookSubForm" VerticalAlignment="Top" Margin="60,30,60,30" >
                 <!-- Book Details -->
-                <StackPanel Orientation="Vertical" Margin="10">
+                <StackPanel  Orientation="Vertical" Margin="15" Height="350" Width="384">
                     <!-- Book Name -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                         <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Name" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
@@ -54,7 +55,7 @@ gif:ImageBehavior.AnimatedSource="\Images/loadingicon.gif" Width="120" Height="1
                     <!-- Publication Year -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                         <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Purchase Date" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
-                        <DatePicker x:Name="PurchaseDate" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                        <DatePicker x:Name="PurchaseDate" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="Black"/>
                     </StackPanel>
 
                     <!-- Book Price -->
@@ -68,8 +69,8 @@ gif:ImageBehavior.AnimatedSource="\Images/loadingicon.gif" Width="120" Height="1
                         <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Quantity" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
                         <TextBox x:Name="BookQuantity" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
                     </StackPanel>
-                    <!-- Save and Cancel Buttons -->
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
+
+                    <StackPanel Height="40" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
                         <Button Content="Save" Width="80" Height="30" FontSize="16" Margin="0,0,10,0" Background="#007ACC" Foreground="White" Click="SaveBtn_Click"/>
                         <Button Content="Cancel" Width="80" Height="30" FontSize="16" Background="Gray" Foreground="White" Click="CancelBtn_Click"/>
                     </StackPanel>
