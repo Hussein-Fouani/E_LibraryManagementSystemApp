@@ -29,14 +29,35 @@ namespace E_LibraryManagementSystem
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            if(AreTextBoxesFilled())
+            {
+                try
+                {
+                    GetStudentData();
+                    //Save Student
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please Fill All The Fields", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+           
+
+
+        }
+        private void GetStudentData()
+        {
+            
             student.StudentName = txtStudentName.Text;
             student.StudentEmail = StudentEmail.Text;
             student.Department = Departmenttxtbox.Text;
             student.EnrollmentNb = Convert.ToInt32(EnrollmentNbtxtbox.Text);
             student.StudentSemester = studentSemestertxtbox.Text;
             student.StudentContact = Convert.ToInt32(Student_contacttxtbox.Text);
-
-
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
@@ -57,6 +78,10 @@ namespace E_LibraryManagementSystem
             {
                 this.Close();
             }
+        }
+        private bool AreTextBoxesFilled()
+        {
+            return StudentSubForm.Children.OfType<TextBox>().All(x => !string.IsNullOrWhiteSpace(x.Text));
         }
     }
 }
