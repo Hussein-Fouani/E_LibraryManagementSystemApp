@@ -41,7 +41,7 @@ AllowsTransparency="True"
 
 
             <!-- Right Student Details StackPanel -->
-            <StackPanel Height="425" Background="#232630" x:Name="IssueSubForm" VerticalAlignment="Top" Margin="60,30,60,30" >
+            <StackPanel  Height="425" Background="#232630" x:Name="IssueSubForm" VerticalAlignment="Top" Margin="60,30,60,30" >
                 <!-- Student Details -->
                 <StackPanel  Orientation="Vertical" Margin="15" Height="400" Width="384">
                     <!-- Student Name -->
