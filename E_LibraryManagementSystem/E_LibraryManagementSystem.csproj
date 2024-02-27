@@ -30,6 +30,9 @@
     <None Remove="Images\Logo.jpg" />
     <None Remove="Images\passwordicon.png" />
     <None Remove="Images\readingquote.jpg" />
+    <None Remove="Images\searchgif.gif" />
+    <None Remove="Images\Sherlokgif.gif" />
+    <None Remove="Images\Studentclass.gif" />
     <None Remove="Images\studenticon.png" />
     <None Remove="Images\usericon.png" />
     <None Remove="Images\viewImage.gif" />
@@ -80,6 +83,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\readingquote.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\searchgif.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Sherlokgif.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Studentclass.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\studenticon.png">
