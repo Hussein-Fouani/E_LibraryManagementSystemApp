@@ -7,6 +7,7 @@ namespace E_LibraryApi.Models.Dto
         [Required]
         [MaxLength(50)]
         [MinLength(5)]
+        [DataType(DataType.Text)]
         public string StudentName { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -16,10 +17,12 @@ namespace E_LibraryApi.Models.Dto
         [Required]
         [MaxLength(50)]
         [MinLength(5)]
+        [DataType(DataType.Text)]
         public string Department { get; set; }
         [Required]
         [MaxLength(10)]
         [MinLength(5)]
+        
         public int EnrollmentNb { get; set; }
         [Required]
         [MaxLength(20)]
