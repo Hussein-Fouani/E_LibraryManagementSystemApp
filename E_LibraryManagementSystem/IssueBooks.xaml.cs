@@ -26,10 +26,7 @@ namespace E_LibraryManagementSystem
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
 
         private void ExitBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -54,5 +51,41 @@ namespace E_LibraryManagementSystem
            string queryname = Searchtxtbox.Text;
 
         }
+
+        private void Issuebtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (AreTextBoxesNullOrEmpty(IssueSubForm))
+            {
+                MessageBox.Show("Please fill in all the required fields.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            StudentDto dto = new StudentDto();
+            dto.StudentName = IssueStudentName.Text;
+            dto.StudentContact = Convert.ToInt32(IssueStudent_contacttxtbox.Text);
+            dto.StudentEmail = Emailtxtbox.Text;
+            dto.Department = IssueDepartmenttxtbox.Text;
+            dto.BookName = IssuebooksText.Text;
+            dto.BookIssueDate = IssueDate.SelectedDate.Value;
+        }
+        private bool AreTextBoxesNullOrEmpty(StackPanel stackPanel)
+        {
+            foreach (var child in stackPanel.Children)
+            {
+                if (child is StackPanel innerStackPanel)
+                {
+                    
+                    if (!AreTextBoxesNullOrEmpty(innerStackPanel))
+                        return false;
+                }
+                else if (child is TextBox textBox)
+                {
+                    if (string.IsNullOrEmpty(textBox.Text))
+                        return true;
+                }
+            }
+
+            return false; 
+        }
+
     }
 }
