@@ -9,7 +9,7 @@
 WindowStartupLocation="CenterScreen"
 Background="#232628"
 AllowsTransparency="True"
-        Title="IssueBooks" Height="550" Width="800">
+        Title="IssueBooks" Height="697" Width="827">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -24,6 +24,74 @@ AllowsTransparency="True"
         <StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" Height="Auto">
             <Image Margin="0,8"  gif:ImageBehavior.RepeatBehavior="5x" gif:ImageBehavior.AnimatedSource="\Images/Sherlokgif.gif" Height="120" Width="130" x:Name="gifimage"/>
             <TextBlock x:Name="IssuebooksText" VerticalAlignment="Center" Text="Issue Books" FontSize="25" Foreground="White" FontWeight="Bold" Margin="10,0,0,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+            <!-- Left Image -->
+            <StackPanel Width="250" Orientation="Vertical">
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="150" gif:ImageBehavior.RepeatBehavior="5x" gif:ImageBehavior.AnimatedSource="\Images/StudentClass.gif"/>
+                <TextBlock Margin="0,10,0,20" Text="Enter Enrollment Number" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBox x:Name="Searchtxtbox" Text="" TextWrapping="Wrap" Width="180" Height="auto" Margin="0,0,0,10"/>
+                <Button Width="120" Margin="0,10,0,10" Background="DarkOrange" Content="Search Student" x:Name="SearchBtn" Foreground="White" FontSize="15" Height="30" Click="SearchBtn_Click"/>
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                    <Button x:Name="RefreshBtn" VerticalAlignment="Center" Width="120" Background="Green" Content="Refresh" Foreground="White" FontSize="15" Height="30" Click="RefreshBtn_Click"/>
+                    <Button x:Name="ExitBtn" Width="120" Margin="10,0,0,0" Background="DeepSkyBlue" Content="Exit" Foreground="White" FontSize="15" Height="30" Click="ExitBtn_Click"/>
+                </StackPanel>
+            </StackPanel>
+
+
+
+            <!-- Right Student Details StackPanel -->
+            <StackPanel Height="425" Background="#232630" x:Name="IssueSubForm" VerticalAlignment="Top" Margin="60,30,60,30" >
+                <!-- Student Details -->
+                <StackPanel  Orientation="Vertical" Margin="15" Height="400" Width="384">
+                    <!-- Student Name -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Student Name" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="IssueStudentName" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Enrollment NO -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Student Email" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="Emailtxtbox" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Department -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Department" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="IssueDepartmenttxtbox" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Publication Year -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Student Semester" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="IssuestudentSemestertxtbox" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Book Price -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Student Contact" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="IssueStudent_contacttxtbox" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Book Quantity -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Name" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="IssueBookName" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Issue Date" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <DatePicker x:Name="IssueDate" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+
+                    </StackPanel>
+
+                    <StackPanel Height="40" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
+                        <Button Content="Issue Book" Width="80" Height="30" FontSize="16" Margin="0,0,10,0" Background="#007ACC" Foreground="White" Click="Issuebtn_Click"/>
+
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
