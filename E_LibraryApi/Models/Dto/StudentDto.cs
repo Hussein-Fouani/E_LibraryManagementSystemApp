@@ -33,5 +33,14 @@ namespace E_LibraryApi.Models.Dto
         [MinLength(10)]
         [Required]
         public int StudentContact { get; set; }
+        [MaxLength(15)]
+        [MinLength(10)]
+        [Required]
+        public string BookName { get; set; }
+        [Required]
+        [MaxLength(15)]
+        [MinLength(10)]
+        [DataType(DataType.Date)]
+        public DateTime BookIssueDate { get; set; }
     }
 }
