@@ -26,6 +26,8 @@ namespace E_LibraryManagementSystem
         private ViewBook viewbook;
         private static bool isAddStudentFormOpen = false;
         private AddStudent addStudent;
+        private static bool isViewStudentFormOpen = false;
+        private ViewStudent viewStudent;
 
         public DashBoardForm()
         {
@@ -107,7 +109,17 @@ namespace E_LibraryManagementSystem
 
         private void ViewStudents_Click(object sender, RoutedEventArgs e)
         {
-           
+           if(isViewStudentFormOpen && viewStudent != null)
+            {
+                viewStudent.Activate();
+            }
+            else
+            {
+                isViewStudentFormOpen = true;
+                viewStudent = new ViewStudent();
+                viewStudent.Closed += (s, args) => { isViewStudentFormOpen = false; };
+                viewStudent.Show();
+            }
         }
     }
 }
