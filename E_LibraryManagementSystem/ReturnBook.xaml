@@ -10,7 +10,7 @@
         WindowStartupLocation="CenterScreen"
 Background="#232628"
 AllowsTransparency="True"
-        Title="ReturnBook" Height="750" Width="800">
+        Title="ReturnBook" Height="650" Width="950">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -36,27 +36,43 @@ AllowsTransparency="True"
                     <Button x:Name="ExitBtn" Width="120" Margin="10,0,0,0" Background="DeepSkyBlue" Content="Exit" Foreground="White" FontSize="15" Height="30" Click="ExitBtn_Click"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Height="400" Width="500" >
-                <DataGrid>
+            <StackPanel Height="400" Width="650" >
+                
                     <StackPanel Grid.Column="1" Margin="10,10,10,0" Height="300" x:Name="bookviewdatagrid" Background="#323232" Grid.Row="2" Grid.RowSpan="5" Grid.ColumnSpan="2"  >
-                        <DataGrid ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="bookviewdatagrid_SelectionChanged" AutoGenerateColumns="True" MouseDoubleClick="bookviewdatagrid_MouseDoubleClick">
+                        <DataGrid x:Name="issuebookview" ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="DataGrid_SelectionChanged" AutoGenerateColumns="True" MouseDoubleClick="bookviewdatagrid_MouseDoubleClick">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Student Name" Binding="{Binding BookID}" Width="*"/>
-                                <DataGridTextColumn Header="Department " Binding="{Binding BookName}" Width="*"/>
-                                <DataGridTextColumn Header="Student Semester" Width="*"/>
-                                <DataGridTextColumn Header="Student Contact" Width="*"/>
-                                <DataGridTextColumn Header="Student Email" Width="*"/>
-                                <DataGridTextColumn Header="Book Name" Width="*"/>
-                                <DataGridTextColumn Header="Book Issue Date" Width="*"/>
-
-                            </DataGrid.Columns>
+                            <DataGridTextColumn Header="Student Name" Binding="{Binding BookID}" Width="auto"/>
+                            <DataGridTextColumn Header="Department " Binding="{Binding BookName}" Width="auto"/>
+                            <DataGridTextColumn Header="Student Semester" Width="auto"/>
+                            <DataGridTextColumn Header="Student Contact" Width="auto"/>
+                            <DataGridTextColumn Header="Student Email" Width="auto"/>
+                            <DataGridTextColumn Header="Book Name" Width="auto"/>
+                            <DataGridTextColumn Header="Book Issue Date" Width="auto"/>
+                        </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
-                </DataGrid>
+                
             </StackPanel>
         </StackPanel>
-        <StackPanel x:Name="issueeditpanel" Margin="100,0,0,0" Width="550" VerticalAlignment="Bottom" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Height="280">
+        <StackPanel x:Name="issueeditpanel" Margin="200,0,0,0" Width="550" VerticalAlignment="Bottom" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Height="180">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                    <TextBlock FontSize="18" FontWeight="Black" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0" TextWrapping="Wrap" Text="BookName"/>
+                <TextBox Margin="130,0,0,0"  x:Name="BookNameTextBox" Text="" VerticalAlignment="Center" Width="180" Height="25"/>
+            </StackPanel>
+               
             
+        </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <TextBlock FontSize="18" FontWeight="Black" Foreground="White" Margin="0,0,10,0" TextWrapping="Wrap" Text="Book Issue Date"/>
+                <TextBox Margin="86,0,0,0" x:Name="BookIssueDate" Text="" Width="180"  Height="25"/>
+                <Button Margin="20,0,0,0" Width="100" Background="DarkOrange" Content="Return" x:Name="ReturnBtnn" Foreground="White" FontSize="15" Height="30" Click="ReturnBtn_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <TextBlock FontSize="18" FontWeight="Black" Foreground="White" Margin="0,0,10,0" TextWrapping="Wrap" Text="Book Issue Date"/>
+                <DatePicker Margin="86,0,0,0" x:Name="ReturnDate"  Width="180" Height="auto"/>
+                <Button Margin="20,0,0,0" Width="100" Background="DarkRed" Content="Cancel" x:Name="CancelBtn" Foreground="White" FontSize="15" Height="30" Click="Cancel_Click"/>
+        </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
