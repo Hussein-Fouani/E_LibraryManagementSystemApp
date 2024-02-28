@@ -49,6 +49,12 @@ namespace E_LibraryManagementSystem
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
            string queryname = Searchtxtbox.Text;
+            //check if the user is valid else , issue messagebox
+            if (string.IsNullOrEmpty(queryname))
+            {
+                MessageBox.Show("Please enter a valid name", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
         }
 
