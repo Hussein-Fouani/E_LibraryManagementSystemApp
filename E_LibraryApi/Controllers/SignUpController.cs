@@ -24,28 +24,30 @@ namespace E_LibraryApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SignUp([FromBody] SignUpModel signUpModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (await signUp.CheckIfUserExists(signUpModel.UserName))
+                if (ModelState.IsValid)
                 {
-                  await signUp.SignUpAsync(signUpModel);
+                    if (await signUp.CheckIfUserExists(signUpModel.UserName))
+                    {
+                        await signUp.SignUpAsync(signUpModel);
+                    }
+                    else
+                    {
+                        logger.LogWarning("User with username {Username} already exists.", signUpModel.UserName);
+                        return BadRequest("User Already Exists");
+                    }
                 }
-                else
-                {
-                    logger.LogWarning("User with username {Username} already exists.\", signUpModel.UserName",signUpModel.UserName);
-                    return BadRequest("User Already Exists");
-                }
+                
+                return BadRequest("Invalid model state");
             }
-            logger.LogError( "An error occurred while processing the request.");
-              return BadRequest("Something Went Wrong"); 
+            catch (Exception ex)
+            {
+
+                logger.LogError(ex, "An error occurred while processing the request.");
+                return BadRequest("Something went wrong");
+            }
         }
 
-        [HttpGet("{Id:Guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get()
-        {
-            return Ok("Hello World");
-        }
     }
 }
