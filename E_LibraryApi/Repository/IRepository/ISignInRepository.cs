@@ -6,6 +6,6 @@ namespace E_LibraryApi.Repository.IRepository
     {
         
         Task<bool> AuthenticateAsync(string userName, string password);
-        Task SignInAsync(SignInModel model);
+        Task<SignInModel> SignInAsync(SignInModel model);
     }
 }
