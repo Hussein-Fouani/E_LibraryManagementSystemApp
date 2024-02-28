@@ -4,9 +4,59 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:E_LibraryManagementSystem"
+                xmlns:gif="http://wpfanimatedgif.codeplex.com"
+
         mc:Ignorable="d"
-        Title="ReturnBook" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+Background="#232628"
+AllowsTransparency="True"
+        Title="ReturnBook" Height="750" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.ColumnSpan="1" Orientation="Horizontal" VerticalAlignment="Top" Height="424" Grid.RowSpan="5">
+            <!-- Left Image -->
+            <StackPanel Margin="15,15" Width="250" Orientation="Vertical">
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="150" gif:ImageBehavior.RepeatBehavior="5x" gif:ImageBehavior.AnimatedSource="\Images/StudentClass.gif"/>
+                <TextBlock Margin="0,10,0,20" Text="Enter Enrollment Number" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBox x:Name="Searchtxtbox" Text="" TextWrapping="Wrap" Width="180" Height="auto" Margin="0,0,0,10"/>
+                <Button Width="120" Margin="0,10,0,10" Background="DarkOrange" Content="Search Student" x:Name="SearchBtn" Foreground="White" FontSize="15" Height="30" Click="SearchBtn_Click"/>
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                    <Button x:Name="RefreshBtn" VerticalAlignment="Center" Width="120" Background="Green" Content="Refresh" Foreground="White" FontSize="15" Height="30" Click="RefreshBtn_Click"/>
+                    <Button x:Name="ExitBtn" Width="120" Margin="10,0,0,0" Background="DeepSkyBlue" Content="Exit" Foreground="White" FontSize="15" Height="30" Click="ExitBtn_Click"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Height="400" Width="500" >
+                <DataGrid>
+                    <StackPanel Grid.Column="1" Margin="10,10,10,0" Height="300" x:Name="bookviewdatagrid" Background="#323232" Grid.Row="2" Grid.RowSpan="5" Grid.ColumnSpan="2"  >
+                        <DataGrid ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="bookviewdatagrid_SelectionChanged" AutoGenerateColumns="True" MouseDoubleClick="bookviewdatagrid_MouseDoubleClick">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Student Name" Binding="{Binding BookID}" Width="*"/>
+                                <DataGridTextColumn Header="Department " Binding="{Binding BookName}" Width="*"/>
+                                <DataGridTextColumn Header="Student Semester" Width="*"/>
+                                <DataGridTextColumn Header="Student Contact" Width="*"/>
+                                <DataGridTextColumn Header="Student Email" Width="*"/>
+                                <DataGridTextColumn Header="Book Name" Width="*"/>
+                                <DataGridTextColumn Header="Book Issue Date" Width="*"/>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="issueeditpanel" Margin="100,0,0,0" Width="550" VerticalAlignment="Bottom" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Height="280">
+            
+        </StackPanel>
     </Grid>
 </Window>
