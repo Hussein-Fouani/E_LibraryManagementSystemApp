@@ -32,5 +32,7 @@ namespace E_LibraryApi.Models
         [Required]
         public int StudentContact { get; set; }
 
+        public BookModel book { get; set; }
+
     }
 }
