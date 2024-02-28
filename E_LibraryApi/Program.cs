@@ -3,11 +3,14 @@ using E_LibraryApi.Repository;
 using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+var logPathFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logging","log.txt"); 
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File(logPathFile, rollingInterval: RollingInterval.Day).CreateLogger();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
