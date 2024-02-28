@@ -99,6 +99,19 @@ namespace E_LibraryApi.Controllers
                 return Ok(mapped);
             }
         }
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SearchBookByName([FromBody] BookDto book)
+        {
+            var books = await bookRepository.GetBook(b=>b.BookName.ToLowerInvariant().Contains(book.BookName.ToLowerInvariant()));
+            if (books == null)
+            {
+                return NotFound();
+            }
+            var mapped = mapper.Map<List<BookDto>>(books);
+            return Ok(mapped);
+        }
         
 
     }
