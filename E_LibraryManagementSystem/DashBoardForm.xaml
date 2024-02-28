@@ -37,7 +37,7 @@
                     <MenuItem BorderThickness="0" Background="#2e333a" Foreground="White" Name="ViewStudents" Click="ViewStudents_Click" Header="View Student Info"/>
                 </MenuItem>
                 <MenuItem Header="Borrow Books" Click="IssueBooks" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                <MenuItem Header="Return Books" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <MenuItem Header="Return Books" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="MenuItem_Click_1" />
                 <MenuItem Header="Books Details" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 <MenuItem x:Name="_LogOut" Click="_LogOut_Click" Header="Logout" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
