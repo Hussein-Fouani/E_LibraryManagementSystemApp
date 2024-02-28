@@ -28,7 +28,9 @@
     <None Remove="Images\loadingbox.png" />
     <None Remove="Images\loadingicon.gif" />
     <None Remove="Images\Logo.jpg" />
+    <None Remove="Images\MyName.gif" />
     <None Remove="Images\passwordicon.png" />
+    <None Remove="Images\pushme.gif" />
     <None Remove="Images\readingquote.jpg" />
     <None Remove="Images\searchgif.gif" />
     <None Remove="Images\Sherlokgif.gif" />
@@ -79,7 +81,13 @@
     <Resource Include="Images\Logo.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\MyName.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\passwordicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\pushme.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\readingquote.jpg">
