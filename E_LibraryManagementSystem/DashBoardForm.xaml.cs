@@ -30,6 +30,8 @@ namespace E_LibraryManagementSystem
         private ViewStudent viewStudent;
         private static bool isIssueBookFormOpen = false;
         private IssueBooks issueBook;
+        private static bool isReturnBookFormOpen = false;
+        private ReturnBook returnBook;
 
         public DashBoardForm()
         {
@@ -136,6 +138,21 @@ namespace E_LibraryManagementSystem
                 issueBook = new IssueBooks();
                 issueBook.Closed += (s, args) => { isIssueBookFormOpen = false; };
                 issueBook.Show();
+            }
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            if(isReturnBookFormOpen && returnBook !=null)
+            {
+                returnBook.Activate();
+            }
+            else
+            {
+                isReturnBookFormOpen = true;
+                returnBook = new ReturnBook();
+                returnBook.Closed += (s, args) => { isReturnBookFormOpen = false; };
+                returnBook.Show();
             }
         }
     }
