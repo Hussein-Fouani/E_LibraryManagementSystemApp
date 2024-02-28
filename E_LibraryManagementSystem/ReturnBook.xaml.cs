@@ -23,5 +23,26 @@ namespace E_LibraryManagementSystem
         {
             InitializeComponent();
         }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (issuebookview.SelectedItems.Count <= 0)
+            {
+                issueeditpanel.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                issuebookview.Visibility = Visibility.Visible;
+
+            }
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            if(MessageBox.Show("Are you sure you want to cancel?", "Cancel", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
+        }
     }
 }
