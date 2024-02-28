@@ -25,5 +25,7 @@ namespace E_LibraryApi.Models
         public int BookQuantity { get; set; }
 
 
+        public List<Student> students { get; set; }
+
     }
 }
