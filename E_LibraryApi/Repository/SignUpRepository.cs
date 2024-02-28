@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_LibraryApi.Repository
 {
-    public class SignUpRepository : ISignUp
+    public class SignUpRepository : ISignUpRepository
     {
         private readonly E_LibDb db;
 
