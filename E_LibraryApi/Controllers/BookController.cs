@@ -40,9 +40,9 @@ namespace E_LibraryApi.Controllers
             {
                 var books = mapper.Map<BookModel>(book);
                 await bookRepository.CreateBook(books);
-                return CreatedAtRoute("CreateBook", new {Id=Guid.NewGuid()},books);
+                return CreatedAtAction("CreateBook", new {Id=Guid.NewGuid()},books);
             }
-            return BadRequest();
+            return BadRequest(new { error = "Invalid model state" });
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,6 +66,10 @@ namespace E_LibraryApi.Controllers
             {
                 return BadRequest();
             }
+            if(await bookRepository.GetBook(b=>b.Id == Id) == null)
+            {
+                return NotFound("Book Not Found");
+            }
             var book = await bookRepository.GetBook(b => b.Id == Id,tracked:false);
             
             var mapped =  mapper.Map<BookModel>(bookdto);
@@ -80,8 +84,8 @@ namespace E_LibraryApi.Controllers
         {
             if(name != null)
             {
-                var book = await bookRepository.GetBook(b => b.BookName == name);
-                if (book == null)
+                var book = bookRepository.GetBook(b => b.BookName.ToLowerInvariant().Contains(bookName.ToLowerInvariant()));
+                if (book == null )
                 {
                     return NotFound();
                 }
@@ -91,7 +95,7 @@ namespace E_LibraryApi.Controllers
             else
             {
                 var books = await bookRepository.GetAllBooks();
-                if (books == null)
+                if (books == null || books.Count== 0)
                 {
                     return NotFound();
                 }
