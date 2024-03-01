@@ -12,7 +12,7 @@ namespace E_LibraryApi.Repository.IRepository
         Task<bool> BookExists (string bookName);
         Task CreateBook(BookModel book);
         Task UpdateBook(BookModel book);
-        Task DeleteBook(BookModel bookId);
+        Task DeleteBook(BookModel book);
         Task Save(); 
     }
 }
