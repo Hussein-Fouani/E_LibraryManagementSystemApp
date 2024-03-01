@@ -3,6 +3,7 @@ using E_LibraryApi.Models.Dto;
 using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace E_LibraryApi.Repository
 {
@@ -33,9 +34,11 @@ namespace E_LibraryApi.Repository
             return await db.Student.ToListAsync();
         }
 
-        public async Task<Student> GetStudent(Guid studentId)
+        public async Task<Student> GetStudent(Expression<Func<Student, bool>> filter)
         {
-            return await db.Student.FirstOrDefaultAsync(s=>s.Id == studentId);
+            IQueryable<Student> student = db.Student;
+            student = student.Where(filter);
+            return await student.FirstOrDefaultAsync();
         }
 
         public async Task Save()
