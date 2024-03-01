@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E_LibraryManagementSystem", "E_LibraryManagementSystem\E_LibraryManagementSystem.csproj", "{EA3E76EA-815A-40D7-A3A3-DD766ED83C07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_LibraryManagementSystem", "E_LibraryManagementSystem\E_LibraryManagementSystem.csproj", "{EA3E76EA-815A-40D7-A3A3-DD766ED83C07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E_LibraryApi", "E_LibraryApi\E_LibraryApi.csproj", "{11411DFE-7B9C-42B3-89F5-3630EE0749B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_LibraryApi", "E_LibraryApi\E_LibraryApi.csproj", "{11411DFE-7B9C-42B3-89F5-3630EE0749B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E_Library_Utilities", "E_Library_Utilities\E_Library_Utilities.csproj", "{67D3454D-DE17-42CD-842D-A3F0737EEF92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{11411DFE-7B9C-42B3-89F5-3630EE0749B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11411DFE-7B9C-42B3-89F5-3630EE0749B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11411DFE-7B9C-42B3-89F5-3630EE0749B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67D3454D-DE17-42CD-842D-A3F0737EEF92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67D3454D-DE17-42CD-842D-A3F0737EEF92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67D3454D-DE17-42CD-842D-A3F0737EEF92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67D3454D-DE17-42CD-842D-A3F0737EEF92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
