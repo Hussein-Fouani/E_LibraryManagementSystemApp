@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace E_LibraryApi.Models.APIResponse
+namespace E_LibraryManagementSystem.Models.APIResponse
 {
     public class ApiReponse
     {

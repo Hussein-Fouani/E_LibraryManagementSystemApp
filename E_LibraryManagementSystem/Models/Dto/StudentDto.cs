@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace E_LibraryApi.Models.Dto
-{
+namespace E_LibraryManagementSystem.Models.Dto;
     public class StudentDto
     {
         [Required]
@@ -43,4 +42,4 @@ namespace E_LibraryApi.Models.Dto
         [DataType(DataType.Date)]
         public DateTime BookIssueDate { get; set; }
     }
-}
+

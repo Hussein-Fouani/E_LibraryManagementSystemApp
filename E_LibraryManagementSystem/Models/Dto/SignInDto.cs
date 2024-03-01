@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace E_LibraryApi.Models.Dto
+namespace E_LibraryManagementSystem.Models.Dto
 {
     public class SignInDto
     {

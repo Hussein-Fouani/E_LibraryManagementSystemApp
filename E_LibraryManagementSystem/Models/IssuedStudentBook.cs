@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace E_LibraryApi.Models
+namespace E_LibraryManagementSystem.Models
 {
     public class IssuedStudentBook
     {
