@@ -82,9 +82,9 @@ namespace E_LibraryApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllBooks(string name=null)
         {
-            if(name != null)
+            if(!string.IsNullOrEmpty(name))
             {
-                var book = bookRepository.GetBook(b => b.BookName.ToLowerInvariant().Contains(bookName.ToLowerInvariant()));
+                var book = bookRepository.GetBook(b => b.BookName.ToLowerInvariant().Contains(name.ToLowerInvariant()));
                 if (book == null )
                 {
                     return NotFound();
