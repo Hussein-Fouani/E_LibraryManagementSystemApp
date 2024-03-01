@@ -26,10 +26,7 @@ namespace E_LibraryApi.Repository
             await Save();
         }
 
-        public Task DeleteStudent(Guid studentId)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public  async Task<List<Student>> GetAllStudents()
         {
