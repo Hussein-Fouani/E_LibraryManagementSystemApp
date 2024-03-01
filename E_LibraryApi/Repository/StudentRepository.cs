@@ -22,7 +22,7 @@ namespace E_LibraryApi.Repository
 
         public async Task DeleteStudent(Student student)
         {
-             db.Student.Remove(student);
+            db.Student.Remove(student);
             await Save();
         }
 
