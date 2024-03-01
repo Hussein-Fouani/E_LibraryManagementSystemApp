@@ -3,8 +3,6 @@ using E_LibraryApi.Models;
 using E_LibraryApi.Models.APIResponse;
 using E_LibraryApi.Models.Dto;
 using E_LibraryApi.Repository;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -41,7 +39,7 @@ namespace E_LibraryApi.Controllers
                 }
                 if (await studentRepository.StudentExists(studentDto.StudentName))
                 {
-                   ModelState.AddModelError("StudentName", "Student with this name already exists.");
+                    ModelState.AddModelError("StudentName", "Student with this name already exists.");
                     apiResponse.StatusCode = HttpStatusCode.Conflict;
                     return BadRequest(ModelState);
                 }
@@ -84,7 +82,7 @@ namespace E_LibraryApi.Controllers
             }
             catch (Exception)
             {
-                apiResponse.Result=new ApiReponse();
+                apiResponse.Result = new ApiReponse();
                 apiResponse.IsSuccess = false;
                 apiResponse.StatusCode = HttpStatusCode.BadRequest;
                 return apiResponse;
@@ -191,7 +189,7 @@ namespace E_LibraryApi.Controllers
         {
             try
             {
-                if (Id == Guid.Empty  || !ModelState.IsValid)
+                if (Id == Guid.Empty || !ModelState.IsValid)
                 {
                     apiResponse.Result = new ApiReponse();
                     apiResponse.IsSuccess = false;
@@ -199,7 +197,7 @@ namespace E_LibraryApi.Controllers
                     return BadRequest(apiResponse);
                 }
                 var student = await studentRepository.GetStudent(s => s.Id == Id);
-                if(student == null)
+                if (student == null)
                 {
                     apiResponse.Result = new ApiReponse();
                     apiResponse.IsSuccess = false;
@@ -219,6 +217,52 @@ namespace E_LibraryApi.Controllers
                 return apiResponse;
             }
         }
+        [HttpPut("{Id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status304NotModified)]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ApiReponse>> UpdateStudent(Guid Id, [FromBody] StudentDto updatedStudentDto)
+        {
+            try
+            {
+                if (Id == Guid.Empty || updatedStudentDto == null || !ModelState.IsValid)
+                {
+                    apiResponse.Result = new ApiReponse();
+                    apiResponse.IsSuccess = false;
+                    apiResponse.StatusCode = Id == Guid.Empty ? HttpStatusCode.BadRequest : HttpStatusCode.NotFound;
+                    return BadRequest(apiResponse);
+                }
+
+                var existingStudent = await studentRepository.GetStudent(s => s.Id == Id);
+
+                if (existingStudent == null)
+                {
+                    apiResponse.Result = new ApiReponse();
+                    apiResponse.IsSuccess = false;
+                    apiResponse.StatusCode = HttpStatusCode.NotFound;
+                    return NotFound(apiResponse);
+                }
+
+
+
+                await studentRepository.UpdateStudent(existingStudent);
+
+                apiResponse.Result = mapper.Map<StudentDto>(existingStudent);
+                apiResponse.IsSuccess = true;
+                apiResponse.StatusCode = HttpStatusCode.Accepted;
+                return Accepted(apiResponse);
+            }
+            catch (Exception)
+            {
+                apiResponse.IsSuccess = false;
+                apiResponse.StatusCode = HttpStatusCode.InternalServerError;
+                return apiResponse;
+            }
+        }
+
+
     }
 
 
