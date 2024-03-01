@@ -28,6 +28,8 @@ namespace E_LibraryApi.Controllers
             apireponse = new ApiReponse();
         }
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ApiReponse>> CreateBook([FromBody] BookDto book)
         {
             try
