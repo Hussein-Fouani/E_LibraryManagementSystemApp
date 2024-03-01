@@ -57,6 +57,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\E_LibraryApi\E_LibraryApi.csproj" />
+    <ProjectReference Include="..\E_Library_Utilities\E_Library_Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
