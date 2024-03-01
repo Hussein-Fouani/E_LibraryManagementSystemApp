@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using E_LibraryApi.Mapper;
 using E_LibraryApi.Models;
+using E_LibraryApi.Models.APIResponse;
 using E_LibraryApi.Models.Dto;
 using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace E_LibraryApi.Controllers
 {
@@ -16,129 +18,207 @@ namespace E_LibraryApi.Controllers
         private readonly E_LibDb db;
         private readonly IMapper mapper;
         private readonly IBookRepository bookRepository;
+        protected ApiReponse apireponse;
 
-        public BookController(E_LibDb db,IMapper mapper,IBookRepository bookRepository)
+        public BookController(E_LibDb db, IMapper mapper, IBookRepository bookRepository)
         {
             this.db = db;
             this.mapper = mapper;
             this.bookRepository = bookRepository;
+            apireponse = new ApiReponse();
         }
         [HttpPost]
-        public  async Task<IActionResult> CreateBook([FromBody] BookDto book)
+        public async Task<ActionResult<ApiReponse>> CreateBook([FromBody] BookDto book)
         {
-            if(book == null)
+            try
             {
-                return BadRequest("Couldn't Add Book"); 
-            }
+                if (book == null)
+                {
+                    return BadRequest("Couldn't Add Book");
+                }
 
-            if ( await bookRepository.BookExists(book.BookName))
-            {
-                ModelState.AddModelError("BookName", "Book Name already exists");
-                return BadRequest("Book Name already exists");
+                if (await bookRepository.BookExists(book.BookName))
+                {
+                    ModelState.AddModelError("BookName", "Book Name already exists");
+                    return BadRequest("Book Name already exists");
+                }
+                if (ModelState.IsValid)
+                {
+                    var books = mapper.Map<BookModel>(book);
+                    await bookRepository.CreateBook(books);
+                    apireponse.Result = books;
+                    apireponse.StatusCode = HttpStatusCode.Created;
+                    return CreatedAtAction("CreateBook", new { Id = books.Id }, apireponse);
+                }
+                return BadRequest(new { error = "Invalid model state" });
             }
-            if (ModelState.IsValid)
+            catch (Exception)
             {
-                var books = mapper.Map<BookModel>(book);
-                await bookRepository.CreateBook(books);
-                return CreatedAtAction("CreateBook", new {Id=Guid.NewGuid()},books);
+
+                apireponse.IsSuccess = false;
+                apireponse.ErrorMessages.Add("Couldn't Add Book");
+                apireponse.StatusCode = HttpStatusCode.BadRequest;
+                return apireponse;
             }
-            return BadRequest(new { error = "Invalid model state" });
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> DeleteBook(BookDto bookname)
+        public async Task<ActionResult<ApiReponse>> DeleteBook(BookDto bookname)
         {
-            var book = await bookRepository.GetBook(b => b.BookName.ToLowerInvariant().Equals(bookname.BookName.ToLowerInvariant()));
-            if (book == null)
+            try
             {
-                return NotFound();
+                var book = await bookRepository.GetBook(b => b.BookName.ToLowerInvariant().Equals(bookname.BookName.ToLowerInvariant()));
+
+                if (book == null)
+                {
+                    return NotFound();
+                }
+                await bookRepository.DeleteBook(book);
+                apireponse.StatusCode = HttpStatusCode.NoContent;
+                apireponse.IsSuccess = true;
+                return Ok(apireponse);
             }
-            await bookRepository.DeleteBook(book);
-            return NoContent();
+            catch (Exception)
+            {
+
+                apireponse.IsSuccess = false;
+                apireponse.StatusCode = HttpStatusCode.NotFound;
+                return apireponse;
+            }
         }
         [HttpPut("{Id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateBook([FromBody]BookDto bookdto,Guid Id)
+        public async Task<ActionResult<ApiReponse>> UpdateBook([FromBody] BookDto bookdto, Guid Id)
         {
-            if (bookdto == null)
+            try
             {
-                return BadRequest();
-            }
-            if(await bookRepository.GetBook(b=>b.Id == Id) == null)
-            {
-                return NotFound("Book Not Found");
-            }
-            var book = await bookRepository.GetBook(b => b.Id == Id,tracked:false);
-            
-            var mapped =  mapper.Map<BookModel>(bookdto);
+                if (bookdto == null)
+                {
+                    return BadRequest();
+                }
+                if (await bookRepository.GetBook(b => b.Id == Id) == null)
+                {
+                    return NotFound("Book Not Found");
+                }
+                var book = await bookRepository.GetBook(b => b.Id == Id, tracked: false);
 
-            await bookRepository.UpdateBook(mapped);
-            return Ok("Updated SuccessFully");
+                var mapped = mapper.Map<BookModel>(bookdto);
+                await bookRepository.UpdateBook(mapped);
+
+                apireponse.StatusCode = HttpStatusCode.NoContent;
+                apireponse.IsSuccess = true;
+
+                return Ok(apireponse);
+            }
+            catch (Exception)
+            {
+
+                apireponse.IsSuccess = false;
+                apireponse.StatusCode = HttpStatusCode.NotFound;
+                return apireponse;
+            }
         }
-        [HttpGet(Name ="getallbooks")]
+        [HttpGet(Name = "getallbooks")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllBooks(string name=null)
+        public async Task<ActionResult<ApiReponse>> GetAllBooks(string name = null)
         {
-            if(!string.IsNullOrEmpty(name))
+            try
             {
-                var book = bookRepository.GetBook(b => b.BookName.ToLowerInvariant().Contains(name.ToLowerInvariant()));
-                if (book == null )
+                if (!string.IsNullOrEmpty(name))
                 {
-                    return NotFound();
+                    var book = bookRepository.GetBook(b => b.BookName.ToLowerInvariant().Contains(name.ToLowerInvariant()));
+                    if (book == null)
+                    {
+                        return NotFound();
+                    }
+
+                    apireponse.Result = mapper.Map<BookDto>(book);
+                    apireponse.StatusCode = HttpStatusCode.OK;
+                    return Ok(apireponse);
                 }
-                var mapped = mapper.Map<BookDto>(book);
-                return Ok(mapped);
+                else
+                {
+                    var books = await bookRepository.GetAllBooks();
+                    if (books == null || books.Count == 0)
+                    {
+                        return NotFound();
+                    }
+
+                    apireponse.Result = mapper.Map<List<BookDto>>(books);
+                    apireponse.StatusCode = HttpStatusCode.OK;
+                    return Ok(apireponse);
+                }
             }
-            else
+            catch (Exception)
             {
-                var books = await bookRepository.GetAllBooks();
-                if (books == null || books.Count== 0)
-                {
-                    return NotFound();
-                }
-                var mapped = mapper.Map<List<BookDto>>(books);
-                return Ok(mapped);
+
+                apireponse.IsSuccess = false;
+                apireponse.StatusCode = HttpStatusCode.NotFound;
+                return apireponse;
             }
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> SearchBookByName([FromBody] BookDto book)
+        public async Task<ActionResult<ApiReponse>> SearchBookByName([FromBody] BookDto book)
         {
-            var books = await bookRepository.GetBook(b=>b.BookName.ToLowerInvariant().Contains(book.BookName.ToLowerInvariant()));
-            if (books == null)
+            try
             {
-                return NotFound();
+                var books = await bookRepository.GetBook(b => b.BookName.ToLowerInvariant().Contains(book.BookName.ToLowerInvariant()));
+                if (books == null)
+                {
+                    return NotFound();
+                }
+                apireponse.Result = mapper.Map<List<BookDto>>(books);
+                apireponse.StatusCode = HttpStatusCode.OK;
+                return Ok(apireponse);
             }
-            var mapped = mapper.Map<List<BookDto>>(books);
-            return Ok(mapped);
+            catch (Exception)
+            {
+
+                apireponse.IsSuccess = false;
+                apireponse.StatusCode = HttpStatusCode.NotFound;
+                return apireponse;
+            }
         }
         [HttpGet("{authorname:string}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> SearchBookByAuthor([FromBody] BookDto bookDto)
+        public async Task<ActionResult<ApiReponse>> SearchBookByAuthor([FromBody] BookDto bookDto)
         {
-            if(bookDto == null)
+            try
             {
-                return BadRequest("Please Supply Data");
+                if (bookDto == null)
+                {
+                    return BadRequest("Please Supply Data");
+                }
+                if (string.IsNullOrEmpty(bookDto.BookName))
+                {
+                    return BadRequest("BookName is not Supplied");
+                }
+                var book = await bookRepository.GetBook(b => b.BookAuthor.ToLowerInvariant() == bookDto.BookAuthor.ToLowerInvariant());
+                if (book == null)
+                {
+                    ModelState.AddModelError("", "Author Not Found");
+                    return BadRequest(ModelState);
+                }
+                apireponse.Result = mapper.Map<BookModel>(book);
+                apireponse.StatusCode = HttpStatusCode.OK;
+                return Ok(apireponse);
             }
-            if (string.IsNullOrEmpty(bookDto.BookName))
+            catch (Exception)
             {
-                return BadRequest("BookName is not Supplied");
+
+                apireponse.IsSuccess = false;
+                apireponse.StatusCode = HttpStatusCode.NotFound;
+                return apireponse;
             }
-            var book = await bookRepository.GetBook(b=>b.BookAuthor.ToLowerInvariant() ==bookDto.BookAuthor.ToLowerInvariant());
-            if(book == null)
-            {
-                ModelState.AddModelError("", "Author Not Found");
-                return BadRequest(ModelState);
-            }
-            return Ok(mapper.Map<BookModel>(book));
         }
 
-        
+
 
     }
 }
