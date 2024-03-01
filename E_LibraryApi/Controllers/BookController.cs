@@ -116,6 +116,28 @@ namespace E_LibraryApi.Controllers
             var mapped = mapper.Map<List<BookDto>>(books);
             return Ok(mapped);
         }
+        [HttpGet("{authorname:string}")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SearchBookByAuthor([FromBody] BookDto bookDto)
+        {
+            if(bookDto == null)
+            {
+                return BadRequest("Please Supply Data");
+            }
+            if (string.IsNullOrEmpty(bookDto.BookName))
+            {
+                return BadRequest("BookName is not Supplied");
+            }
+            var book = await bookRepository.GetBook(b=>b.BookAuthor.ToLowerInvariant() ==bookDto.BookAuthor.ToLowerInvariant());
+            if(book == null)
+            {
+                ModelState.AddModelError("", "Author Not Found");
+                return BadRequest(ModelState);
+            }
+            return Ok(mapper.Map<BookModel>(book));
+        }
+
         
 
     }
