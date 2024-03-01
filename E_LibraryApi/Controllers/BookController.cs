@@ -56,7 +56,6 @@ namespace E_LibraryApi.Controllers
             {
 
                 apireponse.IsSuccess = false;
-                apireponse.ErrorMessages.Add("Couldn't Add Book");
                 apireponse.StatusCode = HttpStatusCode.BadRequest;
                 return apireponse;
             }
