@@ -11,7 +11,7 @@ namespace E_LibraryApi.Repository.IRepository
         Task<bool> StudentExists(string studentName);
         Task CreateStudent(Student student);
         Task UpdateStudent(Student student);
-        Task DeleteStudent(Guid studentId);
+        Task DeleteStudent(Student studentId);
         Task Save();
     }
 }
