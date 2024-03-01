@@ -17,6 +17,9 @@ namespace E_LibraryManagementSystem.Db
         }
         public DbSet<SignInModel> SignIn { get; set; }
         public DbSet<BookModel> Book { get; set; }
+        public DbSet<Student> Student { get; set;}
+        public DbSet<SignUpModel> Signup { get; set; }
+        public DbSet<IssuedStudentBook> IssuedStudentBooks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SignInModel>().HasData(
