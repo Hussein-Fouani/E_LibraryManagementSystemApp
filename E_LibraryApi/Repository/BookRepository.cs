@@ -1,4 +1,5 @@
 ﻿using E_LibraryApi.Models;
+using E_LibraryApi.Models.APIResponse;
 using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +13,11 @@ namespace E_LibraryApi.Repository
     public class BookRepository : IBookRepository
     {
         private readonly E_LibDb db;
-
+        protected ApiReponse apiReponse;
         public BookRepository(E_LibDb db)
         {
             this.db = db;
+            
         }
         public  async Task<bool> BookExists(string bookName)
         {
