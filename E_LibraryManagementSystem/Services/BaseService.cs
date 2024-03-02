@@ -56,11 +56,14 @@ namespace E_LibraryManagementSystem.Services
                 
             }catch(Exception ex)
             {
-                responseModel.IsSuccess = false;
-                responseModel.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-                var res = JsonConvert.SerializeObject(responseModel);
+                var dto = new ApiReponse()
+                {
+                   ErrorMessages= new List<string> { Convert.ToString(ex.Message) },
+                   IsSuccess = false,
+                };
+                var res = JsonConvert.SerializeObject(dto);
                 var apiResponse = JsonConvert.DeserializeObject<T>(res);
-                return Task.FromResult(apiResponse);
+                return apiResponse;
             }
         }
     }
