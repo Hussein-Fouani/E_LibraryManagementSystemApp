@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using E_LibraryApi.Mapper;
+using E_LibraryManagementSystem.Mapper;
 using System.Configuration;
 using System.Data;
 using System.Windows;
@@ -11,11 +12,14 @@ namespace E_LibraryManagementSystem
     /// </summary>
     public partial class App : Application
     {
-        MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg =>
+       private static MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<MapperConfig>();
+            cfg.AddProfile<MappingConfig>(); 
         });
-        IMapper mapper = mapperConfiguration.CreateMapper();
+
+      public static  IMapper mapper = mapperConfiguration.CreateMapper();
+
     }
 
 }
