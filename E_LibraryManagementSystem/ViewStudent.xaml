@@ -30,7 +30,7 @@
             <TextBox Name="SearchStudentName" Height="30" Width="200" Margin="10,0,0,0"/>
             <Button x:Name="SearchStudentBtn" Content="Search" Height="30" Width="100" Margin="10,0,0,0" Click="SearchBook_Click"/>
         </StackPanel>
-        <DataGrid Margin="10,10,10,0" Height="500" x:Name="Studentviewdatagrid" Background="#323232" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="True"  ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Studentviewdatagrid_SelectionChanged" MouseDoubleClick="bookviewdatagrid_MouseDoubleClick">
+        <DataGrid Margin="10,10,10,0" Height="500" x:Name="Studentviewdatagrid" Background="#323232" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="True"  ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Studentviewdatagrid_SelectionChanged" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Student ID" Binding="{Binding BookID}" Width="*"/>
                 <DataGridTextColumn Header="Student Name" Binding="{Binding BookName}" Width="*"/>
