@@ -114,5 +114,10 @@ namespace E_LibraryManagementSystem
                 Studentditdatagrid.Visibility=Visibility.Hidden;
             }
         }
+
+        private void bookeditdatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
