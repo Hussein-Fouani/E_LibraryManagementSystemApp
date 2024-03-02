@@ -12,13 +12,14 @@ var logPathFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logging",
 Log.Logger = new LoggerConfiguration()
     .WriteTo.File(logPathFile, rollingInterval: RollingInterval.Day).CreateLogger();
 builder.Services.AddControllers();
+builder.Services.AddLogging();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
-/*builder.Services.AddScoped<IBookRepository,BookRepository>();
+builder.Services.AddScoped<IBookRepository,BookRepository>();
 builder.Services.AddScoped<IStudentRepository,StudentRepository>();
-builder.Services.AddScoped<ISignInRepository,SignInRepository>();*/
-//builder.Services.AddScoped<ISignUpRepository,SignUpRepository>();
+builder.Services.AddScoped<ISignInRepository,SignInRepository>();
+builder.Services.AddScoped<ISignUpRepository, SignUpRepository>();
 builder.Services.AddDbContext<E_LibDb>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 var app = builder.Build();
 
