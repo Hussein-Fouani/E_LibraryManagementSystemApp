@@ -3,6 +3,8 @@
 namespace E_LibraryManagementSystem.Models.Dto;
     public class StudentDto
     {
+         [Key]
+         public Guid Id { get; set; }
         [Required]
         [MaxLength(50)]
         [MinLength(5)]
