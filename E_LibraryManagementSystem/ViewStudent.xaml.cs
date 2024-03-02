@@ -102,7 +102,7 @@ namespace E_LibraryManagementSystem
             {
                 if (AreAllInputFieldsValid())
                 {
-                    // string searchterm = SearchStudentName.Text;
+                    
                     try
                     {
                         //Delete Student
@@ -181,9 +181,16 @@ namespace E_LibraryManagementSystem
 
         private void Studentviewdatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Studentviewdatagrid.SelectedItems.Count > 0)
+            if (Studentviewdatagrid.SelectedItem != null)
             {
                 Studentditdatagrid.Visibility = Visibility.Visible;
+                var student = (StudentDto)Studentviewdatagrid.SelectedItem;
+                studentNameTextBox.Text = student.StudentName;
+                emailtxtbox.Text = student.StudentEmail;
+                departmenttxtbox.Text = student.Department;
+                Enrollmentnbtxtbox.Text = student.EnrollmentNb.ToString();
+                studentsemtxtbox.Text = student.StudentSemester;
+                contacttxtbox.Text = student.StudentContact.ToString();
             }
             else
             {
@@ -191,8 +198,15 @@ namespace E_LibraryManagementSystem
             }
         }
 
-        private void bookeditdatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Studenteditdatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var student = (StudentDto)Studentviewdatagrid.SelectedItem;
+            studentNameTextBox.Text = student.StudentName;
+            emailtxtbox.Text = student.StudentEmail;
+            departmenttxtbox.Text = student.Department;
+            Enrollmentnbtxtbox.Text = student.EnrollmentNb.ToString();
+            studentsemtxtbox.Text = student.StudentSemester;
+            contacttxtbox.Text = student.StudentContact.ToString();
 
         }
     }
