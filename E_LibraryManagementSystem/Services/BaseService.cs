@@ -21,7 +21,7 @@ namespace E_LibraryManagementSystem.Services
             this.responseModel = new ApiReponse();
             this.httpClientFactory = httpClientFactory;
         }
-        public Task<T> SendAsync<T>(ApiRequests apiRequest)
+        public async Task<T> SendAsync<T>(ApiRequests apiRequest)
         {
             try
             {
@@ -41,13 +41,19 @@ namespace E_LibraryManagementSystem.Services
                     case E_Library_Utilities.ApiTypes.ApiType.PUT:
                         message.Method = HttpMethod.Put;
                         break;
-                    case E_Library_Utilities.ApiTypes.ApiType.DELETE:
+                    case E_Library_Utilities.ApiTypes.ApiType .DELETE:
                         message.Method = HttpMethod.Delete;
                         break;
                     default:
                         message.Method = HttpMethod.Get;
                         break;
                 }
+                HttpResponseMessage apiresponse = await client.SendAsync(message);
+                var apiContent = await apiresponse.Content.ReadAsStringAsync();
+                var apiResponse = JsonConvert.DeserializeObject<T>(apiContent);
+
+                return apiResponse;
+                
             }catch(Exception ex)
             {
                 responseModel.IsSuccess = false;
