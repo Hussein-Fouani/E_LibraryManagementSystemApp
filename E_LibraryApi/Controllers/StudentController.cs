@@ -57,25 +57,28 @@ namespace E_LibraryApi.Controllers
                 return apiResponse;
             }
         }
-        [HttpGet]
+        [HttpGet("{Id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ApiReponse>> GetStudentById(Guid Id)
         {
             try
             {
                 if (Id == Guid.Empty)
                 {
-                    return BadRequest("Not Valid Id");
+                    ModelState.AddModelError(nameof(Id), "ID is not valid.");
+                    return BadRequest(ModelState);
                 }
+
                 var student = await studentRepository.GetStudent(s => s.Id == Id);
-                if (student == null || !ModelState.IsValid)
+
+                if (student == null)
                 {
-                    apiResponse.Result = new ApiReponse();
-                    apiResponse.IsSuccess = false;
-                    apiResponse.StatusCode = HttpStatusCode.NotFound;
-                    return NotFound(apiResponse);
+                    ModelState.AddModelError(nameof(Id), "Student not found.");
+                    return NotFound(ModelState);
                 }
+
                 apiResponse.Result = mapper.Map<StudentDto>(student);
                 apiResponse.StatusCode = HttpStatusCode.OK;
                 return Ok(apiResponse);
@@ -88,58 +91,70 @@ namespace E_LibraryApi.Controllers
                 return apiResponse;
             }
         }
-        [HttpGet]
+
+        [HttpGet("{studentname:alpha}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ApiReponse>> GetStudentByName(string studentname)
         {
             try
             {
-                if (string.IsNullOrEmpty(studentname))
+                if (string.IsNullOrWhiteSpace(studentname))
                 {
-                    return BadRequest("Invalid Student Name");
+                    ModelState.AddModelError(nameof(studentname), "Student name is required.");
+                    return BadRequest(ModelState);
                 }
+
                 var student = await studentRepository.GetStudent(s => s.StudentName == studentname);
-                if (student == null || !ModelState.IsValid)
+
+                if (student == null)
                 {
-                    return BadRequest("Student Doesn't Exist");
+                    ModelState.AddModelError(nameof(studentname), "Student not found.");
+                    return NotFound(ModelState);
                 }
+
                 apiResponse.Result = mapper.Map<StudentDto>(student);
                 apiResponse.StatusCode = HttpStatusCode.OK;
                 return Ok(apiResponse);
             }
             catch (Exception)
             {
-
                 apiResponse.IsSuccess = false;
                 apiResponse.StatusCode = HttpStatusCode.BadRequest;
                 return apiResponse;
             }
         }
 
-        [HttpGet]
+
+        [HttpGet("{enrollmentNb:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ApiReponse>> GetStudentByEnrollmentNb(string studentname)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ApiReponse>> GetStudentByEnrollmentNb(int enrollmentNb)
         {
             try
             {
-                if (string.IsNullOrEmpty(studentname))
+                if (enrollmentNb < 0)
                 {
-                    return BadRequest("Invalid Student Name");
+                    ModelState.AddModelError(nameof(enrollmentNb), "Enrollment Number is not valid.");
+                    return BadRequest(ModelState);
                 }
-                var student = await studentRepository.GetStudent(s => s.StudentName == studentname);
-                if (student == null || !ModelState.IsValid)
+
+                var student = await studentRepository.GetStudent(s => s.EnrollmentNb == enrollmentNb);
+
+                if (student == null)
                 {
-                    return BadRequest("Student Doesn't Exist");
+                    ModelState.AddModelError(nameof(enrollmentNb), "Student not found.");
+                    return NotFound(ModelState);
                 }
+
                 apiResponse.Result = mapper.Map<StudentDto>(student);
                 apiResponse.StatusCode = HttpStatusCode.OK;
                 return Ok(apiResponse);
             }
             catch (Exception)
             {
-
                 apiResponse.IsSuccess = false;
                 apiResponse.StatusCode = HttpStatusCode.BadRequest;
                 return apiResponse;
@@ -148,7 +163,9 @@ namespace E_LibraryApi.Controllers
 
 
 
+
         [HttpGet]
+       
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ApiReponse>> GetAllStudents()
