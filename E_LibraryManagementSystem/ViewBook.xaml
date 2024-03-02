@@ -39,7 +39,7 @@
             <Button x:Name="SearchBook" Content="Search" Height="30" Width="100" Margin="10,0,0,0" Click="SearchBook_Click"/>
         </StackPanel>
 
-        <DataGrid Margin="10,10,10,0" Height="500" x:Name="bookviewdatagrid" Background="#323232" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="True"  ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="bookviewdatagrid_SelectionChanged" MouseDoubleClick="bookviewdatagrid_MouseDoubleClick">
+        <DataGrid Margin="10,10,10,0" Height="500" x:Name="bookviewdatagrid" Background="#323232" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="True"  ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="bookviewdatagrid_SelectionChanged" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Book Name" Binding="{Binding BookID}" Width="*"/>
                 <DataGridTextColumn Header="Author Name" Binding="{Binding BookName}" Width="*"/>
