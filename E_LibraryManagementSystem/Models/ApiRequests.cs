@@ -11,5 +11,7 @@ namespace E_LibraryManagementSystem.Models
     public class ApiRequests
     {
         public ApiType ApiTypes { get; set; } = ApiType.GET;
+        public string URI { get; set; }
+        public object Data { get; set; }
     }
 }
