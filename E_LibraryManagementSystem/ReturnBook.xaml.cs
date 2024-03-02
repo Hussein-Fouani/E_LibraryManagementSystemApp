@@ -44,5 +44,26 @@ namespace E_LibraryManagementSystem
                 this.Close();
             }
         }
+
+        
+        private void RefreshBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExitBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ReturnBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
