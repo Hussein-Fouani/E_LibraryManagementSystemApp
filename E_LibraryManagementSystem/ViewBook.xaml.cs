@@ -80,29 +80,7 @@ namespace E_LibraryManagementSystem
         }
 
         
-        private void bookviewdatagrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (bookviewdatagrid.SelectedItems != null)
-            {
-                BookModel book = (BookModel)bookviewdatagrid.SelectedItem;
-                bookModel.BookName = book.BookName;
-                bookModel.BookAuthor = book.BookAuthor;
-                bookModel.BookPrice = book.BookPrice;
-                bookModel.BookQuantity = book.BookQuantity;
-                bookModel.BookPublication = book.BookPublication;
-                bookModel.BookPurhcaseDate = book.BookPurhcaseDate;
-            }
-            if (bookviewdatagrid.SelectedCells.Count > 0)
-            {
-                var selectedBook = bookviewdatagrid.SelectedItem as BookModel;
-                if (selectedBook != null)
-                {
-                    bookeditdatagrid.Visibility = Visibility.Visible;
-                    bookModel = selectedBook;
-                    bookeditdatagrid.DataContext = bookModel;
-                }
-            }
-        }
+      
 
         private void bookeditdatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -151,6 +129,30 @@ namespace E_LibraryManagementSystem
         private void cancelbtn_Click(object sender, RoutedEventArgs e)
         {
             this.bookeditdatagrid.Visibility = Visibility.Hidden;
+        }
+
+        private void bookviewdatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (bookviewdatagrid.SelectedItems != null)
+            {
+                BookModel book = (BookModel)bookviewdatagrid.SelectedItem;
+                bookModel.BookName = book.BookName;
+                bookModel.BookAuthor = book.BookAuthor;
+                bookModel.BookPrice = book.BookPrice;
+                bookModel.BookQuantity = book.BookQuantity;
+                bookModel.BookPublication = book.BookPublication;
+                bookModel.BookPurhcaseDate = book.BookPurhcaseDate;
+            }
+            if (bookviewdatagrid.SelectedCells.Count > 0)
+            {
+                var selectedBook = bookviewdatagrid.SelectedItem as BookModel;
+                if (selectedBook != null)
+                {
+                    bookeditdatagrid.Visibility = Visibility.Visible;
+                    bookModel = selectedBook;
+                    bookeditdatagrid.DataContext = bookModel;
+                }
+            }
         }
     }
 }
