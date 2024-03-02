@@ -29,7 +29,7 @@ AllowsTransparency="True"
             <StackPanel Margin="15,15" Width="250" Orientation="Vertical">
                 <Image HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="150" gif:ImageBehavior.RepeatBehavior="5x" gif:ImageBehavior.AnimatedSource="\Images/StudentClass.gif"/>
                 <TextBlock Margin="0,10,0,20" Text="Enter Enrollment Number" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <TextBox x:Name="Searchtxtbox" Text="" TextWrapping="Wrap" Width="180" Height="auto" Margin="0,0,0,10"/>
+                <TextBox x:Name="Searchtxtbox"  Text="" TextWrapping="Wrap" Width="180" Height="auto" Margin="0,0,0,10"/>
                 <Button Width="120" Margin="0,10,0,10" Background="DarkOrange" Content="Search Student" x:Name="SearchBtn" Foreground="White" FontSize="15" Height="30" Click="SearchBtn_Click"/>
                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                     <Button x:Name="RefreshBtn" VerticalAlignment="Center" Width="120" Background="Green" Content="Refresh" Foreground="White" FontSize="15" Height="30" Click="RefreshBtn_Click"/>
@@ -39,7 +39,7 @@ AllowsTransparency="True"
             <StackPanel Height="400" Width="650" >
                 
                     <StackPanel Grid.Column="1" Margin="10,10,10,0" Height="300" x:Name="bookviewdatagrid" Background="#323232" Grid.Row="2" Grid.RowSpan="5" Grid.ColumnSpan="2"  >
-                        <DataGrid x:Name="issuebookview" ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="DataGrid_SelectionChanged" AutoGenerateColumns="True" MouseDoubleClick="bookviewdatagrid_MouseDoubleClick">
+                        <DataGrid x:Name="issuebookview" ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="DataGrid_SelectionChanged" AutoGenerateColumns="True" >
                             <DataGrid.Columns>
                             <DataGridTextColumn Header="Student Name" Binding="{Binding BookID}" Width="auto"/>
                             <DataGridTextColumn Header="Department " Binding="{Binding BookName}" Width="auto"/>
