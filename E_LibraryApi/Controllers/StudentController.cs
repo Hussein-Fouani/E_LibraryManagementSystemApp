@@ -3,6 +3,7 @@ using E_LibraryApi.Models;
 using E_LibraryApi.Models.APIResponse;
 using E_LibraryApi.Models.Dto;
 using E_LibraryApi.Repository;
+using E_LibraryApi.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -13,10 +14,10 @@ namespace E_LibraryApi.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly StudentRepository studentRepository;
+        private readonly IStudentRepository studentRepository;
         protected ApiReponse apiResponse;
 
-        public StudentController(IMapper mapper, StudentRepository studentRepository)
+        public StudentController(IMapper mapper, IStudentRepository studentRepository)
         {
             this.mapper = mapper;
             this.studentRepository = studentRepository;
@@ -48,7 +49,7 @@ namespace E_LibraryApi.Controllers
 
                 apiResponse.Result = mapper.Map<StudentDto>(student);
                 apiResponse.StatusCode = HttpStatusCode.Created;
-                return CreatedAtAction(nameof(GetStudentById), new { Id = student.Id }, apiResponse);
+                return CreatedAtRoute(nameof(GetStudentById), new { Id = student.Id }, apiResponse);
             }
             catch (Exception)
             {
@@ -165,7 +166,6 @@ namespace E_LibraryApi.Controllers
 
 
         [HttpGet]
-       
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ApiReponse>> GetAllStudents()
@@ -199,7 +199,7 @@ namespace E_LibraryApi.Controllers
 
         }
 
-        [HttpDelete("{Id:Guid}")]
+        [HttpDelete("{Id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ApiReponse>> DeleteStudent(Guid Id)
@@ -234,7 +234,7 @@ namespace E_LibraryApi.Controllers
                 return apiResponse;
             }
         }
-        [HttpPut("{Id:Guid}")]
+        [HttpPut("{Id:guid}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status304NotModified)]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
@@ -261,6 +261,13 @@ namespace E_LibraryApi.Controllers
                     apiResponse.StatusCode = HttpStatusCode.NotFound;
                     return NotFound(apiResponse);
                 }
+                existingStudent.StudentName = updatedStudentDto.StudentName;
+                existingStudent.Department = updatedStudentDto.Department;
+                existingStudent.StudentSemester = updatedStudentDto.StudentSemester;
+                existingStudent.StudentContact = updatedStudentDto.StudentContact;
+                existingStudent.EnrollmentNb = updatedStudentDto.EnrollmentNb;
+                existingStudent.StudentEmail = updatedStudentDto.StudentEmail;
+
 
 
 
