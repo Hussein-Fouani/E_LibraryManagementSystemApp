@@ -36,7 +36,7 @@ gif:ImageBehavior.AnimatedSource="\Images/MyName.gif"  Grid.Row="2" Grid.Column=
         </StackPanel>
         <StackPanel Margin="0,70,0,0" Grid.Column="1" Grid.Row="1" Orientation="Horizontal" >
             <TextBlock Text="Password" Margin="0,0,18,0" Width="auto" Foreground="White" FontWeight="Black" VerticalAlignment="Center" FontSize="15" />
-            <PasswordBox x:Name="SignUpPasswordbox" Clipboard.DataObject="True"  Background="DarkGray" Foreground="White" Width="100"  Height="13" HorizontalAlignment="Right" />
+            <PasswordBox x:Name="SignUpPasswordbox"  Background="DarkGray" Foreground="White" Width="100"  Height="13" HorizontalAlignment="Right" />
         </StackPanel>
         <Button x:Name="SignUpButton" Content="SignUp" HorizontalAlignment="Center" Background="#0b0" VerticalAlignment="Center" Width="100" Height="30" FontWeight="Bold" Grid.Column="1" Grid.Row="2" Click="SignUpButton_Click" />
     </Grid>
