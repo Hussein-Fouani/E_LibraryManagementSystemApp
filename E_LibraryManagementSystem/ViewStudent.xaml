@@ -30,19 +30,19 @@
             <TextBox Name="SearchStudentName" Height="30" Width="200" Margin="10,0,0,0"/>
             <Button x:Name="SearchStudentBtn" Content="Search" Height="30" Width="100" Margin="10,0,0,0" Click="SearchBook_Click"/>
         </StackPanel>
-        <DataGrid Margin="10,10,10,0" Height="500" x:Name="Studentviewdatagrid" Background="#323232" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="True"  ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Studentviewdatagrid_SelectionChanged" >
+        <DataGrid Margin="10,10,10,0" Height="500" x:Name="Studentviewdatagrid" Background="#323232" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="True"  ItemsSource="{Binding StudentDto , UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Studentviewdatagrid_SelectionChanged" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Student ID" Binding="{Binding BookID}" Width="*"/>
-                <DataGridTextColumn Header="Student Name" Binding="{Binding BookName}" Width="*"/>
-                <DataGridTextColumn Header="Enrollment" Width="*"/>
-                <DataGridTextColumn Header="Department" Width="*"/>
-                <DataGridTextColumn Header="Semester" Width="*"/>
-                <DataGridTextColumn Header="Contact" Width="*"/>
-                <DataGridTextColumn Header="Email" Width="*"/>
+                <DataGridTextColumn Header="Student ID" Binding="{Binding Id}" Width="*"/>
+                <DataGridTextColumn Header="Student Name" Binding="{Binding Path=StudentName}" Width="*"/>
+                <DataGridTextColumn Header="Enrollment" Width="*" Binding="{Binding Path=EnrollmentNb}"/>
+                <DataGridTextColumn Header="Department" Width="*" Binding="{Binding Path=Department}"/>
+                <DataGridTextColumn Header="Semester" Width="*" Binding="{Binding Path=StudentSemester}"/>
+                <DataGridTextColumn Header="Contact" Width="*" Binding="{Binding Path=StudentContact}"/>
+                <DataGridTextColumn Header="Email" Width="*" Binding="{Binding Path=StudentEmail}"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid  HeadersVisibility="None" Margin="10,18,10,10" VerticalAlignment="Bottom" Height="400" x:Name="Studentditdatagrid" Background="#323232" Grid.Row="3" Grid.ColumnSpan="2" AutoGenerateColumns="True"  ItemsSource="{Binding bookModel, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="bookeditdatagrid_SelectionChanged">
+        <DataGrid  HeadersVisibility="None" Margin="10,18,10,10" VerticalAlignment="Bottom" Height="400" x:Name="Studentditdatagrid" Background="#323232" Grid.Row="3" Grid.ColumnSpan="2" AutoGenerateColumns="True"   ItemsSource="{Binding StudentDto, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Studenteditdatagrid_SelectionChanged">
         </DataGrid>
         <TextBlock Grid.Column="0" FontSize="18" FontWeight="Black" Foreground="white"  HorizontalAlignment="Left" Margin="126,89,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Student Name" VerticalAlignment="Top" RenderTransformOrigin="-6.482,0.237"/>
         <TextBox Grid.Column="1" x:Name="studentNameTextBox" HorizontalAlignment="Left" Margin="48,95,0,0" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" Height="auto"/>
