@@ -18,18 +18,14 @@ namespace E_LibraryApi.Models
         [MaxLength(50)]
         [MinLength(5)]
         public string Department { get; set; }
-        [Required]
-        [MaxLength(10)]
-        [MinLength(5)]
+        [Required(ErrorMessage = "This field is required.")]
         public int EnrollmentNb { get; set; }
         [Required]
         [MaxLength(20)]
         [MinLength(5)]
         public string StudentSemester { get; set; }
         [DataType(DataType.PhoneNumber)]
-        [MaxLength(15)]
-        [MinLength(10)]
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
         public int StudentContact { get; set; }
 
        // public BookModel book { get; set; }
