@@ -10,9 +10,9 @@ namespace E_LibraryApi.Repository
     public class SignInRepository:ISignInRepository
     {
         private readonly E_LibDb db;
-        private readonly Logger<SignInController> logger;
+        private readonly ILogger<SignInRepository> logger;
 
-        public SignInRepository(E_LibDb db,Logger<SignInController> logger)
+        public SignInRepository(E_LibDb db, ILogger<SignInRepository> logger)
         {
             this.db = db;
             
