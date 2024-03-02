@@ -57,6 +57,72 @@ namespace E_LibraryApi.Migrations
                     b.ToTable("Book");
                 });
 
+            modelBuilder.Entity("E_LibraryApi.Models.IssuedStudentBook", b =>
+                {
+                    b.Property<Guid>("IssuedBookId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("IssuedBookId");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("IssuedStudentBooks");
+                });
+
+            modelBuilder.Entity("E_LibraryApi.Models.Student", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("EnrollmentNb")
+                        .HasMaxLength(10)
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentContact")
+                        .HasMaxLength(15)
+                        .HasColumnType("int");
+
+                    b.Property<string>("StudentEmail")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("StudentName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("StudentSemester")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Student");
+                });
+
             modelBuilder.Entity("E_LibraryManagementSystem.Models.SignInModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -84,6 +150,46 @@ namespace E_LibraryApi.Migrations
                             Password = "Admin",
                             UserName = "Admin"
                         });
+                });
+
+            modelBuilder.Entity("E_LibraryManagementSystem.Models.SignUpModel", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Signup");
+                });
+
+            modelBuilder.Entity("E_LibraryApi.Models.IssuedStudentBook", b =>
+                {
+                    b.HasOne("E_LibraryApi.Models.BookModel", "book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_LibraryApi.Models.Student", "student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("book");
+
+                    b.Navigation("student");
                 });
 #pragma warning restore 612, 618
         }
