@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_LibraryApi.Repository
 {
-    public class SignUpRepository : ISignUpRepository
+    public class SignUpRepository 
     {
         private readonly E_LibDb db;
 
@@ -29,7 +29,7 @@ namespace E_LibraryApi.Repository
 
         public async Task SignUpAsync(SignUpModel signUpModel)
         {
-            await db.SignUp.AddAsync(signUpModel);
+            await db.Signup.AddAsync(signUpModel);
             await Save();
 
         }
