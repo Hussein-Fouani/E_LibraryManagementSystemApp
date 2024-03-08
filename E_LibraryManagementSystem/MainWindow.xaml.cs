@@ -1,11 +1,7 @@
-﻿using E_LibraryManagementSystem.Exceptions;
-using E_LibraryManagementSystem.Services;
-using ELibrary.Domain.Models;
-using ELibrary.Domain.NewFolder;
+﻿using ELibrary.Domain.Models;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Windows;
-using System.Windows.Forms.Design;
 using System.Windows.Input;
 
 namespace E_LibraryManagementSystem
@@ -15,13 +11,12 @@ namespace E_LibraryManagementSystem
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly ApiServices apiService;
         private bool isSignUpFormOpened = false;
         public MainWindow()
         {
 
             InitializeComponent();
-            apiService = new ApiServices("http://localhost:5179/api/User/");
+
 
         }
 
