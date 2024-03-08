@@ -43,7 +43,7 @@ namespace E_LibraryApi.Controllers
             {
                 if (book == null)
                 {
-                    
+
                     apireponse.Result = book;
                     apireponse.StatusCode = HttpStatusCode.Unauthorized;
                     apireponse.ErrorMessages.Add("Couldn't Add Book");
@@ -111,7 +111,7 @@ namespace E_LibraryApi.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ApiReponse>> UpdateBook([FromBody] BookDto bookdto,[FromRoute] Guid Id)
+        public async Task<ActionResult<ApiReponse>> UpdateBook([FromBody] BookDto bookdto, [FromRoute] Guid Id)
         {
             try
             {
@@ -162,7 +162,7 @@ namespace E_LibraryApi.Controllers
                 }
 
                 var response = mapper.Map<List<BookDto>>(books);
-                
+
                 return Ok(response);
 
             }
@@ -174,7 +174,7 @@ namespace E_LibraryApi.Controllers
         }
 
 
-        [HttpGet] 
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -189,28 +189,29 @@ namespace E_LibraryApi.Controllers
 
                 var allBooks = await bookRepository.GetAllBooks();
                 var filteredResults = allBooks
-                    .Where(book =>
-                        book.BookName.ToUpper().Contains(query.ToUpper()) ||
-                        book.BookAuthor.ToUpper().Contains(query.ToUpper()) ||
-                        book.Genre.ToUpper().Contains(query.ToUpper()) ||
-                        book.ISBN.ToUpper().Contains(query.ToUpper()) ||
-                        book.Language.ToUpper().Contains(query.ToUpper()) ||
-                        book.BookPublication.ToUpper().Contains(query.ToUpper()) ||
-                        book.IsAvailable
-                    )
-                    .Select(book => new BookDto
-                    {
-                        Id = book.Id,
-                        BookName = book.BookName,
-                        BookAuthor = book.BookAuthor,
-                        Genre = book.Genre,
-                        BookPublication = book.BookPublication,
-                        ISBN = book.ISBN,
-                        Language = book.Language,
-                        BookPrice = book.BookPrice,
-                        IsAvailable = book.IsAvailable,
-                    })
-                    .ToList();
+      .Where(book =>
+          book.BookName.ToUpper().Equals(query.ToUpper()) ||
+          book.BookAuthor.ToUpper().Equals(query.ToUpper()) ||
+          book.Genre.ToUpper().Equals(query.ToUpper()) ||
+          book.ISBN.ToUpper().Equals(query.ToUpper()) ||
+          book.Language.ToUpper().Equals(query.ToUpper()) ||
+          book.BookPublication.ToUpper().Equals(query.ToUpper()) ||
+          book.IsAvailable
+      )
+      .Select(book => new BookDto
+      {
+          Id = book.Id,
+          BookName = book.BookName,
+          BookAuthor = book.BookAuthor,
+          Genre = book.Genre,
+          BookPublication = book.BookPublication,
+          ISBN = book.ISBN,
+          Language = book.Language,
+          BookPrice = book.BookPrice,
+          IsAvailable = book.IsAvailable,
+      })
+      .ToList();
+
 
                 if (filteredResults.Count == 0)
                 {
@@ -252,8 +253,8 @@ namespace E_LibraryApi.Controllers
                 if (!book.IsAvailable)
                 {
                     apireponse.ErrorMessages.Add("Book is not available for borrowing.");
-                    apireponse.IsSuccess =false;
-                    apireponse.StatusCode=HttpStatusCode.NotAcceptable;
+                    apireponse.IsSuccess = false;
+                    apireponse.StatusCode = HttpStatusCode.NotAcceptable;
                     return BadRequest("not available");
                 }
                 // Update book availability status
@@ -297,17 +298,17 @@ namespace E_LibraryApi.Controllers
                 return BadRequest("Can't borrow");
             }
         }
-        [HttpGet("{userId:guid}",Name = "GetBookById")]
+        [HttpGet("{username}", Name = "GetBookById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<BorrowedBookInfo>>> GetUserBorrowedBooks(Guid userId)
+        public async Task<ActionResult<List<BorrowedBookInfo>>> GetUserBorrowedBooks(string username)
         {
             try
             {
                 var borrowedBooks = await borrowBook.GetAllBorrowBook();
                 // Retrieve user's borrowed books with related book details
                 var userBorrowedBooks = borrowedBooks
-                .Where(bb => bb.UserId == userId)
+                .Where(bb => bb.User.UserName == username)
                 .Select(bb => new BorrowedBookInfo
                 {
                     UserId = bb.UserId,
