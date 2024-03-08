@@ -286,7 +286,7 @@ namespace E_LibraryApi.Controllers
                 apireponse.Result = borrowedBookInfo;
                 apireponse.StatusCode = HttpStatusCode.Created;
                 apireponse.IsSuccess = true;
-                return CreatedAtAction(nameof(GetUserBorrowedBooks), new { UserId = user.UserId }, borrowedBookInfo);
+                return CreatedAtAction(nameof(GetUserBorrowedBooks), new { username = user.UserName }, borrowedBookInfo);
             }
             catch (Exception)
             {
@@ -295,7 +295,7 @@ namespace E_LibraryApi.Controllers
                 return BadRequest("Can't borrow");
             }
         }
-        [HttpGet("{username}", Name = "GetBookById")]
+        [HttpGet("{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<BorrowedBookInfo>>> GetUserBorrowedBooks(string username)
