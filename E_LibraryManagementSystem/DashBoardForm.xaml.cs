@@ -32,6 +32,8 @@ namespace E_LibraryManagementSystem
         private IssueBooks issueBook;
         private static bool isReturnBookFormOpen = false;
         private ReturnBook returnBook;
+        private static bool isUserProfileFormOpen = false;
+        private UserProfle userProfile;
 
         public DashBoardForm()
         {
@@ -151,6 +153,24 @@ namespace E_LibraryManagementSystem
                 returnBook.Closed += (s, args) => { isReturnBookFormOpen = false; };
                 returnBook.Show();
             }
+        }
+
+      
+
+        private void User_Info_Click(object sender, RoutedEventArgs e)
+        {
+            if(isUserProfileFormOpen && userProfile != null)
+            {
+                userProfile.Activate();
+            }
+            else
+            {
+                isUserProfileFormOpen = true;
+                userProfile = new UserProfle();
+                userProfile.Closed += (s, args) => { isUserProfileFormOpen = false; };
+                userProfile.Show();
+            }
+
         }
     }
 }
