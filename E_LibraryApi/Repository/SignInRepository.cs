@@ -65,7 +65,7 @@ namespace E_LibraryApi.Repository
             {
                 return null;
             }
-            if(db.Users.FirstOrDefaultAsync(m=>m.UserName==username)!=null)
+            if(db.User.FirstOrDefaultAsync(m=>m.UserName==username)!=null)
             {
                 return user;
             }
