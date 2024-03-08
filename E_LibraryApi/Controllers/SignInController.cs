@@ -46,6 +46,10 @@ namespace E_LibraryApi.Controllers
             {
                 return NotFound("User Not Found");
             }
+            if (user.Password != password)
+            {
+                return BadRequest("Invalid Password");
+            }
             try
             {
                 UserRL signedInUser = await signInRepository.SignInAsync(user.UserName, user.Password);
