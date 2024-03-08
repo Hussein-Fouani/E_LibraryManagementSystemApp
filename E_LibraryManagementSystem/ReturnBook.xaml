@@ -9,7 +9,6 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
 Background="#232628"
-AllowsTransparency="True"
         Title="ReturnBook" Height="650" Width="950">
     <Grid>
         <Grid.RowDefinitions>
