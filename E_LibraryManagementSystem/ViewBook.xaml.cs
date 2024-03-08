@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -120,6 +121,11 @@ namespace E_LibraryManagementSystem
 
                     BookDto bookDto = ((FrameworkElement)sender).DataContext as BookDto;
 
+                    if(bookDto == null)
+                    {
+                        MessageBox.Show("No book selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                     BookDto updatedBook = new BookDto
                     {
                         Genre = selectedBook.Genre,
@@ -128,10 +134,12 @@ namespace E_LibraryManagementSystem
                         BookPrice = selectedBook.BookPrice,
                         ISBN = selectedBook.ISBN,
                         Language = selectedBook.Language,
+                        Id = selectedBook.Id,
                         BookPublication = selectedBook.BookPublication
                         // You may need to update other properties based on your model
                     };
                     Guid? bookId = bookList.FirstOrDefault(book => book.BookName == updatedBook.BookName)?.Id;
+                  
 
                     try
                     {
@@ -140,15 +148,17 @@ namespace E_LibraryManagementSystem
                             httpClient.BaseAddress = new Uri(BaseApiUrl);
                             httpClient.DefaultRequestHeaders.Accept.Clear();
                             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
+                            string updateUrl = $"http://localhost:5179/api/Book/{updatedBook.Id}";
                             if (bookId.HasValue)
                             {
-                                HttpResponseMessage response = await httpClient.PutAsJsonAsync($"Book/{bookDto.Id}", updatedBook);
+                                var jsonContent = new StringContent(JsonConvert.SerializeObject(updatedBook), Encoding.UTF8, "application/json");
+                                var response = await httpClient.PutAsync(updateUrl, jsonContent);
+
 
                                 if (response.IsSuccessStatusCode)
                                 {
                                     // Update the book in the UI
-                                    int index = bookList.IndexOf(selectedBook);
+                                    int index = bookList.IndexOf(bookDto);
                                     if (index != -1)
                                     {
                                         bookList[index] = updatedBook;
@@ -206,7 +216,7 @@ namespace E_LibraryManagementSystem
                     httpClient.DefaultRequestHeaders.Accept.Clear();
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    var response = await httpClient.GetStringAsync($"Book/search?query={searchQuery}");
+                    var response = await httpClient.GetStringAsync($"Book/?query={searchQuery}");
                     var books = JsonConvert.DeserializeObject<List<BookDto>>(response);
                     bookviewdatagrid.DataContext = books;
                     if (response != null)
