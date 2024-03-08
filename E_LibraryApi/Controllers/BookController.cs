@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using E_LibraryApi.Mapper;
-using E_LibraryApi.Models;
+using Azure;
 using E_LibraryApi.Models.APIResponse;
-using E_LibraryApi.Models.Dto;
 using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
-using Microsoft.AspNetCore.Http;
+using ELibrary.Domain.Models;
+using ELibrary.Domain.NewFolder;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace E_LibraryApi.Controllers
 {
@@ -19,17 +19,23 @@ namespace E_LibraryApi.Controllers
         private readonly E_LibDb db;
         private readonly IMapper mapper;
         private readonly IBookRepository bookRepository;
+        private readonly ISignInRepository signInRepository;
+        private readonly IBorrowBook borrowBook;
         protected ApiReponse apireponse;
 
-        public BookController(E_LibDb db, IMapper mapper, IBookRepository bookRepository)
+        public BookController(E_LibDb db, IMapper mapper, IBookRepository bookRepository, ISignInRepository signInRepository, IBorrowBook borrowBook)
         {
             this.db = db;
             this.mapper = mapper;
             this.bookRepository = bookRepository;
+            this.signInRepository = signInRepository;
+            this.borrowBook = borrowBook;
             apireponse = new ApiReponse();
         }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ApiReponse>> CreateBook([FromBody] BookDto book)
         {
@@ -37,17 +43,25 @@ namespace E_LibraryApi.Controllers
             {
                 if (book == null)
                 {
+                    
+                    apireponse.Result = book;
+                    apireponse.StatusCode = HttpStatusCode.Unauthorized;
+                    apireponse.ErrorMessages.Add("Couldn't Add Book");
                     return BadRequest("Couldn't Add Book");
                 }
 
                 if (await bookRepository.BookExists(book.BookName))
                 {
                     ModelState.AddModelError("BookName", "Book Name already exists");
+                    apireponse.Result = book;
+                    apireponse.StatusCode = HttpStatusCode.Unauthorized;
+                    apireponse.ErrorMessages.Add("BookName already exists");
                     return BadRequest("Book Name already exists");
+
                 }
                 if (ModelState.IsValid)
                 {
-                    var books = mapper.Map<BookModel>(book);
+                    var books = mapper.Map<Book>(book);
                     await bookRepository.CreateBook(books);
                     apireponse.Result = books;
                     apireponse.StatusCode = HttpStatusCode.Created;
@@ -65,12 +79,14 @@ namespace E_LibraryApi.Controllers
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpDelete("{Id:guid}")]
         public async Task<ActionResult<ApiReponse>> DeleteBook(Guid Id)
         {
             try
             {
-                var book = await bookRepository.GetBook(b => b.Id==Id);
+                var book = await bookRepository.GetBook(b => b.Id == Id);
 
                 if (book == null)
                 {
@@ -89,10 +105,13 @@ namespace E_LibraryApi.Controllers
                 return apireponse;
             }
         }
-        [HttpPut("{Id:guid}")]
+        [HttpPut]
+        [Route("{Id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ApiReponse>> UpdateBook([FromBody] BookDto bookdto, Guid Id)
+        public async Task<ActionResult<ApiReponse>> UpdateBook([FromBody] BookDto bookdto,[FromRoute] Guid Id)
         {
             try
             {
@@ -109,8 +128,8 @@ namespace E_LibraryApi.Controllers
                 book.BookAuthor = bookdto.BookAuthor;
                 book.BookPublication = bookdto.BookPublication;
                 book.BookPrice = bookdto.BookPrice;
-                book.BookPurhcaseDate = bookdto.BookPurhcaseDate;
-                book.BookQuantity = bookdto.BookQuantity;
+                book.IsAvailable = bookdto.IsAvailable;
+                book.Genre = bookdto.Genre;
 
                 await bookRepository.UpdateBook(book);
 
@@ -127,73 +146,193 @@ namespace E_LibraryApi.Controllers
                 return apireponse;
             }
         }
-        [HttpGet]
+        [HttpGet("all", Name = "GetAllBooks")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ApiReponse>> GetAllBooks()
-        {
-            try
-            {                
-                    var books = await bookRepository.GetAllBooks();
-                    if (books == null || books.Count == 0)
-                    {
-                        return NotFound();
-                    }
-
-                    apireponse.Result = mapper.Map<List<BookDto>>(books);
-                    apireponse.StatusCode = HttpStatusCode.OK;
-                    return Ok(apireponse);
-                
-            }
-            catch (Exception)
-            {
-
-                apireponse.IsSuccess = false;
-                apireponse.StatusCode = HttpStatusCode.NotFound;
-                return apireponse;
-            }
-        }
-
-
-        [HttpGet("search")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ApiReponse>> SearchBook([FromQuery] string bookName = null, [FromQuery] string authorName = null)
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetAllBooks()
         {
             try
             {
-                Expression<Func<BookModel, bool>> filter = null;
-
-                if (!string.IsNullOrEmpty(bookName))
-                {
-                    filter = b => b.BookName.ToLowerInvariant()==bookName.ToLowerInvariant();
-                }
-                else if (!string.IsNullOrEmpty(authorName))
-                {
-                    filter = b => b.BookAuthor.ToLowerInvariant() == authorName.ToLowerInvariant();
-                }
-
-                var books = await bookRepository.GetBook(filter);
-
-                if (books == null)
+                var books = await bookRepository.GetAllBooks();
+                if (books == null || books.Count == 0)
                 {
                     return NotFound();
                 }
 
-                apireponse.Result = mapper.Map<List<BookDto>>(books);
-                apireponse.StatusCode = HttpStatusCode.OK;
-                return Ok(apireponse);
+                var response = mapper.Map<List<BookDto>>(books);
+                
+                return Ok(response);
+
             }
             catch (Exception)
             {
-                apireponse.IsSuccess = false;
-                apireponse.StatusCode = HttpStatusCode.NotFound;
-                return apireponse;
+
+                return BadRequest("Books Not Found");
             }
         }
 
 
+        [HttpGet] 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<BookDto>>> SearchBook([FromQuery] string query)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(query))
+                {
+                    return BadRequest("Search query is required.");
+                }
 
+                var allBooks = await bookRepository.GetAllBooks();
+                var filteredResults = allBooks
+                    .Where(book =>
+                        book.BookName.ToUpper().Contains(query.ToUpper()) ||
+                        book.BookAuthor.ToUpper().Contains(query.ToUpper()) ||
+                        book.Genre.ToUpper().Contains(query.ToUpper()) ||
+                        book.ISBN.ToUpper().Contains(query.ToUpper()) ||
+                        book.Language.ToUpper().Contains(query.ToUpper()) ||
+                        book.BookPublication.ToUpper().Contains(query.ToUpper()) ||
+                        book.IsAvailable
+                    )
+                    .Select(book => new BookDto
+                    {
+                        Id = book.Id,
+                        BookName = book.BookName,
+                        BookAuthor = book.BookAuthor,
+                        Genre = book.Genre,
+                        BookPublication = book.BookPublication,
+                        ISBN = book.ISBN,
+                        Language = book.Language,
+                        BookPrice = book.BookPrice,
+                        IsAvailable = book.IsAvailable,
+                    })
+                    .ToList();
+
+                if (filteredResults.Count == 0)
+                {
+                    return NotFound("No matching books found.");
+                }
+
+                return Ok(filteredResults);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+
+        [HttpPost("addborrowedbook")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<BorrowedBookInfo>> AddBorrowedBook(string username, string BookName)
+        {
+            try
+            {
+                // Check if the user exists
+                var user = await signInRepository.GetUser(username);
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Check if the book exists
+                var book = await bookRepository.GetBook(i => i.BookName == BookName);
+                if (book == null)
+                {
+                    return NotFound("Book not found.");
+                }
+
+                // Check if the book is available for borrowing
+                if (!book.IsAvailable)
+                {
+                    apireponse.ErrorMessages.Add("Book is not available for borrowing.");
+                    apireponse.IsSuccess =false;
+                    apireponse.StatusCode=HttpStatusCode.NotAcceptable;
+                    return BadRequest("not available");
+                }
+                // Update book availability status
+                await bookRepository.UpdateBookAvailability(BookName, false);
+
+                // Record the book borrowing in the database
+                var borrowRecord = new BorrowedBooks
+                {
+                    UserId = user.UserId,
+                    BookId = book.Id,
+                    BorrowDate = DateTime.Now.Date.ToShortDateString(),
+                    ReturnDate = DateTime.UtcNow.Date.AddDays(14).ToShortDateString()
+                };
+                await borrowBook.CreateBorrowBook(borrowRecord);
+                // Return relevant information about the borrowed book
+                var borrowedBookInfo = new BorrowedBookInfo
+                {
+                    UserId = user.UserId,
+                    UserName = user.UserName,
+                    BookId = book.Id,
+                    BookName = book.BookName,
+                    Author = book.BookAuthor,
+                    Genre = book.Genre,
+                    BookPublication = book.BookPublication,
+                    ISBN = book.ISBN,
+                    Language = book.Language,
+                    BookPrice = book.BookPrice,
+                    BorrowDate = borrowRecord.BorrowDate,
+                    ReturnDate = borrowRecord.ReturnDate
+                };
+
+                apireponse.Result = borrowedBookInfo;
+                apireponse.StatusCode = HttpStatusCode.Created;
+                apireponse.IsSuccess = true;
+                return CreatedAtAction(nameof(GetUserBorrowedBooks), new { UserId = user.UserId }, borrowedBookInfo);
+            }
+            catch (Exception)
+            {
+                apireponse.IsSuccess = false;
+                apireponse.StatusCode = HttpStatusCode.InternalServerError;
+                return BadRequest("Can't borrow");
+            }
+        }
+        [HttpGet("{userId:guid}",Name = "GetBookById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<BorrowedBookInfo>>> GetUserBorrowedBooks(Guid userId)
+        {
+            try
+            {
+                var borrowedBooks = await borrowBook.GetAllBorrowBook();
+                // Retrieve user's borrowed books with related book details
+                var userBorrowedBooks = borrowedBooks
+                .Where(bb => bb.UserId == userId)
+                .Select(bb => new BorrowedBookInfo
+                {
+                    UserId = bb.UserId,
+                    BookId = bb.BookId,
+                    BookName = bb.Book.BookName,
+                    Author = bb.Book.BookAuthor,
+                    Genre = bb.Book.Genre,
+                    BookPublication = bb.Book.BookPublication,
+                    BookPrice = bb.Book.BookPrice,
+                    BorrowDate = bb.BorrowDate,
+                    ISBN = bb.Book.ISBN,
+                    Language = bb.Book.Language,
+                    UserName = bb.User.UserName,
+                    ReturnDate = bb.ReturnDate
+                })
+                .ToList();
+
+                // Return the result
+                return Ok(userBorrowedBooks);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
 
 
     }
