@@ -17,15 +17,14 @@ namespace E_LibraryManagementSystem
 
             InitializeComponent();
 
-
+            
         }
 
 
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            DashBoardForm dashboard = new DashBoardForm();
-            dashboard.Show();
+            Application.Current.Shutdown();
         }
 
         private void Sign_UPBtn_Click(object sender, RoutedEventArgs e)
