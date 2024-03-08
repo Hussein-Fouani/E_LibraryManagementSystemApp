@@ -7,28 +7,26 @@
          xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        AllowsTransparency="True"
-        WindowStyle="None"
+        WindowStyle="SingleBorderWindow"
         Background="#232628"
         Title="AddStudent" Height="550" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+
         </Grid.ColumnDefinitions>
-        <StackPanel  HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" Height="Auto">
-            <Image Source="\Images/studenticon.png" Height="110" Width="130"/>
+        <StackPanel HorizontalAlignment="Center" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Height="Auto">
+            <Image Source="\Images/studenticon.png"  Height="110" Width="130"/>
             <TextBlock VerticalAlignment="Center" Text="Add Student" FontSize="25" Foreground="White" FontWeight="Bold" Margin="10,0,0,0"/>
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <!-- Left Image -->
-            <Image HorizontalAlignment="Left" Height="400" Stretch="Fill" Width="300" gif:ImageBehavior.RepeatBehavior="5x" gif:ImageBehavior.AnimatedSource="\Images/Baamboozle.gif"/>
+            <Image  Height="400" Grid.Row="1" Grid.Column="0" Stretch="Fill" Width="300" gif:ImageBehavior.RepeatBehavior="500x" gif:ImageBehavior.AnimatedSource="\Images/Baamboozle.gif"/>
 
             <!-- Right Student Details StackPanel -->
             <StackPanel Background="#232630" x:Name="StudentSubForm" VerticalAlignment="Top" Margin="60,30,60,30" >

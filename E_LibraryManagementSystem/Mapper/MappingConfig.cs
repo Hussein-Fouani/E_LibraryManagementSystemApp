@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using E_LibraryManagementSystem.Models;
-using E_LibraryManagementSystem.Models.Dto;
+using ELibrary.Domain.Models;
+using ELibrary.Domain.NewFolder;
 
 
 namespace E_LibraryManagementSystem.Mapper
@@ -9,9 +9,9 @@ namespace E_LibraryManagementSystem.Mapper
     {
         public MappingConfig()
         {
-            CreateMap<BookModel, BookDto>().ReverseMap();
-            CreateMap<SignInModel,SignInDto>().ReverseMap();
+            CreateMap<Book, BookDto>().ReverseMap();
             CreateMap<Student, StudentDto>().ReverseMap();
+            CreateMap<SignUp, SignUPDto>().ReverseMap();
         }
     }
 }

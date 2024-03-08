@@ -1,7 +1,6 @@
-﻿using E_LibraryApi.Models;
-using E_LibraryApi.Models.APIResponse;
-using E_LibraryApi.Repository.IRepository;
+﻿using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
+using ELibrary.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -10,7 +9,7 @@ namespace E_LibraryApi.Repository
     public class BookRepository : IBookRepository
     {
         private readonly E_LibDb db;
-        protected ApiReponse apiReponse;
+        
         public BookRepository(E_LibDb db)
         {
             this.db = db;
@@ -28,21 +27,21 @@ namespace E_LibraryApi.Repository
 
         }
 
-        public async Task CreateBook(BookModel book)
+        public async Task CreateBook(Book book)
         {
             await db.Book.AddAsync(book);
             await Save();
         }
 
-        public async Task DeleteBook(BookModel bookId)
+        public async Task DeleteBook(Book bookId)
         {
             db.Book.Remove(bookId);
             await Save();
         }
 
-        public async Task<BookModel> GetBook(Expression<Func<BookModel, bool>> filter = null)
+        public async Task<Book> GetBook(Expression<Func<Book, bool>> filter = null)
         {
-            IQueryable<BookModel> books = db.Book;
+            IQueryable<Book> books = db.Book;
             
             if (filter != null)
             {
@@ -52,7 +51,7 @@ namespace E_LibraryApi.Repository
 
         }
 
-        public async Task<List<BookModel>> GetAllBooks()
+        public async Task<List<Book>> GetAllBooks()
         {
             return await db.Book.ToListAsync();
         }
@@ -62,9 +61,22 @@ namespace E_LibraryApi.Repository
             await db.SaveChangesAsync();
         }
 
-        public async Task UpdateBook(BookModel book)
+        public async Task UpdateBook(Book book)
         {
             db.Book.Update(book);
+            await Save();
+        }
+        public async Task BorrowBook(Book book)
+        {
+           var b= await db.FindAsync<Book>(book);
+            b.IsAvailable = false;
+            await Save();
+        }
+
+        public async Task UpdateBookAvailability(string bookId, bool isAvailable)
+        {
+            var book = await db.Book.FirstOrDefaultAsync(u => u.BookName == bookId);
+            book.IsAvailable = isAvailable;
             await Save();
         }
     }

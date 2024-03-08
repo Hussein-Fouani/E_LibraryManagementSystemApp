@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -23,6 +23,7 @@
     <None Remove="Images\addbookicon.jpg" />
     <None Remove="Images\Baamboozle.gif" />
     <None Remove="Images\bookicon.png" />
+    <None Remove="Images\BorrowImage.gif" />
     <None Remove="Images\compiled.gif" />
     <None Remove="Images\DigitalLibrary.png" />
     <None Remove="Images\loadingbox.png" />
@@ -54,14 +55,15 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.3.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.1" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.4.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ELibrary.Domain\ELibrary.Domain.csproj" />
     <ProjectReference Include="..\E_LibraryApi\E_LibraryApi.csproj" />
-    <ProjectReference Include="..\E_Library_Utilities\E_Library_Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +74,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\bookicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\BorrowImage.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\compiled.gif">

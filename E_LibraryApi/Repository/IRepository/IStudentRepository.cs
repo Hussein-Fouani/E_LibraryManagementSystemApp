@@ -1,6 +1,4 @@
-﻿using E_LibraryApi.Models;
-using E_LibraryApi.Models.Dto;
-using Microsoft.AspNetCore.Mvc;
+﻿using ELibrary.Domain.Models;
 using System.Linq.Expressions;
 
 namespace E_LibraryApi.Repository.IRepository

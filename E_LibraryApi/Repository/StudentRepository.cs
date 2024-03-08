@@ -1,7 +1,6 @@
-﻿using E_LibraryApi.Models;
-using E_LibraryApi.Models.Dto;
-using E_LibraryApi.Repository.IRepository;
+﻿using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
+using ELibrary.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

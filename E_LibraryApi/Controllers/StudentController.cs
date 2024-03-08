@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using E_LibraryApi.Models;
 using E_LibraryApi.Models.APIResponse;
-using E_LibraryApi.Models.Dto;
-using E_LibraryApi.Repository;
 using E_LibraryApi.Repository.IRepository;
+using ELibrary.Domain.Models;
+using ELibrary.Domain.NewFolder;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -58,7 +57,7 @@ namespace E_LibraryApi.Controllers
                 return apiResponse;
             }
         }
-        [HttpGet("{Id:guid}")]
+        [HttpGet("{Id:guid}",Name = "GetStudentById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

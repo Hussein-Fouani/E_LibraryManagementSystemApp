@@ -5,14 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        AllowsTransparency="True"
-        Height="1100"
-        Width="900"
-        
+        Height="550"
+        Width="1100"
         Background="#232628"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="Manual"
         Title="ViewBook">
-    
+
 
     <Grid>
         <Grid.RowDefinitions>
@@ -28,45 +26,46 @@
 
         <!-- First StackPanel for the First Row -->
         <StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" Height="Auto">
-            <Image gif:ImageBehavior.RepeatBehavior="5x" gif:ImageBehavior.AnimatedSource="\Images/viewImage.gif" Height="110" Width="130"/>
+            <Image gif:ImageBehavior.RepeatBehavior="500x" gif:ImageBehavior.AnimatedSource="\Images/viewImage.gif" Height="110" Width="130"/>
             <TextBlock VerticalAlignment="Center" Text="View Book" FontSize="25" Foreground="White" FontWeight="Bold" Margin="10,0,0,0"/>
         </StackPanel>
 
         <!-- Second StackPanel for the Second Row -->
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal" Height="Auto">
             <TextBlock VerticalAlignment="Center" Text="Book Name" FontSize="25" Foreground="White" FontWeight="Bold" Margin="10,0,0,0"/>
-            <TextBox Name="SearchBookName" Height="30" Width="200" Margin="10,0,0,0"/>
-            <Button x:Name="SearchBook" Content="Search" Height="30" Width="100" Margin="10,0,0,0" Click="SearchBook_Click"/>
+            <TextBox Name="SearchBookName" Height="30" Width="200" Margin="10,0,0,0"  />
+            <Button x:Name="SearchBook" Content="Search" Height="30" Width="100" Margin="10,0,0,0" Click="SearchBook_Click" />
         </StackPanel>
 
-        <DataGrid Margin="10,10,10,0" Height="500" x:Name="bookviewdatagrid" Background="#323232" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="True"  ItemsSource="{Binding bookList, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="bookviewdatagrid_SelectionChanged" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Book Name" Binding="{Binding BookID}" Width="*"/>
-                <DataGridTextColumn Header="Author Name" Binding="{Binding BookName}" Width="*"/>
-                <DataGridTextColumn Header="Book Price" Width="*"/>
-                <DataGridTextColumn Header="Book Publication" Width="*"/>
-                <DataGridTextColumn Header="Book Quantity" Width="*"/>
-                <DataGridTextColumn Header="Purchase Date" Width="*"/>
+        <DataGrid Margin="10,10,10,0" Height="300" x:Name="bookviewdatagrid" Background="#323232" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False" ItemsSource="{Binding}" >
+            <DataGrid.Columns >
+                <DataGridTextColumn  IsReadOnly="True"  CanUserSort="True"  Header="Book Id" Binding="{Binding Path=Id}" Width="*"/>
+                <DataGridTextColumn CanUserSort="True" Header="Book Name" Binding="{Binding Path=BookName}" Width="*"/>
+                <DataGridTextColumn CanUserSort="True" Header="Author Name" Binding="{Binding Path=BookAuthor}" Width="*"/>
+                <DataGridTextColumn CanUserSort="True" Header="Book Price" Binding="{Binding Path=BookPrice}" Width="*"/>
+                <DataGridTextColumn CanUserSort="True" Header="Book Publication" Binding="{Binding Path=BookPublication}" Width="*"/>
+                <DataGridTextColumn CanUserSort="True" Header="ISBN " Binding="{Binding Path=ISBN}" Width="*"/>
+                <DataGridTextColumn CanUserSort="True" Header="BookGenre" Binding="{Binding Path=Genre}" Width="*"/>
+                <DataGridTextColumn CanUserSort="True" Header="Book Language" Binding="{Binding Path=Language}" Width="*"/>
+                <DataGridTextColumn  IsReadOnly="True" CanUserSort="True" Header="Book Availability" Binding="{Binding Path=IsAvailable}" Width="*"/>
+                <DataGridTemplateColumn Header="Edit Book" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Background="DarkOrange" FontSize="15" Content="Edit" Foreground="white" x:Name="updatebtn" Click="updatebtn_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Delete Book" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Background="Red" FontSize="15" Content="Delete" Foreground="white" Click="deletebtn_Click"  x:Name="deletebtn"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid  HeadersVisibility="None" Margin="10,18,10,10" VerticalAlignment="Bottom" Height="400" x:Name="bookeditdatagrid" Background="#323232" Grid.Row="3" Grid.ColumnSpan="2" AutoGenerateColumns="True"  ItemsSource="{Binding bookModel, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="bookeditdatagrid_SelectionChanged">
-        </DataGrid>
-        <TextBlock Grid.Column="0" FontSize="18" FontWeight="Black" Foreground="white"  HorizontalAlignment="Left" Margin="126,89,0,0" Grid.Row="3" TextWrapping="Wrap" Text="BookName" VerticalAlignment="Top" RenderTransformOrigin="-6.482,0.237"/>
-        <TextBox Grid.Column="1" x:Name="BookNameTextBox" HorizontalAlignment="Left" Margin="48,95,0,0" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" Height="auto"/>
-        <DatePicker x:Name="PurchaseDate" Grid.Column="1" HorizontalAlignment="Left" Margin="423,95,0,0" Grid.Row="3"  VerticalAlignment="Top" Width="180" Height="auto"/>
-        <TextBlock x:Name="PurchaseDatetext" Grid.Column="1" FontSize="18" FontWeight="Black" Foreground="white"  HorizontalAlignment="Center" Margin="0,89,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Purchase Date" VerticalAlignment="Top" RenderTransformOrigin="-6.482,0.237"/>
-        <TextBlock Grid.Column="0" FontSize="18" FontWeight="Black" Foreground="white"  HorizontalAlignment="Left" Margin="126,178,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Author Name" VerticalAlignment="Top" RenderTransformOrigin="-6.482,0.237" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="authortxtbox" Grid.Column="1" HorizontalAlignment="Left" Margin="46,184,0,0" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" Height="auto"/>
-        <TextBlock Grid.Column="1" FontSize="18" FontWeight="Black" Foreground="white"  HorizontalAlignment="Center" Margin="0,183,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Book Price" VerticalAlignment="Top" RenderTransformOrigin="-6.482,0.237"/>
-        <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="423,184,0,0" x:Name="bookpricetxtbox" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" Height="auto" RenderTransformOrigin="0.498,-1.515"/>
-        <TextBlock Grid.Column="0" FontSize="18" FontWeight="Black" Foreground="white"  HorizontalAlignment="Left" Margin="110,280,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Book Publication" VerticalAlignment="Top" RenderTransformOrigin="-6.482,0.237" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="publicationtxtbox" Grid.Column="1" HorizontalAlignment="Left" Margin="46,283,0,0" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" Height="auto" RenderTransformOrigin="0.401,7.115"/>
-        <TextBlock Grid.Column="1" FontSize="18" FontWeight="Black" Foreground="white"  HorizontalAlignment="Center" Margin="0,277,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Book Quantity" VerticalAlignment="Top" RenderTransformOrigin="-6.482,0.237"/>
-        <TextBox x:Name="quantitytxtbox" Grid.Column="1" HorizontalAlignment="Left" Margin="423,283,0,0" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" Height="auto" RenderTransformOrigin="0.498,-1.515"/>
-        <Button Background="DarkOrange" FontSize="15" Foreground="white" x:Name="updatebtn" Grid.Column="1" Content="Update" HorizontalAlignment="Left" Margin="280,347,0,0" Grid.Row="3" VerticalAlignment="Top" Height="26" Width="78" Click="updatebtn_Click"/>
-        <Button Background="Red" FontSize="15" Foreground="white"  x:Name="deletebtn" Grid.Column="1" Content="Delete" HorizontalAlignment="Left" Margin="382,347,0,0" Grid.Row="3" VerticalAlignment="Top" Height="26" Width="78" Click="deletebtn_Click"/>
-        <Button Background="blue" FontSize="15" Foreground="white" x:Name="cancelbtn" Grid.Column="1" Content="Cancel" HorizontalAlignment="Left" Margin="499,347,0,0" Grid.Row="3" VerticalAlignment="Top" Height="26" Width="78" RenderTransformOrigin="0.073,0.492" Click="cancelbtn_Click"/>
 
     </Grid>
 </Window>

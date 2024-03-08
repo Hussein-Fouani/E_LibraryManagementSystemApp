@@ -1,58 +1,49 @@
-﻿using E_LibraryApi.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+﻿using E_LibraryApi.Models.APIResponse;
+using ELibrary.Domain.Models;
+using ELibrary.Domain.NewFolder;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using static System.Reflection.Metadata.BlobBuilder;
+
 
 namespace E_LibraryManagementSystem
 {
-  
+
     public partial class ViewBook : Window
     {
-        
-        public ObservableCollection<BookModel> bookList { get; set; }
-        public BookModel bookModel { get; set; }
+        private readonly HttpClient httpClient = new HttpClient();
+        private ObservableCollection<BookDto> bookList = new ObservableCollection<BookDto>();
+        private const string BaseApiUrl = "http://localhost:5179/api/";
+
         public ViewBook()
         {
             InitializeComponent();
-            bookModel = new BookModel();
-            DataContext = this;
+            GetBooksFromApi();
+            this.DataContext = bookList;
         }
-        
-        private async Task LoadBooksFromApi(string bookname = null)
+
+        private async void GetBooksFromApi()
         {
             try
             {
-                using (HttpClient client = new HttpClient())
+                httpClient.BaseAddress = new Uri(BaseApiUrl);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await httpClient.GetStringAsync("Book/all");
+                var books = JsonConvert.DeserializeObject<List<BookDto>>(response);
+                bookviewdatagrid.DataContext = books;
+                if (books != null)
                 {
-                    HttpResponseMessage response;
+                    if (books != null)
+                    {
 
-                    if (!string.IsNullOrEmpty(bookname))
-                    {
-                        response = await client.GetAsync($"https://localhost:44360/api/Book?name={bookname}");
-                    }
-                    else
-                    {
-                        response = await client.GetAsync("https://localhost:44360/api/Book");
-                    }
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var content = await response.Content.ReadAsStringAsync();
-                        var books = JsonConvert.DeserializeObject<List<BookModel>>(content);
                         foreach (var book in books)
                         {
                             bookList.Add(book);
@@ -60,99 +51,194 @@ namespace E_LibraryManagementSystem
                     }
                     else
                     {
-                        MessageBox.Show($"Error loading books: {response.ReasonPhrase}");
+                        throw new Exception("Error getting books from API: Empty response");
+                    }
+                }
+                else
+                {
+                    throw new Exception($"Error getting books from API: {response}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error getting books from API: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        private async void deletebtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to Delete this", "Confirmation Dialog", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+            {
+                if (bookviewdatagrid.SelectedItem != null)
+                {
+                    BookDto book = (BookDto)bookviewdatagrid.SelectedItem;
+                    BookDto books = ((FrameworkElement)sender).DataContext as BookDto;
+
+                    try
+                    {
+                        using (HttpClient httpClient = new HttpClient())
+                        {
+                            httpClient.BaseAddress = new Uri(BaseApiUrl);
+                            httpClient.DefaultRequestHeaders.Accept.Clear();
+                            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                            HttpResponseMessage response = await httpClient.DeleteAsync($"Book/{books.Id}");
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                // Remove the deleted book from the list
+                                bookList.Remove(book);
+                                // Refresh the datagrid
+                                bookviewdatagrid.Items.Refresh();
+
+                                MessageBox.Show("Book deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Failed to delete book. Status code: {response.StatusCode}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+
+
+
+        private async void updatebtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to Update this", "Update Book", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                if (bookviewdatagrid.SelectedItem != null)
+                {
+                    BookDto selectedBook = (BookDto)bookviewdatagrid.SelectedItem;
+
+                    BookDto bookDto = ((FrameworkElement)sender).DataContext as BookDto;
+
+                    BookDto updatedBook = new BookDto
+                    {
+                        Genre = selectedBook.Genre,
+                        BookName = selectedBook.BookName,
+                        BookAuthor = selectedBook.BookAuthor,
+                        BookPrice = selectedBook.BookPrice,
+                        ISBN = selectedBook.ISBN,
+                        Language = selectedBook.Language,
+                        BookPublication = selectedBook.BookPublication
+                        // You may need to update other properties based on your model
+                    };
+                    Guid? bookId = bookList.FirstOrDefault(book => book.BookName == updatedBook.BookName)?.Id;
+
+                    try
+                    {
+                        using (HttpClient httpClient = new HttpClient())
+                        {
+                            httpClient.BaseAddress = new Uri(BaseApiUrl);
+                            httpClient.DefaultRequestHeaders.Accept.Clear();
+                            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                            if (bookId.HasValue)
+                            {
+                                HttpResponseMessage response = await httpClient.PutAsJsonAsync($"Book/{bookDto.Id}", updatedBook);
+
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    // Update the book in the UI
+                                    int index = bookList.IndexOf(selectedBook);
+                                    if (index != -1)
+                                    {
+                                        bookList[index] = updatedBook;
+                                    }
+
+                                    MessageBox.Show("Book updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                                }
+                                else if (response.StatusCode == HttpStatusCode.NotFound)
+                                {
+                                    MessageBox.Show("Book not found on the server.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
+                                else
+                                {
+                                    var errorContent = await response.Content.ReadAsStringAsync();
+                                    MessageBox.Show($"Failed to update book. Status code: {response.StatusCode} Error: {errorContent}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Failed to update book. Status code:", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+
+
+
+
+
+        private async void SearchBook_Click(object sender, RoutedEventArgs e)
+        {
+            string searchQuery = SearchBookName.Text.Trim();
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                MessageBox.Show("Search query is required.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            await SearchBooks(searchQuery);
+        }
+
+        private async Task SearchBooks(string searchQuery)
+        {
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(BaseApiUrl);
+                    httpClient.DefaultRequestHeaders.Accept.Clear();
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    var response = await httpClient.GetStringAsync($"Book/search?query={searchQuery}");
+                    var books = JsonConvert.DeserializeObject<List<BookDto>>(response);
+                    bookviewdatagrid.DataContext = books;
+                    if (response != null)
+                    {
+                        if (books.Count > 0)
+                        {
+                            bookList.Clear();
+                            foreach (var book in books)
+                            {
+                                bookList.Add(book);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("No books found.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"API request failed with status code {response}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Can't fetch data: {ex.Message}");
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
 
-        private async void SearchBook_Click(object sender, RoutedEventArgs e)
-        {
-            var bookname = SearchBookName.Text;
-           await LoadBooksFromApi(bookname);
-            bookviewdatagrid.Items.Refresh();
 
-        }
-
-        
-      
-
-        private void bookeditdatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void deletebtn_Click(object sender, RoutedEventArgs e)
-        {
-            if(MessageBox.Show("Are you sure to Delete this  ","Confirmation Dialog",MessageBoxButton.YesNo,MessageBoxImage.Warning,MessageBoxResult.Yes)==MessageBoxResult.Yes)
-            {
-                if (bookviewdatagrid.SelectedItem != null)
-                {
-                    BookModel book = (BookModel)bookviewdatagrid.SelectedItem;
-                    var bookname = book.BookName;
-
-                    bookList.Remove(book);
-                    bookviewdatagrid.Items.Refresh();
-                }
-            }
-            
-        }
-
-        private void updatebtn_Click(object sender, RoutedEventArgs e)
-        {
-            if(MessageBox.Show("Are you sure to Update this  ","Update Book",MessageBoxButton.YesNo,MessageBoxImage.Warning,MessageBoxResult.Yes)==MessageBoxResult.Yes)
-            {
-                if (bookviewdatagrid.SelectedItem != null)
-                {
-                    BookModel book = (BookModel)bookviewdatagrid.SelectedItem;
-                    BookModel model = new BookModel();
-                     model.BookName = book.BookName;
-                    model.Id = book.Id;
-                    model.BookAuthor = book.BookAuthor;
-                    model.BookPrice = book.BookPrice;
-                    model.BookQuantity = book.BookQuantity;
-                    model.BookPublication = book.BookPublication;
-                    model.BookPurhcaseDate = book.BookPurhcaseDate;
-
-                    
-                    bookviewdatagrid.Items.Refresh();
-                }
-            }
-            
-        }
-
-        private void cancelbtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.bookeditdatagrid.Visibility = Visibility.Hidden;
-        }
-
-        private void bookviewdatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (bookviewdatagrid.SelectedItems != null)
-            {
-                BookModel book = (BookModel)bookviewdatagrid.SelectedItem;
-                bookModel.BookName = book.BookName;
-                bookModel.BookAuthor = book.BookAuthor;
-                bookModel.BookPrice = book.BookPrice;
-                bookModel.BookQuantity = book.BookQuantity;
-                bookModel.BookPublication = book.BookPublication;
-                bookModel.BookPurhcaseDate = book.BookPurhcaseDate;
-            }
-            if (bookviewdatagrid.SelectedCells.Count > 0)
-            {
-                var selectedBook = bookviewdatagrid.SelectedItem as BookModel;
-                if (selectedBook != null)
-                {
-                    bookeditdatagrid.Visibility = Visibility.Visible;
-                    bookModel = selectedBook;
-                    bookeditdatagrid.DataContext = bookModel;
-                }
-            }
-        }
     }
+
 }
+

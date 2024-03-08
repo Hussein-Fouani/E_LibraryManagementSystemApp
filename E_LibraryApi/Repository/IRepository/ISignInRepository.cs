@@ -1,11 +1,11 @@
-﻿using E_LibraryManagementSystem.Models;
+﻿using ELibrary.Domain.Models;
 
 namespace E_LibraryApi.Repository.IRepository
 {
     public interface ISignInRepository
     {
         
-        Task<bool> AuthenticateAsync(string userName, string password);
-        Task<SignInModel> SignInAsync(SignInModel model);
+        Task<UserRL> GetUser(string userName);
+        Task<UserRL> SignInAsync(string username,string password );
     }
 }

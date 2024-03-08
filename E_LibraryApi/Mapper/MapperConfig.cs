@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using E_LibraryApi.Models;
-using E_LibraryApi.Models.Dto;
-using E_LibraryManagementSystem.Models;
+using ELibrary.Domain.Models;
+using ELibrary.Domain.NewFolder;
 
 namespace E_LibraryApi.Mapper
 {
@@ -9,9 +8,8 @@ namespace E_LibraryApi.Mapper
     {
         public MapperConfig()
         {
-            CreateMap<Models.BookModel, Models.Dto.BookDto>().ReverseMap();
-            CreateMap<SignInModel, Models.Dto.SignInDto>().ReverseMap();
-            CreateMap<Student,StudentDto>().ReverseMap();
+            CreateMap<Book, BookDto>().ReverseMap();
+            CreateMap<SignUp,UserRL>().ReverseMap();
             
         }
     }

@@ -1,17 +1,11 @@
-﻿using E_LibraryApi.Models.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ELibrary.Domain.Models;
+using ELibrary.Domain.NewFolder;
+using System.Collections.ObjectModel;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using E_LibraryApi.Models.APIResponse;
 
 namespace E_LibraryManagementSystem
 {
@@ -20,78 +14,61 @@ namespace E_LibraryManagementSystem
     /// </summary>
     public partial class IssueBooks : Window
     {
-        StudentDto student;
+        private ObservableCollection<BorrowedBookInfo> bookList = new ObservableCollection<BorrowedBookInfo>();
         public IssueBooks()
         {
             InitializeComponent();
+            this.DataContext = bookList;
         }
 
         
 
-        private void ExitBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if(MessageBox.Show("Are you sure you want to exit?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                this.Close();
-            }
-        }
 
-        private void RefreshBtn_Click(object sender, RoutedEventArgs e)
+        private async void BorrowButton_Click(object sender, RoutedEventArgs e)
         {
-            if(MessageBox.Show("Are you sure you want to refresh?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                this.Close();
-                IssueBooks issueBooks = new IssueBooks();
-                issueBooks.Show();
-            }
-        }
+            string apiUrl = "http://localhost:5179/api/Book/addborrowedbook";
+          
 
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
-        {
-           string queryname = Searchtxtbox.Text;
-            //check if the user is valid else , issue messagebox
-            if (string.IsNullOrEmpty(queryname))
+            if (string.IsNullOrEmpty(usernametxtbox.Text) || string.IsNullOrEmpty(booknametxtbox.Text))
             {
-                MessageBox.Show("Please enter a valid name", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                MessageBox.Show("Please Enter the Required Info To Borrow The Book","Missing Required Info",MessageBoxButton.OK,MessageBoxImage.Error);
             }
-
-        }
-
-        private void Issuebtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (AreTextBoxesNullOrEmpty(IssueSubForm))
+            string username = usernametxtbox.Text;
+            string bookName = booknametxtbox.Text;
+            try
             {
-                MessageBox.Show("Please fill in all the required fields.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            StudentDto dto = new StudentDto();
-            dto.StudentName = IssueStudentName.Text;
-            dto.StudentContact = Convert.ToInt32(IssueStudent_contacttxtbox.Text);
-            dto.StudentEmail = Emailtxtbox.Text;
-            dto.Department = IssueDepartmenttxtbox.Text;
-            dto.BookName = IssuebooksText.Text;
-            dto.BookIssueDate = IssueDate.SelectedDate.Value;
-        }
-        private bool AreTextBoxesNullOrEmpty(StackPanel stackPanel)
-        {
-            foreach (var child in stackPanel.Children)
-            {
-                if (child is StackPanel innerStackPanel)
+                using (HttpClient client = new HttpClient())
                 {
-                    
-                    if (!AreTextBoxesNullOrEmpty(innerStackPanel))
-                        return false;
-                }
-                else if (child is TextBox textBox)
-                {
-                    if (string.IsNullOrEmpty(textBox.Text))
-                        return true;
+                    string requestUrl = $"{apiUrl}?username={username}&BookName={bookName}";
+
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    HttpResponseMessage response = await client.PostAsync(requestUrl, null);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Read the response content and deserialize it to BorrowedBookInfo
+                        var borrowinfo= await response.Content.ReadAsAsync<BorrowedBookInfo>();
+                        if (borrowinfo != null)
+                        {
+                            bookList.Add(borrowinfo);
+                            BorrowBookDataGrid.ItemsSource = bookList;
+                            MessageBox.Show("Book Borrowed Successfully", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Information);
+                            
+                        }
+                        MessageBox.Show("Can't Borrow This Book", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        throw new Exception($"API Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    }
                 }
             }
+            catch (Exception)
+            {
 
-            return false; 
+                throw;
+            }
         }
-
     }
 }

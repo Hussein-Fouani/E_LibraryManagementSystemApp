@@ -1,5 +1,4 @@
-﻿using E_LibraryApi.Models;
-using E_LibraryManagementSystem.Db;
+﻿using ELibrary.Domain.NewFolder;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,7 +8,7 @@ using TextBox = System.Windows.Controls.TextBox;
 
 namespace E_LibraryManagementSystem
 {
-    
+
     public partial class AddBookForm : Window
     {
         HttpClient client = new HttpClient();
@@ -45,62 +44,76 @@ namespace E_LibraryManagementSystem
         }
 
 
-        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        private async void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            double priceBox=0.0;
             if (AreTextBoxesFilled())
             {
                 try
                 {
-
                     if (double.TryParse(Book_Price.Text, out double price))
-                    { 
-                        priceBox = price;
+                    {
+                        var bookModel = new BookDto
+                        {
+                            BookName = txtBookName.Text,
+                            BookAuthor = BookAuthor.Text,
+                            BookPrice = price,
+                            ISBN = BookQuantity.Text,
+                            BookPublication = BookPublication.Text,
+                            Language = PurchaseDate.Text,
+                            IsAvailable = true,
+                            Genre = BookGenre.Text
+                        };
+
+                        using (HttpClient client = new HttpClient())
+                        {
+                            client.BaseAddress = new Uri("https://localhost:5179/api/Book");
+                            client.DefaultRequestHeaders.Clear();
+                            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                            var response = await client.PostAsJsonAsync("Book", bookModel);
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                MessageBox.Show("Book Added Successfully!");
+                                this.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Failed to save the book. {response.ReasonPhrase}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                        }
                     }
                     else
                     {
                         MessageBox.Show("Invalid price format. Please enter a valid number.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-
-                    Int32 quantity = Int32.Parse(BookQuantity.Text);
-
-                    if (MessageBox.Show("Are you sure to save this book?", "Save Book", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
-                    {
-                        BookModel bookModel = new BookModel()
-                        {
-                            BookName = txtBookName.Text,
-                            BookAuthor = BookAuthor.Text,
-                            BookPrice = priceBox,
-                            BookQuantity = quantity,
-                            BookPublication = BookPublication.Text,
-                            BookPurhcaseDate = PurchaseDate.SelectedDate.Value
-                        };
-                        MessageBox.Show("Book Saved Successfully", "Save Book", MessageBoxButton.OK, MessageBoxImage.Information);
-                        CancelBtn_Click(sender, e);
-                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show($"HTTP Request Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
             {
                 MessageBox.Show("Please fill in all the required fields.", "Incomplete Data", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-
         }
 
-        
+
+
         private bool AreTextBoxesFilled()
         {
-            
+
             return !string.IsNullOrWhiteSpace(txtBookName.Text) &&
                    !string.IsNullOrWhiteSpace(BookAuthor.Text) &&
                    !string.IsNullOrWhiteSpace(Book_Price.Text) &&
                    !string.IsNullOrWhiteSpace(BookQuantity.Text) &&
                    !string.IsNullOrWhiteSpace(BookPublication.Text) &&
-                   PurchaseDate.SelectedDate != null;
+                   PurchaseDate.Text != null;
         }
     }
 }

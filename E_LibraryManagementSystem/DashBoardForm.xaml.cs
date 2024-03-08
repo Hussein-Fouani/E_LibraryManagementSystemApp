@@ -38,10 +38,7 @@ namespace E_LibraryManagementSystem
             InitializeComponent();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
 
         private void _LogOut_Click(object sender, RoutedEventArgs e)
         {
@@ -89,7 +86,7 @@ namespace E_LibraryManagementSystem
                 // If not open, set the flag to true
                 isViewBookFormOpen = true;
 
-                // Create and show the AddBookForm
+                // Create and show the 
                 viewbook = new ViewBook();
                 viewbook.Closed += (s, args) => { isViewBookFormOpen = false; };
                 viewbook.Show();

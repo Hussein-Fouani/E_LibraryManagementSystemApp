@@ -9,39 +9,41 @@
         AllowsTransparency="True"
         WindowState="Maximized"
         WindowStyle="None"
-        Title="ELibDashBoard" Height="591" Width="720">
+        Title="ELibDashBoard" Height="450" Width="720">
     <Grid Background="#232628" Margin="0,0,-21,-48">
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <!-- Left Content -->
-        <Menu Background="#2e333a" Padding="10,10" Height="50" VerticalAlignment="Top" HorizontalAlignment="Center">
+
+
+        <TextBlock Grid.Row="0" FontWeight="Bold" Padding="10,10" Foreground="White" FontSize="35" HorizontalAlignment="Center" Text="DashBoard"></TextBlock>
+        <Menu Background="#4D6777" Grid.Row="1"   Height="50"  HorizontalAlignment="Center">
             <Menu.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </Menu.ItemsPanel>
-              
 
-                <MenuItem Header="Books" BorderThickness="0" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
-                   
-                    <MenuItem BorderThickness="0" x:Name="AddBook" Click="AddBook_Click" Background="#2e333a" Foreground="White" Header="Add New Book"/>
-                    <MenuItem BorderThickness="0" x:Name="ViewBooks" Click="ViewBooks_Click" Background="#2e333a" Foreground="White"  Header="View Books"/>
-                </MenuItem>
-                <MenuItem BorderThickness="0" Header="Students" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
-                    <MenuItem BorderThickness="0" Background="#2e333a" x:Name="AddStudent" Click="AddStudent_Click" Foreground="White" Header="Add Student"/>
-                    <MenuItem BorderThickness="0" Background="#2e333a" Foreground="White" Name="ViewStudents" Click="ViewStudents_Click" Header="View Student Info"/>
-                </MenuItem>
-                <MenuItem Header="Borrow Books" Click="IssueBooks" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                <MenuItem Header="Return Books" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="MenuItem_Click_1" />
-                <MenuItem Header="Books Details" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                <MenuItem x:Name="_LogOut" Click="_LogOut_Click" Header="Logout" Background="#2e333a" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
-            </Menu>
+            <MenuItem  Background="#4D5E77" Header="Books"  BorderThickness="0" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  >
+
+                <MenuItem  BorderThickness="0" x:Name="AddBook" Click="AddBook_Click" Background="#4D5E77" Foreground="White" Header="Add New Book"/>
+                <MenuItem BorderThickness="0" x:Name="ViewBooks" Click="ViewBooks_Click" Background="#4D5E77" Foreground="White"  Header="View Books"/>
+            </MenuItem>
+            <MenuItem BorderThickness="0" Header="Students" Background="#4D5E77" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
+                <MenuItem BorderThickness="0" Background="#4D5E77" x:Name="AddStudent" Click="AddStudent_Click" Foreground="White" Header="Add Student"/>
+                <MenuItem BorderThickness="0" Background="#4D5E77" Foreground="White" Name="ViewStudents" Click="ViewStudents_Click" Header="View Student Info"/>
+            </MenuItem>
+            <MenuItem Header="Borrow Books" Click="IssueBooks" Background="#4D5E77" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <MenuItem Header="Return Books" Background="#4D5E77" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="MenuItem_Click_1" />
+            <MenuItem Header="Books Details" Background="#4D5E77" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <MenuItem x:Name="_LogOut" Click="_LogOut_Click" Header="Logout" Background="#4D5E77" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+
+        </Menu>
         
 
 

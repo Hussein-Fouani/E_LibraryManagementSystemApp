@@ -1,11 +1,5 @@
-﻿using E_LibraryApi.Models;
-using E_LibraryManagementSystem.Models;
+﻿using ELibrary.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace E_LibraryManagementSystem.Db
 {
@@ -15,21 +9,38 @@ namespace E_LibraryManagementSystem.Db
         {
             
         }
-        public DbSet<SignInModel> SignIn { get; set; }
-        public DbSet<BookModel> Book { get; set; }
+        public DbSet<Book> Book { get; set; }
         public DbSet<Student> Student { get; set;}
-        public DbSet<SignUpModel> Signup { get; set; }
-        public DbSet<IssuedStudentBook> IssuedStudentBooks { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<BorrowedBooks> BorrowedBooks { get; set; }
+        public DbSet<UserRL> Users { get; set; }
+        public DbSet<SignUp> SignUP { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SignInModel>().HasData(
-                new SignInModel
-                {
-                    Id =Guid.Parse("e6cb49e3-6905-4800-a6ca-a9b645ab18ef"),
-                    UserName = "Admin",
-                    Password = "Admin"
-                }
-                );
+
+            
+
+            
+            modelBuilder.Entity<BorrowedBooks>()
+                .HasOne(bb => bb.Book)
+                .WithMany(b => b.BorrowedBooks)
+                .HasForeignKey(bb => bb.BookId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+           
+            modelBuilder.Entity<BorrowedBooks>()
+                .HasOne(bb => bb.User)
+                .WithMany(s => s.BorrowedBooks)
+                .HasForeignKey(bb => bb.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            base.OnModelCreating(modelBuilder);
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }

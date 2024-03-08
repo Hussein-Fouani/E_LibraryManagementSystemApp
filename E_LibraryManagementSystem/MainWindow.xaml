@@ -8,48 +8,51 @@
         Background="#232628"
         FontFamily="Segeo UI"
         WindowStartupLocation="CenterScreen"
-        Title="SignIn" Height="500" Width="900">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        Title="MainWindow" Height="500" Width="900">
+    
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <!-- Logo -->
-        <Image Source="\Images\DigitalLibrary.png" Grid.Row="0" Width="200" Grid.Column="1" Height="190" Margin="0,22,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
+            <!-- Logo -->
+            <Image Source="\Images\DigitalLibrary.png" Grid.Row="0" Width="200" Grid.Column="1" Height="190" Margin="0,22,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
 
-        <!-- Loading Icon -->
-        <Image gif:ImageBehavior.RepeatBehavior="5x"
-       gif:ImageBehavior.AnimatedSource="\Images/loadingicon.gif"  Grid.Row="1" Grid.Column="1" Height="80" Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
+            <!-- Loading Icon -->
+            <Image gif:ImageBehavior.RepeatBehavior="500x"
+ gif:ImageBehavior.AnimatedSource="\Images/loadingicon.gif"  Grid.Row="1" Grid.Column="1" Height="80" Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" />
 
-        <!-- Username TextBox and Icon -->
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="0,30,0,0" HorizontalAlignment="Center">
-            <Image Source="\Images\usericon.png" Height="27" Margin="0,0,5,0"/>
-            <TextBox x:Name="UserNameText" BorderBrush="White" Background="DarkGray" FontSize="15" FontFamily="Segoe UI" FontWeight="Bold" BorderThickness="1" TextAlignment="Center" Text="UserName" Width="226" Height="28"/>
-        </StackPanel>
+            <!-- Username TextBox and Icon -->
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="0,30,0,0" HorizontalAlignment="Center">
+                <Image Source="\Images\usericon.png" Height="27" Margin="0,0,5,0"/>
+                <TextBox x:Name="UserNameText" BorderBrush="White" Background="DarkGray" FontSize="15" FontFamily="Segoe UI" FontWeight="Bold" BorderThickness="1" TextAlignment="Center" Text="UserName" Width="226" Height="28" />
+            </StackPanel>
 
-        <!-- Password TextBox and Icon -->
-        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
-            <Image Source="\Images\passwordicon.png" Height="28" Margin="0,0,5,0"/>
-            <PasswordBox x:Name="PasswordBox"  BorderBrush="White" Background="DarkGray" FontSize="15" FontFamily="Segoe UI" FontWeight="Bold" BorderThickness="1" Width="226" Height="28"
-                 />
-        </StackPanel>
-        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="0,5,0,5" HorizontalAlignment="Center">
-            <Button  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" FontWeight="Bold" FontSize="12" FontFamily="Segeo UI" Grid.Column="1" Background="LightSkyBlue" Width="100" Height="25" x:Name="Sign_InBtn" Click="Sign_InBtn_Click" Content="Sign In" HorizontalAlignment="Center"   Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
-            <Button Background="DarkOrange" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" FontWeight="Bold"  FontSize="12" Grid.Column="1" Width="100" Height="25" x:Name="Sign_UPBtn" Click="Sign_UPBtn_Click"  Content="Sign Up" HorizontalAlignment="Center" Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
-        </StackPanel>
-        <Button Grid.Column="2" x:Name="CloseButton" Click="CloseButton_Click" Background="DarkRed" FontSize="12" FontWeight="Bold" Padding="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Grid.Row="0" Content="X" HorizontalAlignment="Left" Margin="251,22,0,0" VerticalAlignment="Top"/>
+            <!-- Password TextBox and Icon -->
+            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
+                <Image Source="\Images\passwordicon.png" Height="28" Margin="0,0,5,0"/>
+                <PasswordBox x:Name="PasswordBox"  BorderBrush="White" Background="DarkGray" FontSize="15" FontFamily="Segoe UI" FontWeight="Bold" BorderThickness="1" Width="226" Height="28"
+           />
+            </StackPanel>
+            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="0,5,0,5" HorizontalAlignment="Center">
+                <Button  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" FontWeight="Bold" FontSize="12" FontFamily="Segeo UI" Grid.Column="1" Background="LightSkyBlue" Width="100" Height="25" x:Name="Sign_InBtn" Click="Sign_InBtn_Click" Content="Sign In" HorizontalAlignment="Center"   Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
+                <Button Background="DarkOrange" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" FontWeight="Bold"  FontSize="12" Grid.Column="1" Width="100" Height="25" x:Name="Sign_UPBtn" Click="Sign_UPBtn_Click"  Content="Sign Up" HorizontalAlignment="Center" Margin="5,0" Grid.Row="4" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Button Grid.Column="2" x:Name="CloseButton" Click="CloseButton_Click" Background="DarkRed" FontSize="12" FontWeight="Bold" Padding="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Grid.Row="0" Content="X" HorizontalAlignment="Left" Margin="251,22,0,0" VerticalAlignment="Top"/>
 
 
 
-    </Grid>
+        </Grid>
+
+   
 </Window>

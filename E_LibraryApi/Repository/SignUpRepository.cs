@@ -1,7 +1,6 @@
 ﻿using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
-using E_LibraryManagementSystem.Models;
-using Microsoft.AspNetCore.Mvc;
+using ELibrary.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_LibraryApi.Repository
@@ -17,21 +16,27 @@ namespace E_LibraryApi.Repository
 
         public async Task<bool> CheckIfUserExists(string username)
         {
-           var user = await db.SignIn.FirstOrDefaultAsync(x => x.UserName == username);
-            
-            return user!=null;
+            return await db.SignUP.AnyAsync(x => x.Username == username);
         }
-
+        public async Task<bool> CheckIfEmailExists(string Email)
+        {
+            return await db.SignUP.AnyAsync(x => x.Email == Email);
+        }
         public async Task Save()
         {
             await db.SaveChangesAsync();
         }
 
-        public async Task SignUpAsync(SignUpModel signUpModel)
+        public async Task SignUpAsync(SignUp user)
         {
-            await db.Signup.AddAsync(signUpModel);
+            await db.SignUP.AddAsync(user);
             await Save();
 
+        }
+
+        public async Task<SignUp> GetUser(string Username)
+        {
+          return  await db.SignUP.FirstOrDefaultAsync(x => x.Username == Username);
         }
     }
 }

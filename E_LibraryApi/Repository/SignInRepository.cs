@@ -1,32 +1,80 @@
-﻿using E_LibraryApi.Controllers;
-using E_LibraryApi.Repository.IRepository;
+﻿using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
-using E_LibraryManagementSystem.Models;
+using ELibrary.Domain.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_LibraryApi.Repository
 {
-    public class SignInRepository:ISignInRepository
+    public class SignInRepository: ISignInRepository
     {
         private readonly E_LibDb db;
         private readonly ILogger<SignInRepository> logger;
+        private IPasswordHasher passwordHasher;
 
-        public SignInRepository(E_LibDb db, ILogger<SignInRepository> logger)
+        public SignInRepository(E_LibDb db, ILogger<SignInRepository> logger, IPasswordHasher passwordHasher)
         {
             this.db = db;
-            
             this.logger = logger;
-        }
-        public Task<bool> AuthenticateAsync(string userName, string password)
-        {
-            throw new System.NotImplementedException();
+            this.passwordHasher = passwordHasher;
         }
 
-        public async Task<SignInModel>  SignInAsync(SignInModel model)
+
+
+        public async Task<UserRL> GetUser(string userName)
         {
-          return  await db.SignIn.FirstOrDefaultAsync(m=>m.UserName==model.UserName);  
+            try
+            {
+                var user = await db.SignUP.FirstOrDefaultAsync(m => m.Username == userName);
+
+                if (user == null)
+                {
+                    return null;
+                }
+
+                var userRL = new UserRL
+                {
+                    UserId = user.Id,
+                    UserName = user.Username,
+                    Password = user.Password,
+                    Email = user.Email
+                };
+
+                return userRL;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception appropriately
+                Console.WriteLine($"Exception in GetUser: {ex}");
+                return null;
+            }
         }
+
+        public async Task<UserRL>  SignInAsync(string username, string password)
+        {
+          var user=  await GetUser(username);
+            
+            if (user == null)
+            {
+                return null;
+            }
+         
+           /* PasswordVerificationResult passwordVerificationResult = passwordHasher.VerifyHashedPassword(user.Password, password);*/
+            if (user.Password != password)
+            {
+                return null;
+            }
+            if(db.Users.FirstOrDefaultAsync(m=>m.UserName==username)!=null)
+            {
+                return user;
+            }
+            await db.Users.AddAsync(user);
+            await db.SaveChangesAsync();
+            return user;
+        }
+
+        
     }
    
 }
