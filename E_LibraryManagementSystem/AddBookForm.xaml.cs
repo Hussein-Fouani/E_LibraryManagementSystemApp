@@ -16,9 +16,7 @@ namespace E_LibraryManagementSystem
         public AddBookForm()
         {
             InitializeComponent();
-            client.BaseAddress = new Uri("https://localhost:44360/api/Book");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+           
 
         }
 
