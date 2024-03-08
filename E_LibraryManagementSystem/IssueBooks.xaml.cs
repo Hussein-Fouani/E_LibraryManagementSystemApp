@@ -1,11 +1,8 @@
 ﻿using ELibrary.Domain.Models;
-using ELibrary.Domain.NewFolder;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows;
-using System.Windows.Controls;
-using E_LibraryApi.Models.APIResponse;
 
 namespace E_LibraryManagementSystem
 {
@@ -56,11 +53,11 @@ namespace E_LibraryManagementSystem
                             MessageBox.Show("Book Borrowed Successfully", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Information);
                             
                         }
-                        MessageBox.Show("Can't Borrow This Book", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Information);
+                       /* MessageBox.Show(messageBoxText: "Can't Borrow This Book", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Information);*/
                     }
                     else
                     {
-                        throw new Exception($"API Error: {response.StatusCode} - {response.ReasonPhrase}");
+                        MessageBox.Show("Can't Borrow This Book,Not Available", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Information);    
                     }
                 }
             }
