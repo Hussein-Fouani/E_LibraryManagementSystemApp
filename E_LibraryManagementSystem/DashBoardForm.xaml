@@ -34,12 +34,8 @@
                 <MenuItem  BorderThickness="0" x:Name="AddBook" Click="AddBook_Click" Background="#4D5E77" Foreground="White" Header="Add New Book"/>
                 <MenuItem BorderThickness="0" x:Name="ViewBooks" Click="ViewBooks_Click" Background="#4D5E77" Foreground="White"  Header="View Books"/>
             </MenuItem>
-            <MenuItem BorderThickness="0" Header="Students" Background="#4D5E77" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
-                <MenuItem BorderThickness="0" Background="#4D5E77" x:Name="AddStudent" Click="AddStudent_Click" Foreground="White" Header="Add Student"/>
-                <MenuItem BorderThickness="0" Background="#4D5E77" Foreground="White" Name="ViewStudents" Click="ViewStudents_Click" Header="View Student Info"/>
-            </MenuItem>
+           
             <MenuItem Header="Borrow Books" Click="IssueBooks" Background="#4D5E77" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-            <MenuItem Header="Return Books" Background="#4D5E77" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="MenuItem_Click_1" />
             <MenuItem Header="User Details" Background="#4D5E77" Name="User_Info" Foreground="White" FontSize="20" Click="User_Info_Click" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
             <MenuItem x:Name="_LogOut" Click="_LogOut_Click" Header="Logout" Background="#4D5E77" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
