@@ -189,34 +189,31 @@ namespace E_LibraryApi.Controllers
 
                 var allBooks = await bookRepository.GetAllBooks();
                 var filteredResults = allBooks
-      .Where(book =>
-          book.BookName.ToUpper().Equals(query.ToUpper()) ||
-          book.BookAuthor.ToUpper().Equals(query.ToUpper()) ||
-          book.Genre.ToUpper().Equals(query.ToUpper()) ||
-          book.ISBN.ToUpper().Equals(query.ToUpper()) ||
-          book.Language.ToUpper().Equals(query.ToUpper()) ||
-          book.BookPublication.ToUpper().Equals(query.ToUpper()) ||
-          book.IsAvailable
-      )
-      .Select(book => new BookDto
-      {
-          Id = book.Id,
-          BookName = book.BookName,
-          BookAuthor = book.BookAuthor,
-          Genre = book.Genre,
-          BookPublication = book.BookPublication,
-          ISBN = book.ISBN,
-          Language = book.Language,
-          BookPrice = book.BookPrice,
-          IsAvailable = book.IsAvailable,
-      })
-      .ToList();
+     .Where(book =>
+         book.BookName.ToUpper().Equals(query.ToUpper()) ||
+         book.BookAuthor.ToUpper().Equals(query.ToUpper()) ||
+         book.Genre.ToUpper().Equals(query.ToUpper()) ||
+         book.ISBN.ToUpper().Equals(query.ToUpper()) ||
+         book.Language.ToUpper().Equals(query.ToUpper()) ||
+         book.BookPublication.ToUpper().Equals(query.ToUpper()) 
+         
+     )
+     .Select(book => new BookDto
+     {
+         Id = book.Id,
+         BookName = book.BookName,
+         BookAuthor = book.BookAuthor,
+         Genre = book.Genre,
+         BookPublication = book.BookPublication,
+         ISBN = book.ISBN,
+         Language = book.Language,
+         BookPrice = book.BookPrice,
+        
+     });
+      
 
 
-                if (filteredResults.Count == 0)
-                {
-                    return NotFound("No matching books found.");
-                }
+              
 
                 return Ok(filteredResults);
             }
