@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_LibraryManagementSystem",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_LibraryApi", "E_LibraryApi\E_LibraryApi.csproj", "{11411DFE-7B9C-42B3-89F5-3630EE0749B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E_Library_Utilities", "E_Library_Utilities\E_Library_Utilities.csproj", "{67D3454D-DE17-42CD-842D-A3F0737EEF92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_Library_Domains", "E_Library_Utilities\E_Library_Domains.csproj", "{67D3454D-DE17-42CD-842D-A3F0737EEF92}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELibrary.Domain", "ELibrary.Domain\ELibrary.Domain.csproj", "{30904D34-A9C6-4DD6-BC5D-6B702F47106F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{67D3454D-DE17-42CD-842D-A3F0737EEF92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67D3454D-DE17-42CD-842D-A3F0737EEF92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67D3454D-DE17-42CD-842D-A3F0737EEF92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30904D34-A9C6-4DD6-BC5D-6B702F47106F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30904D34-A9C6-4DD6-BC5D-6B702F47106F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30904D34-A9C6-4DD6-BC5D-6B702F47106F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30904D34-A9C6-4DD6-BC5D-6B702F47106F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
