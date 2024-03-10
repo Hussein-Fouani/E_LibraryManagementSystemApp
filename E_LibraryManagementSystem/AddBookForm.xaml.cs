@@ -11,12 +11,12 @@ namespace E_LibraryManagementSystem
 
     public partial class AddBookForm : Window
     {
-        HttpClient client = new HttpClient();
+        HttpClient client = new();
 
         public AddBookForm()
         {
             InitializeComponent();
-           
+
 
         }
 
@@ -55,16 +55,16 @@ namespace E_LibraryManagementSystem
                             BookName = txtBookName.Text,
                             BookAuthor = BookAuthor.Text,
                             BookPrice = price,
-                            ISBN = BookQuantity.Text,
+                            ISBN = BookISBN.Text,
                             BookPublication = BookPublication.Text,
-                            Language = PurchaseDate.Text,
+                            Language = BookLanguage.Text,
                             IsAvailable = true,
-                            Genre = BookGenre.Text
+                            Genre = Genretextbox.Text
                         };
 
-                        using (HttpClient client = new HttpClient())
+                        using (HttpClient client = new())
                         {
-                            client.BaseAddress = new Uri("https://localhost:5179/api/Book");
+                            client.BaseAddress = new Uri("http://localhost:5179/api/");
                             client.DefaultRequestHeaders.Clear();
                             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -77,7 +77,7 @@ namespace E_LibraryManagementSystem
                             }
                             else
                             {
-                                MessageBox.Show($"Failed to save the book. {response.ReasonPhrase}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show($"Failed to save the book", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                         }
                     }
@@ -88,11 +88,11 @@ namespace E_LibraryManagementSystem
                 }
                 catch (HttpRequestException ex)
                 {
-                    MessageBox.Show($"HTTP Request Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Network Request Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"An unexpected error occurred", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
@@ -109,9 +109,9 @@ namespace E_LibraryManagementSystem
             return !string.IsNullOrWhiteSpace(txtBookName.Text) &&
                    !string.IsNullOrWhiteSpace(BookAuthor.Text) &&
                    !string.IsNullOrWhiteSpace(Book_Price.Text) &&
-                   !string.IsNullOrWhiteSpace(BookQuantity.Text) &&
+                   !string.IsNullOrWhiteSpace(BookISBN.Text) &&
                    !string.IsNullOrWhiteSpace(BookPublication.Text) &&
-                   PurchaseDate.Text != null;
+                   Genretextbox.Text != null;
         }
     }
 }
