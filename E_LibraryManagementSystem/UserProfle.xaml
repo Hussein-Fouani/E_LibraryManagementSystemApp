@@ -1,4 +1,4 @@
-﻿<Window x:Class="E_LibraryManagementSystem.UserProfle"
+﻿<Window x:Class="E_LibraryManagementSystem.UserProfile"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,35 +9,34 @@
         WindowStartupLocation="CenterScreen"
         Title="UserProfle" Height="450" Width="800">
     <Grid>
-     
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-            <!-- User Profile Section -->
+        <!-- User Profile Section -->
         <GroupBox FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Width="300" FontSize="18" Grid.Row="0" Grid.Column="0" Header="User Profile" Margin="10">
-                <StackPanel>
+            <StackPanel>
                 <Button Background="DimGray" FontStyle="Oblique" FontWeight="SemiBold" Content="Get Info"  Foreground="black" Click="Button_Click_1"/>
 
                 <TextBlock FontWeight="SemiBold" Foreground="#EAEAEA" Text="User Name:" />
-                    <TextBox Name="UsernameTextbox" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                <TextBox Name="UsernameTextbox" TextWrapping="Wrap" Margin="0,0,0,10"/>
 
-                    <!-- Add more profile information fields as needed -->
-                </StackPanel>
-            </GroupBox>
 
-            <!-- Borrowed Books Section -->
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Borrowed Books Section -->
         <GroupBox FontWeight="Bold" FontSize="15" Grid.Row="1" Grid.Column="1" Header="Borrowed Books" Margin="10">
-            <DataGrid Foreground="Black" ItemsSource="{Binding}" Name="UserBorrowbookinfo" AutoGenerateColumns="False" Margin="0,0,0,10" IsReadOnly="True" CanUserSortColumns="True">
+            <DataGrid Foreground="Black" ItemsSource="{Binding}" Width="auto" Name="UserBorrowbookinfo" Height="auto" AutoGenerateColumns="False" Margin="0,0,0,10" IsReadOnly="True" CanUserSortColumns="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="User ID" Binding="{Binding UserId}" Width="80" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Book ID" Binding="{Binding BookId}" Width="80" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Book Name" Binding="{Binding BookName}" Width="150" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="120" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="120" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Borrow Date" Binding="{Binding BorrowDate}" Width="120" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Return Date" Binding="{Binding ReturnDate}" Width="120" IsReadOnly="True"/>
-                    <!-- Add more book information fields as needed -->
+                    <DataGridTextColumn Header="User ID" Binding="{Binding UserId}" Width="120" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Book ID" Binding="{Binding BookId}" Width="120" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Book Name" Binding="{Binding BookName}" Width="auto" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="auto" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="auto" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Borrow Date" Binding="{Binding BorrowDate}" Width="auto" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Return Date" Binding="{Binding ReturnDate}" Width="auto" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
