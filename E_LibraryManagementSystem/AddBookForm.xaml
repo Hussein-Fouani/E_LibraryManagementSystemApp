@@ -58,8 +58,8 @@ gif:ImageBehavior.AnimatedSource="\Images/loadingicon.gif" Width="120" Height="1
 
                     <!-- Publication Year -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Purchase Date" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
-                        <TextBox x:Name="PurchaseDate" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" TextWrapping="Wrap" Foreground="Black"/>
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Genre" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="Genretextbox" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" TextWrapping="Wrap" Foreground="White"/>
                     </StackPanel>
 
                     <!-- Book Price -->
@@ -68,14 +68,14 @@ gif:ImageBehavior.AnimatedSource="\Images/loadingicon.gif" Width="120" Height="1
                         <TextBox x:Name="Book_Price" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
                     </StackPanel>
 
-                    <!-- Book Quantity -->
+                    <!-- Book Language -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Quantity" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
-                        <TextBox x:Name="BookQuantity" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Language" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="BookLanguage" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Genre" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
-                        <TextBox x:Name="BookGenre" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book ISBN" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                        <TextBox x:Name="BookISBN" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
                     </StackPanel>
 
                     <StackPanel Height="40" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
