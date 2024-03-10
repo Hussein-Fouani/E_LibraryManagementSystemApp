@@ -92,7 +92,7 @@ namespace E_LibraryManagementSystem
                         // Check if the result is not null (i.e., sign-in successful)
                         if (result != null)
                         {
-                            MessageBox.Show("Login successful!");
+                            MessageBox.Show("Login successful!","Login",MessageBoxButton.OK,MessageBoxImage.Information);
                             DashBoardForm dashBoardForm = new DashBoardForm();
                             dashBoardForm.Show();
                             this.Close();
@@ -105,10 +105,11 @@ namespace E_LibraryManagementSystem
                     }
                     else
                     {
-                        MessageBox.Show($"Error: {response.StatusCode}");
+                        MessageBox.Show($"Error Signing In , Check your Credentials");
                     }
                 }
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
