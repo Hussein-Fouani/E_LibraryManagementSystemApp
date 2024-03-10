@@ -48,7 +48,7 @@ namespace E_LibraryApi.Controllers
             {
                 apiresponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
                 apiresponse.IsSuccess = false;
-                apiresponse.ErrorMessages.Add("Concurrency exception occurred");
+                apiresponse.ErrorMessages.Add(ex.Message);
                 return BadRequest("apiresponse");
             }
             catch (Exception)
