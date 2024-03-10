@@ -22,12 +22,12 @@ using E_LibraryApi.Migrations;
 namespace E_LibraryManagementSystem
 {
     /// <summary>
-    /// Interaction logic for UserProfle.xaml
+    /// Interaction logic for UserProfile.xaml
     /// </summary>
-    public partial class UserProfle : Window
+    public partial class UserProfile : Window
     {
         private ObservableCollection<BorrowedBookInfo> BorrowedBooks = new ObservableCollection<BorrowedBookInfo>();
-        public UserProfle()
+        public UserProfile()
         {
             InitializeComponent();
             this.DataContext = BorrowedBooks;
@@ -64,9 +64,14 @@ namespace E_LibraryManagementSystem
                             foreach (var book in books)
                             {
                                 BorrowedBooks.Add(book);
-                            }
 
-                            MessageBox.Show("User Info Successfully Retrieved", "User Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
+                            MessageBox.Show("User Info Successfully Retrieved", caption: "User Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                            if (BorrowedBooks.Count == 0)
+                            {
+                                MessageBox.Show("No Books Found for the User", "User Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
                         }
                         else
                         {
