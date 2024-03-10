@@ -20,17 +20,17 @@ Background="#232628"
         </Grid.RowDefinitions>
         <Image gif:ImageBehavior.RepeatBehavior="500x" VerticalAlignment="Top" Stretch="Fill" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" gif:ImageBehavior.AnimatedSource="\Images/BorrowImage.gif" Height="200" Width="450"/>
 
-        <StackPanel Margin="10,100,0,0" Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+        <StackPanel Margin="10,100,10,0" Orientation="Vertical" Grid.Row="1" Grid.Column="0">
             <TextBlock Margin="0,0,0,10" Text="UserName:" FontSize="28"  Foreground="white" FontWeight="Bold" />
             <TextBox x:Name="usernametxtbox" TextWrapping="Wrap" Foreground="Black" FontSize="15" Width="200" Height="35" />
         </StackPanel >
-        <StackPanel Margin="10,250,0,0" Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+        <StackPanel Margin="10,250,10,0" Orientation="Vertical" Grid.Row="1" Grid.Column="0">
             <TextBlock Margin="0,0,0,10" Text="BookName:" FontSize="28"  Foreground="white" FontWeight="Bold" />
             <TextBox x:Name="booknametxtbox" TextWrapping="Wrap" Foreground="Black" FontSize="15" Width="200" Height="35" />
         </StackPanel>
         <Button Background="LightBlue" FontSize="16" FontWeight="Bold" Margin="0,300,0,10" Grid.Column="0" Grid.Row="1" Content="Borrow Book" Name="BorrowButton" Width="150" Height="30" Click="BorrowButton_Click"/>
 
-        <DataGrid Name="BorrowBookDataGrid" IsReadOnly="True" CanUserSortColumns="True" Foreground="Black" Width="auto" Grid.Row="1"  ItemsSource="{Binding}" Grid.Column="1" Background="#323232">
+        <DataGrid Width="auto" Name="BorrowBookDataGrid" IsReadOnly="True" CanUserSortColumns="True" Foreground="Black"  Grid.Row="1"  ItemsSource="{Binding}" Grid.Column="1" Background="#323232">
             <DataGrid.Columns>
                
             </DataGrid.Columns>
