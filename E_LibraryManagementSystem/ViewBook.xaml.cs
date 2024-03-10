@@ -1,16 +1,11 @@
-﻿using E_LibraryApi.Models.APIResponse;
-using ELibrary.Domain.Models;
-using ELibrary.Domain.NewFolder;
+﻿using ELibrary.Domain.NewFolder;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using static System.Reflection.Metadata.BlobBuilder;
 
 
 namespace E_LibraryManagementSystem
@@ -33,31 +28,27 @@ namespace E_LibraryManagementSystem
         {
             try
             {
-                httpClient.BaseAddress = new Uri(BaseApiUrl);
-                httpClient.DefaultRequestHeaders.Accept.Clear();
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var response = await httpClient.GetStringAsync("Book/all");
-                var books = JsonConvert.DeserializeObject<List<BookDto>>(response);
-                bookviewdatagrid.DataContext = books;
-                if (books != null)
+                using (HttpClient httpClient = new HttpClient())
                 {
+                    httpClient.BaseAddress = new Uri(BaseApiUrl);
+                    httpClient.DefaultRequestHeaders.Accept.Clear();
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    var response = await httpClient.GetStringAsync("Book/all");
+                    var books = JsonConvert.DeserializeObject<List<BookDto>>(response);
+
                     if (books != null)
                     {
-
                         foreach (var book in books)
                         {
                             bookList.Add(book);
                         }
+                        bookviewdatagrid.DataContext = books;
                     }
                     else
                     {
                         throw new Exception("Error getting books from API: Empty response");
                     }
-                }
-                else
-                {
-                    throw new Exception($"Error getting books from API: {response}");
                 }
             }
             catch (Exception ex)
@@ -69,13 +60,10 @@ namespace E_LibraryManagementSystem
 
         private async void deletebtn_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure to Delete this", "Confirmation Dialog", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete this?", "Confirmation Dialog", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes) == MessageBoxResult.Yes)
             {
-                if (bookviewdatagrid.SelectedItem != null)
+                if (bookviewdatagrid.SelectedItem is BookDto selectedBook)
                 {
-                    BookDto book = (BookDto)bookviewdatagrid.SelectedItem;
-                    BookDto books = ((FrameworkElement)sender).DataContext as BookDto;
-
                     try
                     {
                         using (HttpClient httpClient = new HttpClient())
@@ -84,12 +72,12 @@ namespace E_LibraryManagementSystem
                             httpClient.DefaultRequestHeaders.Accept.Clear();
                             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                            HttpResponseMessage response = await httpClient.DeleteAsync($"Book/{books.Id}");
+                            HttpResponseMessage response = await httpClient.DeleteAsync($"Book/{selectedBook.Id}");
 
                             if (response.IsSuccessStatusCode)
                             {
                                 // Remove the deleted book from the list
-                                bookList.Remove(book);
+                                bookList.Remove(selectedBook);
                                 // Refresh the datagrid
                                 bookviewdatagrid.Items.Refresh();
 
@@ -101,13 +89,18 @@ namespace E_LibraryManagementSystem
                             }
                         }
                     }
+                    catch (HttpRequestException ex)
+                    {
+                        MessageBox.Show($"HTTP Request Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
         }
+
 
 
 
@@ -200,10 +193,17 @@ namespace E_LibraryManagementSystem
             if (string.IsNullOrEmpty(searchQuery))
             {
                 MessageBox.Show("Search query is required.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                GetBooksFromApi();
                 return;
             }
+            else
+            {
+                await SearchBooks(searchQuery);
 
-            await SearchBooks(searchQuery);
+                // Provide user feedback after the search
+                MessageBox.Show("Search completed.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            
         }
 
         private async Task SearchBooks(string searchQuery)
