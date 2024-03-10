@@ -2,21 +2,17 @@ using E_LibraryApi.Mapper;
 using E_LibraryApi.Repository;
 using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
-using ELibrary.Domain.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Serilog;
-using System.Text;
+using System.Runtime.Intrinsics.X86;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var logPathFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logging","log.txt"); 
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.File(logPathFile, rollingInterval: RollingInterval.Day).CreateLogger();
+    .WriteTo.File("./Logging/log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
 builder.Services.AddControllers();
 builder.Services.AddLogging();
 builder.Services.AddEndpointsApiExplorer();
