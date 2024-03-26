@@ -1,4 +1,5 @@
 ﻿using ELibrary.Domain.Models;
+using ELibrary.Domain.NewFolder;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.Http;
@@ -66,7 +67,7 @@ namespace E_LibraryManagementSystem
                 }
 
                 // Create a User object with the entered credentials
-                var user = new SignUp()
+                var user = new SignUPDto()
                 {
                    Username = SignUpUserNamebox.Text,
                     Password = SignUpPasswordbox.Password,
@@ -93,7 +94,7 @@ namespace E_LibraryManagementSystem
 
                         if (result)
                         {
-                            MessageBox.Show("Signup successful!");
+                            MessageBox.Show("Signup successful!","Sign Up" ,MessageBoxButton.OK,MessageBoxImage.Information);
                             MainWindow login = new MainWindow();
                             login.Show();
                             this.Close();
@@ -101,12 +102,12 @@ namespace E_LibraryManagementSystem
                         }
                         else
                         {
-                            MessageBox.Show("User with the given username already exists.");
+                            MessageBox.Show($"User with the given username already exists.", "Credentials Check", MessageBoxButton.OK, MessageBoxImage.Warning);
                         }
                     }
                     else
                     {
-                        MessageBox.Show($"Error: {response.StatusCode}");
+                        MessageBox.Show($"User with the given username already exists.","Credentials Check",MessageBoxButton.OK,MessageBoxImage.Warning);
                     }
                 }
             }

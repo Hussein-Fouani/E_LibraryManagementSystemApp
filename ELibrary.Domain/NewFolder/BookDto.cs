@@ -16,7 +16,7 @@ namespace ELibrary.Domain.NewFolder
         public double BookPrice { get; set; }
         public string ISBN { get; set; }
         public string Language { get; set; }
-
+        public int NumberOfCopies { get; set; }
         public bool IsAvailable { get; set; } 
         public string Genre { get; set; }
 

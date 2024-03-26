@@ -11,10 +11,11 @@ namespace ELibrary.Domain.Models
     {
         public Guid Id { get; set; }
         [Required(ErrorMessage = "Username is required")]
+        [StringLength(30, ErrorMessage = "Username must be at least {2} characters long.", MinimumLength = 4)]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
-        [StringLength(100, ErrorMessage = "Password must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(30, ErrorMessage = "Password must be at least {2} characters long.", MinimumLength = 6)]
         public string Password { get; set; }
 
         [Compare("Password", ErrorMessage = "Passwords do not match")]
@@ -23,5 +24,6 @@ namespace ELibrary.Domain.Models
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
+        public string Role { get; set; } 
     }
 }

@@ -23,13 +23,19 @@ namespace E_LibraryApi.Controllers
         public BookController(ILogger<BookController> logger, IMapper mapper, IBookRepository bookRepository, ISignInRepository signInRepository, IBorrowBook borrowBook)
         {
             this.logger = logger;
-            this.logger = logger;
             this.mapper = mapper;
             this.bookRepository = bookRepository;
             this.signInRepository = signInRepository;
             this.borrowBook = borrowBook;
             apiResponse = new ApiReponse();
         }
+
+
+        /// <summary>
+        /// Endpoint for creating a new book.
+        /// </summary>
+        /// <param name="book">The book data to be created.</param>
+        /// <returns>Created book data.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -49,15 +55,19 @@ namespace E_LibraryApi.Controllers
                     return BadRequest("Couldn't Add Book");
                 }
 
-                if (await bookRepository.BookExists(book.BookName))
+                var checkbook= await bookRepository.BookExists(book.BookName);
+                var checks = await bookRepository.GetBook(b => b.BookName == book.BookName);
+                if ( checkbook && book.NumberOfCopies>0)
                 {
                     // Handle the case where the book with the same name already exists
-                    ModelState.AddModelError("BookName", "Book Name already exists");
+                    ModelState.AddModelError("BookName", "Book Copies Increased");
+                   checks.NumberOfCopies += book.NumberOfCopies;
+                    await bookRepository.Save();
                     apiResponse.Result = book;
-                    apiResponse.StatusCode = HttpStatusCode.Unauthorized;
-                    apiResponse.ErrorMessages.Add("BookName already exists");
-                    logger.LogError("Book Name Already existed");
-                    return BadRequest("Book Name already exists");
+                    apiResponse.StatusCode = HttpStatusCode.Created;
+                    logger.LogError("Book Copies Increased");
+                    return Ok("Book Copies Increased");
+                    
                     
 
                 }
@@ -84,6 +94,12 @@ namespace E_LibraryApi.Controllers
                 return apiResponse;
             }
         }
+
+        /// <summary>
+        /// Deletes a book by its ID.
+        /// </summary>
+        /// <param name="Id">The ID of the book to delete.</param>
+        /// <returns>Action result indicating success or failure.</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -118,6 +134,13 @@ namespace E_LibraryApi.Controllers
                 return apiResponse;
             }
         }
+
+        /// <summary>
+        /// Updates an existing book with the provided data.
+        /// </summary>
+        /// <param name="bookDto">The updated book data.</param>
+        /// <param name="Id">The ID of the book to update.</param>
+        /// <returns>Action result indicating success or failure.</returns>
         [HttpPut]
         [Route("{Id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -146,6 +169,9 @@ namespace E_LibraryApi.Controllers
                 book.BookAuthor = bookDto.BookAuthor;
                 book.BookPublication = bookDto.BookPublication;
                 book.BookPrice = bookDto.BookPrice;
+                book.ISBN = bookDto.ISBN;
+                book.Language = bookDto.Language;
+                book.NumberOfCopies = bookDto.NumberOfCopies;
                 book.IsAvailable = bookDto.IsAvailable;
                 book.Genre = bookDto.Genre;
 
@@ -165,6 +191,11 @@ namespace E_LibraryApi.Controllers
                 return apiResponse;
             }
         }
+
+        /// <summary>
+        /// Retrieves all books from the library.
+        /// </summary>
+        /// <returns>Action result containing a list of books.</returns>
         [HttpGet("all", Name = "GetAllBooks")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -197,7 +228,11 @@ namespace E_LibraryApi.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Searches for books based on the provided query.
+        /// </summary>
+        /// <param name="query">The search query.</param>
+        /// <returns>Action result containing a list of matched books.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -234,8 +269,9 @@ namespace E_LibraryApi.Controllers
                              BookPublication = book.BookPublication,
                              ISBN = book.ISBN,
                              Language = book.Language,
+                             NumberOfCopies=book.NumberOfCopies,
                              BookPrice = book.BookPrice,
-        
+                             IsAvailable=book.IsAvailable,
                          });
 
                 return Ok(filteredResults);
@@ -248,7 +284,12 @@ namespace E_LibraryApi.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Adds a new borrowed book record for a user.
+        /// </summary>
+        /// <param name="username">The username of the borrower.</param>
+        /// <param name="BookName">The name of the book to be borrowed.</param>
+        /// <returns>Action result indicating success or failure.</returns>
         [HttpPost("addborrowedbook")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -261,7 +302,6 @@ namespace E_LibraryApi.Controllers
                 var user = await signInRepository.GetUser(username);
                 if (user == null)
                 {
-                    logger.LogError("User not found");
                     return NotFound("User not found.");
                 }
 
@@ -271,18 +311,10 @@ namespace E_LibraryApi.Controllers
                 {
                     return NotFound("Book not found.");
                 }
-
-                // Check if the book is available for borrowing
-                if (!book.IsAvailable)
+                if ( await borrowBook.UserHasBorrowedBook(user.UserId, book.Id))
                 {
-                    logger.LogError("Book is not available for borrowing");
-                    apiResponse.ErrorMessages.Add("Book is not available for borrowing.");
-                    apiResponse.IsSuccess = false;
-                    apiResponse.StatusCode = HttpStatusCode.NotAcceptable;
-                    return BadRequest("not available");
+                    return BadRequest("User has already borrowed this book.");
                 }
-                // Update book availability status
-                await bookRepository.UpdateBookAvailability(BookName, false);
 
                 // Record the book borrowing in the database
                 var borrowRecord = new BorrowedBooks
@@ -292,7 +324,10 @@ namespace E_LibraryApi.Controllers
                     BorrowDate = DateTime.Now.Date.ToShortDateString(),
                     ReturnDate = DateTime.UtcNow.Date.AddDays(14).ToShortDateString()
                 };
+
+
                 await borrowBook.CreateBorrowBook(borrowRecord);
+
                 // Return relevant information about the borrowed book
                 var borrowedBookInfo = new BorrowedBookInfo
                 {
@@ -307,24 +342,24 @@ namespace E_LibraryApi.Controllers
                     Language = book.Language,
                     BookPrice = book.BookPrice,
                     BorrowDate = borrowRecord.BorrowDate,
-                    ReturnDate = borrowRecord.ReturnDate
+                    ReturnDate = borrowRecord.ReturnDate,
+                   
                 };
 
-                apiResponse.Result = borrowedBookInfo;
-                apiResponse.StatusCode = HttpStatusCode.Created;
-                apiResponse.IsSuccess = true;
                 return CreatedAtAction(nameof(GetUserBorrowedBooks), new { username = user.UserName }, borrowedBookInfo);
             }
             catch (Exception ex)
             {
                 // Handle unexpected exceptions
-                logger.LogError(ex.Message);
-                apiResponse.ErrorMessages.Add(ex.Message);
-                apiResponse.IsSuccess = false;
-                apiResponse.StatusCode = HttpStatusCode.InternalServerError;
-                return BadRequest("Can't borrow");
+                return BadRequest(ex.Message);
             }
         }
+        /// <summary>
+        /// Retrieves all books borrowed by a specific user.
+        /// </summary>
+        /// <param name="username">The username of the user.</param>
+        /// <returns>Action result containing a list of borrowed books.</returns>
+
         [HttpGet("{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -356,10 +391,9 @@ namespace E_LibraryApi.Controllers
                 // Return the result
                 return Ok(userBorrowedBooks);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Handle unexpected exceptions
-                logger.LogError(ex.Message);
+               
                 return StatusCode(500, "An error occurred while processing the request.");
             }
         }

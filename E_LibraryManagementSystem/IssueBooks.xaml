@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:E_LibraryManagementSystem"
         mc:Ignorable="d"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
-WindowStartupLocation="CenterScreen"
-Background="#232628"
+        WindowStartupLocation="CenterScreen"
+        Background="#232628"
         Title="IssueBooks" Height="697" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>

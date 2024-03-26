@@ -39,6 +39,7 @@ namespace ELibrary.Domain.Models
         [MaxLength(100)]
         [MinLength(5)]
         public string Genre { get; set; }
+        public  int  NumberOfCopies { get; set; }
         public virtual ICollection<BorrowedBooks> BorrowedBooks { get; set; }
     }
 }

@@ -2,10 +2,8 @@ using E_LibraryApi.Mapper;
 using E_LibraryApi.Repository;
 using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
-using Microsoft.AspNet.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Runtime.Intrinsics.X86;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,12 +19,11 @@ builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddScoped<IBookRepository,BookRepository>();
-builder.Services.AddScoped<IStudentRepository,StudentRepository>();
 builder.Services.AddScoped<ISignUpRepository,SignUpRepository>();
 builder.Services.AddScoped<ISignInRepository,SignInRepository>();
 builder.Services.AddScoped<IBorrowBook,BorrowBook>();
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+/*builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+*/builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<E_LibDb>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 /*builder.Services.AddAuthentication(x =>
 {

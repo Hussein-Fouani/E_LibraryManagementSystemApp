@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Background="#232628"
-        Title="AddBook" Height="650" Width="817">
+        Title="AddBook" Height="700" Width="817">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -30,14 +30,14 @@ gif:ImageBehavior.AnimatedSource="\Images/loadingicon.gif" Width="120" Height="1
         </StackPanel>
 
         <!-- Bottom StackPanel -->
-        <StackPanel Margin="50,50" Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+        <StackPanel Height="auto"  Margin="50,50" Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
             <!-- Left Image -->
             <Image HorizontalAlignment="Left" Height="400" Stretch="Fill" Width="300" Source="\Images\readingquote.jpg"/>
 
             <!-- Right Book Details StackPanel -->
-            <StackPanel Margin="15,0,0,0"  Grid.Column="1"  x:Name="BookSubForm" VerticalAlignment="Top" >
+            <StackPanel Height="auto"  Margin="15,0,0,0"  Grid.Column="1"  x:Name="BookSubForm" VerticalAlignment="Top" >
                 <!-- Book Details -->
-                <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="20" Height="auto" Width="auto">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="20" Height="auto" Width="auto">
                     <!-- Book Name -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                         <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book Name" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
@@ -77,8 +77,12 @@ gif:ImageBehavior.AnimatedSource="\Images/loadingicon.gif" Width="120" Height="1
                         <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="Book ISBN" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
                         <TextBox x:Name="BookISBN" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Margin="0,15,10,0" TextWrapping="Wrap" FontSize="18" Text="NumberOfCopies" FontWeight="Bold" Foreground="White" Height="30" Width="180"/>
+                    <TextBox x:Name="NumberOfCopiestxtbox" Height="30" Width="180" FontSize="18" Background="#232628" BorderBrush="White" Foreground="White"/>
+                    </StackPanel>
 
-                    <StackPanel Height="40" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <StackPanel Height="40" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
                         <Button Content="Save" Width="80" Height="30" FontSize="16" Margin="0,0,10,0" Background="#007ACC" Foreground="White" Click="SaveBtn_Click"/>
                         <Button Content="Cancel" Width="80" Height="30" FontSize="16" Background="Gray" Foreground="White" Click="CancelBtn_Click"/>
                     </StackPanel>

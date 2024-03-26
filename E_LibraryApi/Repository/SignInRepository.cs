@@ -1,8 +1,6 @@
 ﻿using E_LibraryApi.Repository.IRepository;
 using E_LibraryManagementSystem.Db;
 using ELibrary.Domain.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_LibraryApi.Repository
@@ -11,13 +9,13 @@ namespace E_LibraryApi.Repository
     {
         private readonly E_LibDb db;
         private readonly ILogger<SignInRepository> logger;
-        private IPasswordHasher passwordHasher;
+       // private IPasswordHasher passwordHasher;
 
-        public SignInRepository(E_LibDb db, ILogger<SignInRepository> logger, IPasswordHasher passwordHasher)
+        public SignInRepository(E_LibDb db, ILogger<SignInRepository> logger)
         {
             this.db = db;
             this.logger = logger;
-            this.passwordHasher = passwordHasher;
+           // this.passwordHasher = passwordHasher;
         }
 
 
@@ -39,8 +37,15 @@ namespace E_LibraryApi.Repository
                     UserName = user.Username,
                     Password = user.Password,
                     Email = user.Email
-                };
+                   
 
+                };
+                if(await db.Users.FirstOrDefaultAsync(x => x.UserName == userRL.UserName) == null)
+                {
+                    await db.Users.AddAsync(userRL);
+                    await db.SaveChangesAsync();
+                }
+              
                 return userRL;
             }
             catch (Exception ex)
@@ -59,18 +64,19 @@ namespace E_LibraryApi.Repository
             {
                 return null;
             }
-         
+           var text =await db.UsersRole.FirstOrDefaultAsync(u=>u.UserName==username);
+            if (text == null)
+            {
+                return null;
+            }
+            
+            user.Role= text.Role;
            /* PasswordVerificationResult passwordVerificationResult = passwordHasher.VerifyHashedPassword(user.Password, password);*/
             if (user.Password != password)
             {
                 return null;
             }
-            if(db.User.FirstOrDefaultAsync(m=>m.UserName==username)!=null)
-            {
-                return user;
-            }
-            await db.Users.AddAsync(user);
-            await db.SaveChangesAsync();
+           
             return user;
         }
 

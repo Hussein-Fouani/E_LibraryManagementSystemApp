@@ -9,6 +9,7 @@ namespace E_LibraryApi.Repository.IRepository
         Task Save();
         Task<bool> CheckIfUserExists(string Username);
         Task<bool> CheckIfEmailExists(string Email);
+
         Task<SignUp> GetUser(string Username);
     }
 }

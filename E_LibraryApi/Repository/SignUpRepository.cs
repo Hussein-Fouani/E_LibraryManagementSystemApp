@@ -16,11 +16,19 @@ namespace E_LibraryApi.Repository
 
         public async Task<bool> CheckIfUserExists(string username)
         {
-            return await db.SignUP.AnyAsync(x => x.Username == username);
+            if(await db.SignUP.FirstOrDefaultAsync(x => x.Username.ToLower() == username.ToLower()) == null)
+            {
+                return false;
+            }
+            return true;
         }
         public async Task<bool> CheckIfEmailExists(string Email)
         {
-            return await db.SignUP.AnyAsync(x => x.Email == Email);
+            if (await db.SignUP.FirstOrDefaultAsync(x => x.Email.ToLower() == Email.ToLower()) == null)
+            {
+                return false;
+            }
+            return true;
         }
         public async Task Save()
         {
@@ -29,14 +37,27 @@ namespace E_LibraryApi.Repository
 
         public async Task SignUpAsync(SignUp user)
         {
+            var userrole = new UsersRole()
+            {
+                Role = "User",
+                UserName = user.Username
+            };
+
+            if (await db.UsersRole.FirstOrDefaultAsync(x => x.UserName.ToLower() == user.Username.ToLower()) == null)
+            {
+              
+                await db.UsersRole.AddAsync(userrole);
+                await db.SaveChangesAsync();
+            }
+            user.Role=userrole.Role;
+           
             await db.SignUP.AddAsync(user);
             await Save();
 
         }
-
         public async Task<SignUp> GetUser(string Username)
         {
-          return  await db.SignUP.FirstOrDefaultAsync(x => x.Username == Username);
+          return  await db.SignUP.FirstOrDefaultAsync(x => x.Username.ToLower() == Username.ToLower());
         }
     }
 }

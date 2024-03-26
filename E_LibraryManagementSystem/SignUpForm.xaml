@@ -31,32 +31,32 @@
                MouseLeftButtonDown="clickmeimage_MouseLeftButtonDown" />
 
         
-        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" >
+        <StackPanel  Margin="10" Orientation="Vertical" Grid.Row="1" Grid.Column="0" >
             <StackPanel Height="50" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Orientation="Horizontal">
                 <TextBlock  Text="User Name" Foreground="White" FontWeight="Black" VerticalAlignment="Center" FontSize="15" />
-                <TextBox FontSize="16" x:Name="SignUpUserNamebox"  Margin="10,0,0,0" FocusManager.FocusedElement="{Binding ElementName=SignUpUserNamebox}" Background="DarkGray" Foreground="White" Width="400" Height="30" HorizontalAlignment="Left" />
+                <TextBox FontSize="16" x:Name="SignUpUserNamebox"  Margin="10,0,0,0" FocusManager.FocusedElement="{Binding ElementName=SignUpUserNamebox}" Background="DarkGray" Foreground="Black" FontWeight="SemiBold" Width="400" Height="30" HorizontalAlignment="Left" />
             </StackPanel>
 
             <StackPanel  Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                 <TextBlock Text="Password" Margin="0,0,18,0" Foreground="White" FontWeight="Black" VerticalAlignment="Center" FontSize="15" />
-                <PasswordBox FontSize="16" x:Name="SignUpPasswordbox" Margin="1,0,18,0" Background="DarkGray" Foreground="White"  Width="400" Height="30" HorizontalAlignment="Left" />
+                <PasswordBox FontSize="16" x:Name="SignUpPasswordbox" Margin="1,0,18,0" Background="DarkGray" Foreground="Black"  Width="400" Height="30" HorizontalAlignment="Left" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Name="ConfirmPassword" Grid.Row="1" Grid.Column="1">
                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="C.Password" Foreground="White" FontWeight="Black" FontSize="14" Width="auto" />
-                <PasswordBox FontSize="16" VerticalAlignment="Top" Margin="10,0,0,0" x:Name="ConfirmPasswordbox" Background="DarkGray" Foreground="White" Width="400" Height="30" />
+                <PasswordBox Foreground="Black" FontWeight="SemiBold" FontSize="16" VerticalAlignment="Top" Margin="10,0,0,0" x:Name="ConfirmPasswordbox" Background="DarkGray"  Width="400" Height="30" />
             </StackPanel>
 
             <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
                 <TextBlock Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Email" Foreground="White" FontWeight="Black" FontSize="15" />
-                <TextBox FontSize="16" Width="400" Margin="49,0,0,0" Height="30" Foreground="White" Background="DarkGray" TextWrapping="Wrap" Name="EmailTextBox" VerticalAlignment="Top" />
+                <TextBox Foreground="Black" FontWeight="SemiBold" FontSize="16" Width="400" Margin="49,0,0,0" Height="30"  Background="DarkGray" TextWrapping="Wrap" Name="EmailTextBox" VerticalAlignment="Top" />
             </StackPanel>
             <Button Margin="40,40,0,0"  x:Name="SignUpButton" Content="SignUp" HorizontalAlignment="Center" Background="#0b0" VerticalAlignment="Bottom" FontSize="18"  Width="150" Height="40" FontWeight="Bold" Grid.Column="1" Grid.Row="2" Click="SignUpButton_Click" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Margin="0,30,0,0" Text="Already Signed up?" FontWeight="SemiBold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Foreground="White" Grid.ColumnSpan="3" Grid.Row="3" />
-            <Button Margin="0,20,0,0" Content="Sign In" HorizontalAlignment="Center" Background="#3498db" VerticalAlignment="Center" Width="100" Height="30" FontWeight="Bold" Grid.Column="1" FontSize="15"   Click="SignInButton_Click" />
+            <Button Foreground="Black"  Margin="0,20,0,0" Content="Sign In" HorizontalAlignment="Center" Background="#3498db" VerticalAlignment="Center" Width="100" Height="30" FontWeight="Bold" Grid.Column="1" FontSize="15"   Click="SignInButton_Click" />
 
 
         </StackPanel>

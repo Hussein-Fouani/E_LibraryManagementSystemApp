@@ -1,9 +1,8 @@
-﻿using E_LibraryApi.Models.APIResponse;
-using E_LibraryApi.Repository;
+﻿using E_LibraryApi.Models;
+using E_LibraryApi.Models.APIResponse;
 using E_LibraryApi.Repository.IRepository;
 using ELibrary.Domain.Models;
 using ELibrary.Domain.NewFolder;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -31,12 +30,21 @@ namespace E_LibraryApi.Controllers
         {
             try
             {
-                if (await signUp.CheckIfUserExists(user.Username))
+                if(user==null || string.IsNullOrEmpty(user.Username)|| string.IsNullOrEmpty(user.Password)|| string.IsNullOrEmpty(user.ConfirmPassword)|| string.IsNullOrEmpty(user.Email))
                 {
-                    logger.LogWarning("User with username {Username} already exists.", user.Username);
+                    apiResponse.IsSuccess = false;
+                    apiResponse.StatusCode = HttpStatusCode.BadRequest;
+                    apiResponse.ErrorMessages.Add("Please Fill All Fields Before Submission.");
+                    return BadRequest(apiResponse);
+                }
+
+
+                if (await signUp.CheckIfUserExists(user.Username) || await signUp.CheckIfEmailExists(user.Email))
+                {
+                    logger.LogWarning("UserName or Email  Already exists. ");
                     apiResponse.IsSuccess = false;
                     apiResponse.StatusCode = HttpStatusCode.Forbidden;
-                    apiResponse.ErrorMessages.Add("User already exists");
+                    apiResponse.ErrorMessages.Add("UserName or Email exists");
                     return BadRequest(apiResponse);
                 }
 
@@ -52,18 +60,20 @@ namespace E_LibraryApi.Controllers
                 }
 
                 // Hash the password
-               /* IPasswordHasher hasher = new PasswordHasher();
-                string hashedPassword = hasher.HashPassword(user.Password);*/
+                /* IPasswordHasher hasher = new PasswordHasher();
+                 string hashedPassword = hasher.HashPassword(user.Password);*/
 
                 // Create a new User model
+               
                 SignUp model = new SignUp()
                 {
                     Username = user.Username,
                     Password = user.Password,
                     Email=user.Email,
                     ConfirmPassword = user.ConfirmPassword
+                    
                 };
-                // Check if the user already exists
+                
                 
 
                 // Perform user registration

@@ -16,13 +16,16 @@ namespace E_LibraryManagementSystem
         private readonly HttpClient httpClient = new HttpClient();
         private ObservableCollection<BookDto> bookList = new ObservableCollection<BookDto>();
         private const string BaseApiUrl = "http://localhost:5179/api/";
+        private string userrole;
 
-        public ViewBook()
+        public ViewBook(string role)
         {
             InitializeComponent();
+            userrole = role;
             GetBooksFromApi();
             this.DataContext = bookList;
         }
+      
 
         private async void GetBooksFromApi()
         {
@@ -60,44 +63,52 @@ namespace E_LibraryManagementSystem
 
         private async void deletebtn_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete this?", "Confirmation Dialog", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+
+            if (userrole=="admin")
             {
-                if (bookviewdatagrid.SelectedItem is BookDto selectedBook)
+                if (MessageBox.Show("Are you sure you want to delete this?", "Confirmation Dialog", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes) == MessageBoxResult.Yes)
                 {
-                    try
+                    if (bookviewdatagrid.SelectedItem is BookDto selectedBook)
                     {
-                        using (HttpClient httpClient = new HttpClient())
+                        try
                         {
-                            httpClient.BaseAddress = new Uri(BaseApiUrl);
-                            httpClient.DefaultRequestHeaders.Accept.Clear();
-                            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                            HttpResponseMessage response = await httpClient.DeleteAsync($"Book/{selectedBook.Id}");
-
-                            if (response.IsSuccessStatusCode)
+                            using (HttpClient httpClient = new HttpClient())
                             {
-                                // Remove the deleted book from the list
-                                bookList.Remove(selectedBook);
-                                // Refresh the datagrid
-                                bookviewdatagrid.Items.Refresh();
+                                httpClient.BaseAddress = new Uri(BaseApiUrl);
+                                httpClient.DefaultRequestHeaders.Accept.Clear();
+                                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                                MessageBox.Show("Book deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                            }
-                            else
-                            {
-                                MessageBox.Show($"Failed to delete book. Status code: {response.StatusCode}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                HttpResponseMessage response = await httpClient.DeleteAsync($"Book/{selectedBook.Id}");
+
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    // Remove the deleted book from the list
+                                    bookList.Remove(selectedBook);
+                                    // Refresh the datagrid
+                                    bookviewdatagrid.Items.Refresh();
+
+                                    MessageBox.Show("Book deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                                }
+                                else
+                                {
+                                    MessageBox.Show($"Failed to delete book. Status code: {response.StatusCode}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
                             }
                         }
-                    }
-                    catch (HttpRequestException ex)
-                    {
-                        MessageBox.Show($"HTTP Request Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        catch (HttpRequestException ex)
+                        {
+                            MessageBox.Show($"HTTP Request Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                 }
+            }
+            else
+            {
+                MessageBox.Show("You are not authorized to delete this book", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -106,80 +117,88 @@ namespace E_LibraryManagementSystem
 
         private async void updatebtn_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure to Update this", "Update Book", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (userrole=="admin")
             {
-                if (bookviewdatagrid.SelectedItem != null)
+
+                if (MessageBox.Show("Are you sure to Update this", "Update Book", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    BookDto selectedBook = (BookDto)bookviewdatagrid.SelectedItem;
-
-                    BookDto bookDto = ((FrameworkElement)sender).DataContext as BookDto;
-
-                    if(bookDto == null)
+                    if (bookviewdatagrid.SelectedItem != null)
                     {
-                        MessageBox.Show("No book selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-                    BookDto updatedBook = new BookDto
-                    {
-                        Genre = selectedBook.Genre,
-                        BookName = selectedBook.BookName,
-                        BookAuthor = selectedBook.BookAuthor,
-                        BookPrice = selectedBook.BookPrice,
-                        ISBN = selectedBook.ISBN,
-                        Language = selectedBook.Language,
-                        Id = selectedBook.Id,
-                        BookPublication = selectedBook.BookPublication
-                        // You may need to update other properties based on your model
-                    };
-                    Guid? bookId = bookList.FirstOrDefault(book => book.BookName == updatedBook.BookName)?.Id;
-                  
+                        BookDto selectedBook = (BookDto)bookviewdatagrid.SelectedItem;
 
-                    try
-                    {
-                        using (HttpClient httpClient = new HttpClient())
+                        BookDto bookDto = ((FrameworkElement)sender).DataContext as BookDto;
+
+                        if (bookDto == null)
                         {
-                            httpClient.BaseAddress = new Uri(BaseApiUrl);
-                            httpClient.DefaultRequestHeaders.Accept.Clear();
-                            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                            string updateUrl = $"http://localhost:5179/api/Book/{updatedBook.Id}";
-                            if (bookId.HasValue)
+                            MessageBox.Show("No book selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+                        BookDto updatedBook = new BookDto
+                        {
+                            Genre = selectedBook.Genre,
+                            BookName = selectedBook.BookName,
+                            BookAuthor = selectedBook.BookAuthor,
+                            BookPrice = selectedBook.BookPrice,
+                            ISBN = selectedBook.ISBN,
+                            Language = selectedBook.Language,
+                            Id = selectedBook.Id,
+                            BookPublication = selectedBook.BookPublication
+                            // You may need to update other properties based on your model
+                        };
+                        Guid? bookId = bookList.FirstOrDefault(book => book.BookName == updatedBook.BookName)?.Id;
+
+
+                        try
+                        {
+                            using (HttpClient httpClient = new HttpClient())
                             {
-                                var jsonContent = new StringContent(JsonConvert.SerializeObject(updatedBook), Encoding.UTF8, "application/json");
-                                var response = await httpClient.PutAsync(updateUrl, jsonContent);
-
-
-                                if (response.IsSuccessStatusCode)
+                                httpClient.BaseAddress = new Uri(BaseApiUrl);
+                                httpClient.DefaultRequestHeaders.Accept.Clear();
+                                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                                string updateUrl = $"http://localhost:5179/api/Book/{updatedBook.Id}";
+                                if (bookId.HasValue)
                                 {
-                                    // Update the book in the UI
-                                    int index = bookList.IndexOf(bookDto);
-                                    if (index != -1)
+                                    var jsonContent = new StringContent(JsonConvert.SerializeObject(updatedBook), Encoding.UTF8, "application/json");
+                                    var response = await httpClient.PutAsync(updateUrl, jsonContent);
+
+
+                                    if (response.IsSuccessStatusCode)
                                     {
-                                        bookList[index] = updatedBook;
-                                    }
+                                        // Update the book in the UI
+                                        int index = bookList.IndexOf(bookDto);
+                                        if (index != -1)
+                                        {
+                                            bookList[index] = updatedBook;
+                                        }
 
-                                    MessageBox.Show("Book updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                                }
-                                else if (response.StatusCode == HttpStatusCode.NotFound)
-                                {
-                                    MessageBox.Show("Book not found on the server.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                        MessageBox.Show("Book updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    }
+                                    else if (response.StatusCode == HttpStatusCode.NotFound)
+                                    {
+                                        MessageBox.Show("Book not found on the server.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    }
+                                    else
+                                    {
+                                        var errorContent = await response.Content.ReadAsStringAsync();
+                                        MessageBox.Show($"Failed to update book. Status code: {response.StatusCode} Error: {errorContent}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    }
                                 }
                                 else
                                 {
-                                    var errorContent = await response.Content.ReadAsStringAsync();
-                                    MessageBox.Show($"Failed to update book. Status code: {response.StatusCode} Error: {errorContent}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    MessageBox.Show($"Failed to update book. Status code:", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                                 }
                             }
-                            else
-                            {
-                                MessageBox.Show($"Failed to update book. Status code:", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
+                } 
+            }
+            else
+            {
+                MessageBox.Show("You are not authorized to delete this book", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

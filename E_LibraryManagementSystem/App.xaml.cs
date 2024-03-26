@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using E_LibraryApi.Mapper;
-using E_LibraryManagementSystem.Mapper;
-using Microsoft.Extensions.DependencyInjection;
-using System.Windows;
+﻿using System.Windows;
 
 namespace E_LibraryManagementSystem
 {

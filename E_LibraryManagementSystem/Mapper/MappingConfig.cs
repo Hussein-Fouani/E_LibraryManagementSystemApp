@@ -10,7 +10,6 @@ namespace E_LibraryManagementSystem.Mapper
         public MappingConfig()
         {
             CreateMap<Book, BookDto>().ReverseMap();
-            CreateMap<Student, StudentDto>().ReverseMap();
             CreateMap<SignUp, SignUPDto>().ReverseMap();
         }
     }

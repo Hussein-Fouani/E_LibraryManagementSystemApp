@@ -8,7 +8,7 @@
         Height="550"
         Width="1100"
         Background="#232628"
-        WindowStartupLocation="Manual"
+        WindowStartupLocation="CenterScreen"
         Title="ViewBook">
 
 
@@ -39,7 +39,7 @@
 
         <DataGrid Margin="10,10,10,0" Height="300" x:Name="bookviewdatagrid" Background="#323232" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False" ItemsSource="{Binding}" >
             <DataGrid.Columns >
-                <DataGridTextColumn  IsReadOnly="True"  CanUserSort="True"  Header="Book Id" Binding="{Binding Path=Id}" Width="*"/>
+                <DataGridTextColumn  IsReadOnly="True"  CanUserSort="True"  Header="Book Id" Binding="{Binding Path=Id}" Width="120"/>
                 <DataGridTextColumn CanUserSort="True" Header="Book Name" Binding="{Binding Path=BookName}" Width="*"/>
                 <DataGridTextColumn CanUserSort="True" Header="Author Name" Binding="{Binding Path=BookAuthor}" Width="*"/>
                 <DataGridTextColumn CanUserSort="True" Header="Book Price" Binding="{Binding Path=BookPrice}" Width="*"/>
@@ -47,10 +47,11 @@
                 <DataGridTextColumn CanUserSort="True" Header="ISBN " Binding="{Binding Path=ISBN}" Width="*"/>
                 <DataGridTextColumn CanUserSort="True" Header="BookGenre" Binding="{Binding Path=Genre}" Width="*"/>
                 <DataGridTextColumn CanUserSort="True" Header="Book Language" Binding="{Binding Path=Language}" Width="*"/>
+                <DataGridTextColumn CanUserSort="True" Header="NumberOfCopies" Binding="{Binding Path=NumberOfCopies}" Width="*"/>
                 <DataGridTextColumn  IsReadOnly="True" CanUserSort="True" Header="Book Availability" Binding="{Binding Path=IsAvailable}" Width="*"/>
                 <DataGridTemplateColumn Header="Edit Book" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:Name="updatebtncol">
                             <Button Background="DarkOrange" FontSize="15" Content="Edit" Foreground="white" x:Name="updatebtn" Click="updatebtn_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

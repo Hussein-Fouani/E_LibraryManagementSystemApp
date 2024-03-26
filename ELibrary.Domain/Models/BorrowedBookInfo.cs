@@ -20,5 +20,7 @@ namespace ELibrary.Domain.Models
         public double BookPrice { get; set; }
         public string BorrowDate { get; set; }
         public string? ReturnDate { get; set; }
+       
+
     }
 }

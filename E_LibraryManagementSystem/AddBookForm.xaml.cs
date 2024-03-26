@@ -59,7 +59,8 @@ namespace E_LibraryManagementSystem
                             BookPublication = BookPublication.Text,
                             Language = BookLanguage.Text,
                             IsAvailable = true,
-                            Genre = Genretextbox.Text
+                            Genre = Genretextbox.Text,
+                            NumberOfCopies=int.Parse(NumberOfCopiestxtbox.Text)
                         };
 
                         using (HttpClient client = new())
@@ -86,11 +87,11 @@ namespace E_LibraryManagementSystem
                         MessageBox.Show("Invalid price format. Please enter a valid number.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-                catch (HttpRequestException ex)
+                catch (HttpRequestException )
                 {
                     MessageBox.Show($"Network Request Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     MessageBox.Show($"An unexpected error occurred", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }

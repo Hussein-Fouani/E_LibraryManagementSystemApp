@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace E_LibraryManagementSystem
 {
@@ -24,26 +12,35 @@ namespace E_LibraryManagementSystem
         private AddBookForm addBookForm;
         private static bool isViewBookFormOpen = false;
         private ViewBook viewbook;
-        private static bool isAddStudentFormOpen = false;
-        private AddStudent addStudent;
-        private static bool isViewStudentFormOpen = false;
-        private ViewStudent viewStudent;
         private static bool isIssueBookFormOpen = false;
         private IssueBooks issueBook;
         private static bool isUserProfileFormOpen = false;
         private UserProfile userProfile;
-
-        public DashBoardForm()
+         private string userRole;
+        public DashBoardForm(string role)
         {
             InitializeComponent();
+            userRole = role;
+            UpdateUI();
         }
 
-       
+        private void UpdateUI()
+        {
+            // Disable the "Add New Book" menu item if the user's role is not "admin"
+            AddBook.IsEnabled = userRole == "admin";
+        }
 
         private void _LogOut_Click(object sender, RoutedEventArgs e)
         {
             if(MessageBox.Show("Are you sure to Log Out?", "Log Out", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window != this)
+                    {
+                        window.Close();
+                    }
+                }
                 MainWindow loginForm = new MainWindow();
                 loginForm.Show();
                 this.Close();
@@ -55,23 +52,21 @@ namespace E_LibraryManagementSystem
 
         private void AddBook_Click(object sender, RoutedEventArgs e)
         {
-            // Check if the AddBookForm is already open
             if (isAddBookFormOpen && addBookForm != null)
             {
-                // If it's open, bring it to the front
                 addBookForm.Activate();
             }
             else
             {
-                // If not open, set the flag to true
                 isAddBookFormOpen = true;
-
-                // Create and show the AddBookForm
                 addBookForm = new AddBookForm();
                 addBookForm.Closed += (s, args) => { isAddBookFormOpen = false; };
                 addBookForm.Show();
             }
         }
+
+    
+
 
 
         private void ViewBooks_Click(object sender, RoutedEventArgs e)
@@ -87,41 +82,15 @@ namespace E_LibraryManagementSystem
                 isViewBookFormOpen = true;
 
                 // Create and show the 
-                viewbook = new ViewBook();
+                viewbook = new ViewBook(userRole);
                 viewbook.Closed += (s, args) => { isViewBookFormOpen = false; };
                 viewbook.Show();
             }
         }
 
-        private void AddStudent_Click(object sender, RoutedEventArgs e)
-        {
-            if(isAddStudentFormOpen && addStudent != null)
-            {
-                addStudent.Activate();
-            }
-            else
-            {
-                isAddStudentFormOpen = true;
-                addStudent = new AddStudent();
-                addStudent.Closed += (s, args) => { isAddStudentFormOpen = false; };
-                addStudent.Show();
-            }
-        }
+      
 
-        private void ViewStudents_Click(object sender, RoutedEventArgs e)
-        {
-           if(isViewStudentFormOpen && viewStudent != null)
-            {
-                viewStudent.Activate();
-            }
-            else
-            {
-                isViewStudentFormOpen = true;
-                viewStudent = new ViewStudent();
-                viewStudent.Closed += (s, args) => { isViewStudentFormOpen = false; };
-                viewStudent.Show();
-            }
-        }
+     
 
         private void IssueBooks(object sender, RoutedEventArgs e)
         {
@@ -155,6 +124,13 @@ namespace E_LibraryManagementSystem
                 userProfile.Closed += (s, args) => { isUserProfileFormOpen = false; };
                 userProfile.Show();
             }
+
+        }
+
+        private void BookReport(object sender, RoutedEventArgs e)
+        {
+          CrystalReportWpfApplication.Window1 report = new CrystalReportWpfApplication.Window1();
+            report.Show();
 
         }
     }

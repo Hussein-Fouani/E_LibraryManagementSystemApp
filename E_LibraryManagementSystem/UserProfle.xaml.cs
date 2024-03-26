@@ -1,23 +1,9 @@
 ﻿using ELibrary.Domain.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using ELibrary.Domain.NewFolder;
 using Newtonsoft.Json;
-using E_LibraryApi.Migrations;
 
 namespace E_LibraryManagementSystem
 {
@@ -56,6 +42,7 @@ namespace E_LibraryManagementSystem
 
                     var response = await client.GetStringAsync($"{requestUrl}");
                     var books = JsonConvert.DeserializeObject<List<BorrowedBookInfo>>(response);
+                    BorrowedBooks.Clear();
 
                     if (response != null)
                     {

@@ -79,5 +79,6 @@ namespace E_LibraryApi.Repository
             book.IsAvailable = isAvailable;
             await Save();
         }
+       
     }
 }

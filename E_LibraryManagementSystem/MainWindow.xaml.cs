@@ -12,6 +12,7 @@ namespace E_LibraryManagementSystem
     public partial class MainWindow : Window
     {
         private bool isSignUpFormOpened = false;
+        public string role { get; set; }
         public MainWindow()
         {
 
@@ -20,7 +21,7 @@ namespace E_LibraryManagementSystem
             
         }
 
-
+        
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -88,12 +89,13 @@ namespace E_LibraryManagementSystem
                     {
                         // Deserialize the response content to a User object
                         var result = await response.Content.ReadFromJsonAsync<UserRL>();
+                        role = result.Role;
 
                         // Check if the result is not null (i.e., sign-in successful)
                         if (result != null)
                         {
                             MessageBox.Show("Login successful!","Login",MessageBoxButton.OK,MessageBoxImage.Information);
-                            DashBoardForm dashBoardForm = new DashBoardForm();
+                            DashBoardForm dashBoardForm = new DashBoardForm(role); // Pass role to DashBoardForm constructor
                             dashBoardForm.Show();
                             this.Close();
                             // Perform actions after successful login (e.g., navigate to another page)
@@ -120,7 +122,10 @@ namespace E_LibraryManagementSystem
             }
         }
 
-
+        public string GetRole()
+        {
+            return role;
+        }
         private void UserNameText_MouseEnter(object sender, MouseEventArgs e)
         {
             if (UserNameText.Text == "UserName")

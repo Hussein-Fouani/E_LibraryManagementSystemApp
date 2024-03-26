@@ -10,11 +10,11 @@ namespace E_LibraryManagementSystem.Db
             
         }
         public DbSet<Book> Book { get; set; }
-        public DbSet<Student> Student { get; set;}
         public DbSet<User> User { get; set; }
         public DbSet<BorrowedBooks> BorrowedBooks { get; set; }
         public DbSet<UserRL> Users { get; set; }
         public DbSet<SignUp> SignUP { get; set; }
+        public DbSet<UsersRole> UsersRole { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -34,6 +34,15 @@ namespace E_LibraryManagementSystem.Db
                 .HasForeignKey(bb => bb.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+             modelBuilder.Entity<UserRL>()
+                .HasOne(u => u.UserRole)               
+                .WithMany(r => r.Users)                
+                .HasForeignKey(u => u.Role)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<UsersRole>()
+                .HasKey(r => r.UserName);
 
             base.OnModelCreating(modelBuilder);
         }

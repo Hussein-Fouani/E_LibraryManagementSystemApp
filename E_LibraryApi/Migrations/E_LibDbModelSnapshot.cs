@@ -66,6 +66,9 @@ namespace E_LibraryApi.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("NumberOfCopies")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Book");
@@ -113,57 +116,20 @@ namespace E_LibraryApi.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
                     b.ToTable("SignUP");
-                });
-
-            modelBuilder.Entity("ELibrary.Domain.Models.Student", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("BookName")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<int>("EnrollmentNb")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentContact")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentEmail")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("StudentName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("StudentSemester")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Student");
                 });
 
             modelBuilder.Entity("ELibrary.Domain.Models.User", b =>
@@ -205,17 +171,35 @@ namespace E_LibraryApi.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("Role");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ELibrary.Domain.Models.UsersRole", b =>
+                {
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserName");
+
+                    b.ToTable("UsersRole");
                 });
 
             modelBuilder.Entity("ELibrary.Domain.Models.BorrowedBooks", b =>
@@ -237,6 +221,16 @@ namespace E_LibraryApi.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ELibrary.Domain.Models.UserRL", b =>
+                {
+                    b.HasOne("ELibrary.Domain.Models.UsersRole", "UserRole")
+                        .WithMany("Users")
+                        .HasForeignKey("Role")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("UserRole");
+                });
+
             modelBuilder.Entity("ELibrary.Domain.Models.Book", b =>
                 {
                     b.Navigation("BorrowedBooks");
@@ -245,6 +239,11 @@ namespace E_LibraryApi.Migrations
             modelBuilder.Entity("ELibrary.Domain.Models.UserRL", b =>
                 {
                     b.Navigation("BorrowedBooks");
+                });
+
+            modelBuilder.Entity("ELibrary.Domain.Models.UsersRole", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

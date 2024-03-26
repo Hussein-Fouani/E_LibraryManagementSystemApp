@@ -41,10 +41,10 @@ namespace E_LibraryManagementSystem
                     client.DefaultRequestHeaders.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     HttpResponseMessage response = await client.PostAsync(requestUrl, null);
-
+                    bookList.Clear();
                     if (response.IsSuccessStatusCode)
                     {
-                        // Read the response content and deserialize it to BorrowedBookInfo
+                        
                         var borrowinfo= await response.Content.ReadAsAsync<BorrowedBookInfo>();
                         if (borrowinfo != null)
                         {
@@ -53,18 +53,17 @@ namespace E_LibraryManagementSystem
                             MessageBox.Show("Book Borrowed Successfully", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Information);
                             
                         }
-                       /* MessageBox.Show(messageBoxText: "Can't Borrow This Book", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Information);*/
                     }
                     else
                     {
-                        MessageBox.Show("Can't Borrow This Book,Not Available", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Information);    
+                        MessageBox.Show("Can't Borrow This Book", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Warning);    
                     }
                 }
             }
             catch (Exception)
             {
 
-                throw;
+                MessageBox.Show("Error While Borrowing This Book", "Borrowed", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }
