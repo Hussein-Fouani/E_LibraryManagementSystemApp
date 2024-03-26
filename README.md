@@ -1,25 +1,24 @@
 # E-Library Management System
 
-This project is an E-Library Management System that provides a user-friendly interface for managing books, students, and related information. The system is divided into two main components: a WPF-based desktop application for the user interface and an ASP.NET Core Web API for handling backend operations.
+This project is an E-Library Management System that provides a user-friendly interface for managing books and user profiles. The system is divided into two main components: a WPF-based desktop application for the user interface and an ASP.NET Core Web API for handling backend operations.
 
 ## Features
 
 - **View Books**: Browse and search through the available book collection.
 - **View Book Details**: Get detailed information about a specific book.
-- **Add New Books**: Easily add new books to the system.
+- **Add New Books**: Admins can easily add new books to the system.
 - **Update Book Information**: Modify details of existing books.
-- **Delete Books**: Remove books from the library.
-- **Add Students**: Register new students in the system.
-- **Borrow Books**: Allow students to borrow books.
-- **Sign In and Sign Out**: Keep track of student activities.
+- **Delete Books**: Admins can remove books from the library.
+- **User Profile**: Users can view their profile information.
+- **Borrow Books**: Users can borrow books from the library.
 
 ## Technologies Used
 
 - **WPF (Windows Presentation Foundation)**: Used for creating the desktop application with a rich user interface.
 - **ASP.NET Core Web API**: Powers the backend, providing RESTful services for CRUD operations.
 - **Entity Framework Core**: ORM (Object-Relational Mapper) for database interactions.
-- **SQLite**: Lightweight database for storing book and student information.
 - **HttpClient**: Used to communicate between the WPF application and the ASP.NET Core API.
+- **Crystal Reports**: Utilized for generating reports within the system.
 
 ## Setup and Installation
 
@@ -45,16 +44,12 @@ This project is an E-Library Management System that provides a user-friendly int
 
 - **GET /api/Book**: Retrieve all books.
 - **GET /api/Book/{id}**: Retrieve details of a specific book.
-- **POST /api/Book**: Add a new book.
-- **PUT /api/Book/{id}**: Update information for a specific book.
-- **DELETE /api/Book/{id}**: Delete a book.
-- **GET /api/Student**: Retrieve all students.
-- **GET /api/Student/{id}**: Retrieve details of a specific student.
-- **POST /api/Student**: Add a new student.
-- **PUT /api/Student/{id}**: Update information for a specific student.
-- **DELETE /api/Student/{id}**: Delete a student.
-- **POST /api/Borrow/{studentId}/{bookId}**: Borrow a book for a student.
-- **POST /api/Return/{studentId}/{bookId}**: Return a borrowed book.
+- **POST /api/Book**: Add a new book (Admin only).
+- **PUT /api/Book/{id}**: Update information for a specific book (Admin only).
+- **DELETE /api/Book/{id}**: Delete a book (Admin only).
+- **GET /api/User/{id}**: Retrieve details of a specific user.
+- **GET /api/User/{username}/profile**: Retrieve profile information for a specific user.
+- **POST /api/Borrow/{userId}/{bookId}**: Borrow a book for a user.
 
 ## Contributing
 
@@ -65,4 +60,3 @@ Feel free to contribute to the development of this E-Library Management System b
 This project is licensed under the [MIT License](LICENSE).
 
 ---
-
