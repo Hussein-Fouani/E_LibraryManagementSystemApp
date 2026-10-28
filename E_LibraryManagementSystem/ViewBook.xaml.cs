@@ -142,7 +142,9 @@ namespace E_LibraryManagementSystem
                             ISBN = selectedBook.ISBN,
                             Language = selectedBook.Language,
                             Id = selectedBook.Id,
-                            BookPublication = selectedBook.BookPublication
+                            BookPublication = selectedBook.BookPublication,
+                            NumberOfCopies = selectedBook.NumberOfCopies,
+                            IsAvailable = selectedBook.IsAvailable
                             // You may need to update other properties based on your model
                         };
                         Guid? bookId = bookList.FirstOrDefault(book => book.BookName == updatedBook.BookName)?.Id;

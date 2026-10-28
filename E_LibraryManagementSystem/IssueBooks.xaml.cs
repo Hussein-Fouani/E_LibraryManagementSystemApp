@@ -29,6 +29,7 @@ namespace E_LibraryManagementSystem
             if (string.IsNullOrEmpty(usernametxtbox.Text) || string.IsNullOrEmpty(booknametxtbox.Text))
             {
                 MessageBox.Show("Please Enter the Required Info To Borrow The Book","Missing Required Info",MessageBoxButton.OK,MessageBoxImage.Error);
+                return;
             }
             string username = usernametxtbox.Text;
             string bookName = booknametxtbox.Text;
